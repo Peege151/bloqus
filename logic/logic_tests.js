@@ -22,13 +22,9 @@ describe("Pieces_Generator", function(){
 		//console.log(PiecesGenerator(2).map(function(n){return  n.shape}))
 		expect(PiecesGenerator(2).length).to.equal(2);
 
-		// //console.log(PiecesGenerator(2));
-		// console.log("Ecco.");
-		// console.log(PiecesGenerator(3).map(function(n){return  n.shape}))
-		// console.log("End!");
 		//console.log(PiecesGenerator(3).map(function(n){return  n.shape}))
 		expect(PiecesGenerator(3).length).to.equal(4);
-		//console.log(PiecesGenerator(2).map(function(n){return  n.shape}))
+		//console.log(PiecesGenerator(3).map(function(n){return  n.shape}))
 
 		expect(PiecesGenerator(4).length).to.equal(9);
 
@@ -46,28 +42,55 @@ describe("Piece", function(){
 	    expect(newPiece.flipped).to.equal(false);
 	    expect(newPiece.rotated).to.equal(0)
 	});
+
+	//Old tests for when rotation / translation didn't move things into the positive zone automatically.
+	//Yeah.  If we decide to go back, these should be reopened.
+	//
+	// it('should respond appropriately when flipped', function () {
+	//     var newPiece = new Piece()
+	//     newPiece.shape = [[0,0],[1,0],[1,1],[2,0]];
+	//     newPiece.flip()
+	//     expect(deepEquals(newPiece.getPieceWithOrientation(), ([[0,0],[1,0],[1,-1],[2,0]]))).to.be.okay
+	// });
+	// it('should respond appropriately when rotated', function () {
+	//     var newPiece = new Piece()
+	//     newPiece.shape = [[0,0],[1,0],[1,1],[2,0]];
+	//     newPiece.rotateCounterClockwise()
+	//     expect(deepEquals(newPiece.getPieceWithOrientation(), [[0,0],[0,1],[1,-1],[0,2]])).to.be.okay
+	//     newPiece.rotateCounterClockwise()
+	//     expect(deepEquals(newPiece.getPieceWithOrientation(), [[0,0],[-1,0],[-1,-1],[-2,0]])).to.be.okay
+	//     newPiece.rotateCounterClockwise()
+	//     expect(deepEquals(newPiece.getPieceWithOrientation(), [[0,0],[0,-1],[1,-1],[0,-2]])).to.be.okay
+	//     newPiece.rotateClockwise();
+	//     expect(deepEquals(newPiece.getPieceWithOrientation(), [[0,0],[-1,0],[-1,-1],[-2,0]])).to.be.okay
+	// });
 	it('should respond appropriately when flipped', function () {
 	    var newPiece = new Piece()
 	    newPiece.shape = [[0,0],[1,0],[1,1],[2,0]];
 	    newPiece.flip()
-	    expect(deepEquals(newPiece.getPieceWithOrientation(), ([[0,0],[1,0],[1,-1],[2,0]]))).to.be.okay
+	    expect(deepEquals(newPiece.getPieceWithOrientation(), ([[0,1],[1,1],[1,0],[2,1]]))).to.equal(true)
 	});
+	
 	it('should respond appropriately when rotated', function () {
 	    var newPiece = new Piece()
 	    newPiece.shape = [[0,0],[1,0],[1,1],[2,0]];
 	    newPiece.rotateCounterClockwise()
-	    expect(deepEquals(newPiece.getPieceWithOrientation(), [[0,0],[0,1],[1,-1],[0,2]])).to.be.okay
+	    //console.log(newPiece.getPieceWithOrientation());
+	    expect(deepEquals(newPiece.getPieceWithOrientation(), [[1,0],[1,1],[0,1],[1,2]])).to.equal(true);
+	    newPiece.rotateCounterClockwise();
+	    //console.log(newPiece.getPieceWithOrientation());
+	    expect(deepEquals(newPiece.getPieceWithOrientation(), [[2,1],[1,1],[1,0],[0,1]])).to.equal(true);
 	    newPiece.rotateCounterClockwise()
-	    expect(deepEquals(newPiece.getPieceWithOrientation(), [[0,0],[-1,0],[-1,-1],[-2,0]])).to.be.okay
-	    newPiece.rotateCounterClockwise()
-	    expect(deepEquals(newPiece.getPieceWithOrientation(), [[0,0],[0,-1],[1,-1],[0,-2]])).to.be.okay
+	    expect(deepEquals(newPiece.getPieceWithOrientation(), [[0,2],[0,1],[1,1],[0,0]])).to.equal(true);
+	    newPiece.rotateClockwise();
+	    expect(deepEquals(newPiece.getPieceWithOrientation(), [[2,1],[1,1],[1,0],[0,1]])).to.equal(true);
 	});
 	it('should respond appropriately when flipped AND rotated', function () {
 	    var newPiece = new Piece()
 	    newPiece.shape = [[0,0],[1,0],[1,1],[2,0]];
 	    newPiece.flip()
 	    newPiece.rotateCounterClockwise()
-	    expect(deepEquals(newPiece.getPieceWithOrientation(), ([[0,0],[0,1],[1,1],[0,2]]))).to.be.okay
+	    expect(deepEquals(newPiece.getPieceWithOrientation(), ([[0,0],[0,1],[1,1],[0,2]]))).to.equal(true);
 	});
 	it('should be able to give you an array of all possible values', function(){
 		var newPiece = new Piece()
@@ -77,8 +100,8 @@ describe("Piece", function(){
 	});
 	it('can identify arrays with the same elements, disordered', function(){
 		var newPiece = new Piece();
-		expect(newPiece.sameArrElements([[1,1],[0,0]],[[0,0],[1,1]])).to.be.okay;
-		expect(newPiece.sameArrElements([[1,0],[0,0]],[[0,0],[1,1]])).to.equal(false);
+		expect(newPiece._sameArrElements([[1,1],[0,0]],[[0,0],[1,1]])).to.equal(true);
+		expect(newPiece._sameArrElements([[1,0],[0,0]],[[0,0],[1,1]])).to.equal(false);
 	});
 	it('should be able to see if it has the same basic shape as another piece', function(){
 		var newPiece = new Piece()

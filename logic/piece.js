@@ -1,10 +1,3 @@
-var specIndexOf = function(arr, val){
-	for(var x = 0 ; x < arr.length; x++){
-		if(arr[x][0] === val[0] && arr[x][1] === val[1]){return x;}
-	}
-	return -1;
-}
-
 var Piece = function(){
 	this.flipped = false;
 	this.rotated = 0;
@@ -33,59 +26,63 @@ Piece.prototype._rotate = function(spot, degree){
 	if (degree == 270){return [y, -x];}
 }
 
-Piece.prototype.getPieceWithOrientation = function(){
+//Flips a thing, rotates it, and translates it so its edges are against the 0-0 x-y axis.
+Piece.prototype.getPieceWithAlternateOrientation = function(flipped, rotated){
 	var self = this;
-	var returnVal = this.shape.slice()
-	if (this.flipped){
-		returnVal = returnVal.map(function(el){
-			return [el[0], -el[1]]
+	var lowestX = 100;
+	var lowestY = 100;
+	return this
+		.shape
+		.slice()
+		.map(function(el){
+			return (!flipped) ? el : [el[0],-el[1]];
+		})
+		.map(function(el){
+			return self._rotate(el, rotated);
+		})
+		.map(function(el){
+			lowestX = Math.min(el[0], lowestX);
+			lowestY = Math.min(el[1], lowestY);
+			return el;
+		})
+		.map(function(el){
+			return [el[0]-lowestX,el[1]-lowestY];
 		});
-	}
-	returnVal = returnVal.map(function(el){
-		return self._rotate(el, self.rotated);
-	});
-	return returnVal;
 }
 
-Piece.prototype.sameArrElements = function(one, two){
+Piece.prototype.getPieceWithOrientation = function(){
+	return this.getPieceWithAlternateOrientation(this.flipped, this.rotated);
+}
+
+Piece.prototype._sameArrElements = function(one, two){
+
+	var specIndexOf = function(arr, val){
+		for(var x = 0 ; x < arr.length; x++){ if(arr[x][0] === val[0] && arr[x][1] === val[1]){return x;}}
+		return -1;
+	}
+
 	if (one.length != two.length){return false;}
 	var thisShape = one.slice();
 	var otherShape = two.slice();
 	for(var x = 0; x < thisShape.length; x++){
-		var same = specIndexOf(otherShape, thisShape[x]);
-		if (same === -1){
-			return false;
-		}
-	}
-
-	thisShape = two.slice();
-	otherShape = one.slice();
-	for(var x = 0; x < thisShape.length; x++){
-		var same = specIndexOf(otherShape, thisShape[x]);
-		if(same === -1){
-			return false;
-		}
+		if(specIndexOf(otherShape, thisShape[x]) === -1){return false;}
+		if(specIndexOf(thisShape, otherShape[x]) === -1){return false;}
 	}
 
 	return true;
 }
 
 Piece.prototype.sameShapeAtAll = function(other){
-	var allOrientations = this.allPieceOrientations();
-	var self = this;
-	var sameShape = false;
-	allOrientations.forEach(function(one){
-		other.allPieceOrientations().forEach(function(two){
-			if (self.sameArrElements(one, two)){
-				sameShape = true;
-				//console.log("One: ", one, "  Two: ", two);
-			}else{
-				
+	var selfOrientations = this.allPieceOrientations();
+	var otherOrientations = other.allPieceOrientations();
+	for(var x = 0, len = selfOrientations.length; x < len; x++){
+		for(var y = 0, innerLen = otherOrientations.length; y < innerLen; y++){
+			if (this._sameArrElements(selfOrientations[x], otherOrientations[y])){
+				return true;
 			}
-		});
-	});
-
-	return sameShape;
+		}
+	}
+	return false;
 }
 
 Piece.prototype.allPieceOrientations = function(){
@@ -93,36 +90,8 @@ Piece.prototype.allPieceOrientations = function(){
 	var self = this;
 	for(var flipped = 0; flipped <= 1; flipped++){
 		for(var deg = 0; deg < 360; deg = deg + 90){
-			var singleVal = this.shape.slice();
-			var lowestX = 20;
-			var lowestY = 20;
-			if(flipped){
-				singleVal = singleVal.map(function(el){
-					return [el[0], -el[1]]
-				});
-			}
-			singleVal = singleVal.map(function(el){
-				return self._rotate(el, deg);
-			});
-			//offset for positive vals
-			for(i = 0; i < singleVal.length; i++){
-				if(singleVal[i][0] < lowestX){
-					lowestX = singleVal[i][0];
-				}
-				if(singleVal[i][1] < lowestY){
-					lowestY = singleVal[i][1];
-				}
-			}
-			singleVal = singleVal.map(function(el){
-				return [el[0] + (-lowestX), el[1] + (-lowestY)]
-			});
-
-			ret.push(singleVal);
+			ret.push(this.getPieceWithAlternateOrientation(flipped, deg));
 		}
 	}
-	//console.log(ret)
 	return ret;
 }
-
-//module.exports = Piece
-//

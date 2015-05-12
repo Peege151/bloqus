@@ -1,16 +1,19 @@
 
 //var Piece = require('./Piece');
 
-var specIndexOf = function(arr, val){
-	for(var x = 0 ; x < arr.length; x++){
-		if(arr[x][0] == val[0] && arr[x][1] == val[1]){return x}
-	}
-	return -1;
-}
 
-var adjacent = [[0,1],[1,0],[-1,0],[0,-1]];
+
+
 
 var PiecesGenerator = function(num){
+
+	//Returns the index of an array of length two, in an array of arrays of length two.
+	var specIndexOf = function(arr, val){
+		for(var x = 0 ; x < arr.length; x++){ if(arr[x][0] == val[0] && arr[x][1] == val[1]){return x}}
+		return -1;
+	}
+
+	var adjacent = [[0,1],[1,0],[-1,0],[0,-1]];
 
 	var returnVal = [];
 
@@ -94,33 +97,3 @@ var PiecesGenerator = function(num){
 	return returnVal;
 
 }
-
-	//polyominos
-	// var returnVal = [];
-	// for(var polyNumber = 1; <= num; polyNumber++){
-
-	// 	var candidatePieces = [new Piece()];
-	// 	candidatePieces[0].shape = [[0,0]];
-
-	// 	for(blocks = 1; blocks < polyNumber; block++){
-	// 		var newPieces = [];
-	// 		for(var x = 0; x < candidatePieces.length; x++){
-	// 			var currPiece = candidatePieces[x];
-	// 			for(var y = 0; y < currPiece.shape.length; y++){
-	// 				for(var z = 0; z < adjacent.length; z++){
-	// 					if(specIndexOf(currPiece.shape
-	// 				}
-	// 			}
-
-	// 		}
-
-	// 	}
-
-	// 	returnVal.concat(candidatePieces);
-
-	// }
-	// return returnVal;
-
-
-
-//module.exports = PiecesGenerator
