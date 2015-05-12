@@ -1,9 +1,3 @@
-var deepEquals = function(obj1,obj2){
-        return (Array.isArray(obj1))
-                ? obj1.every(function(n,i){return deepEquals(obj1[i], obj2[i]);})
-                : (obj1 == obj2);
-};
-
 describe("Moves", function(){
 
 	var newPiece, otherPiece;
@@ -26,8 +20,8 @@ describe("Moves", function(){
 			var move = new Move(newPiece, [5,10],'Y');
 			var otherMove = new Move(otherPiece, [10,5],'Y');
 			//console.log(otherMove.occupies());
-			expect(deepEquals(move.occupies(), [[5,10],[6,10],[7,10],[6,11]])).to.equal(true);
-			expect(deepEquals(otherMove.occupies(), [[10,5],[11,5],[11,6],[12,6]])).to.equal(true);
+			expect(helper.deepEquals(move.occupies(), [[5,10],[6,10],[7,10],[6,11]])).to.equal(true);
+			expect(helper.deepEquals(otherMove.occupies(), [[10,5],[11,5],[11,6],[12,6]])).to.equal(true);
 		});
 
 		it('should be able to show the places it would occupy when rotated', function(){
@@ -35,12 +29,15 @@ describe("Moves", function(){
 			otherPiece.rotateCounterClockwise();
 			var move = new Move(newPiece, [5,10],'Y');
 			var otherMove = new Move(otherPiece, [10,5],'Y');
-			console.log(move.occupies());
-			expect(deepEquals(move.occupies(), [[6,10],[6,11],[6,12],[5,11]])).to.equal(true);
-			expect(deepEquals(otherMove.occupies(), [[11,5],[11,6],[10,6],[10,7]])).to.equal(true);
+			//console.log(move.occupies());
+			expect(helper.deepEquals(move.occupies(), [[6,10],[6,11],[6,12],[5,11]])).to.equal(true);
+			expect(helper.deepEquals(otherMove.occupies(), [[11,5],[11,6],[10,6],[10,7]])).to.equal(true);
 		});
 
-		xit('should be able to show the places it would occupy when flipped', function(){
+		it('should be able to show the places it would occupy when flipped', function(){
+			newPiece.flip();
+			var move = new Move(newPiece, [5,5], 'Y');
+			expect(helper.deepEquals(move.occupies(),[[],[],[],[]]))
 		});
 
 	});
@@ -49,15 +46,17 @@ describe("Moves", function(){
 	//should tests Move.prototype.adjacencies
 	describe('should be able to give list of places it would be adjacent to', function(){
 
-		xit('should be able to show the places it would be adjacent to translated', function(){
+		it('should be able to show the places it would be adjacent to translated, without repeats', function(){
+			var move = new Move(newPiece, [5,10],'Y');
+			expect(helper.deepEquals(move.adjacencies().length)).to.equal(8);
+			
+		});
+
+		it('should be able to show the places it would be adjacent to rotated, without repeats', function(){
 
 		});
 
-		xit('should be able to show the places it would be adjacent to rotated', function(){
-
-		});
-
-		xit('should be able to show the places it would be adjacent to flipped', function(){
+		it('should be able to show the places it would be adjacent to flipped, without repeats', function(){
 
 		});
 

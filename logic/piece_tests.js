@@ -1,18 +1,3 @@
-
-var expect = chai.expect;
-//var expect = require('chai').expect
-//var PiecesGenerator = require('./pieces_generator');
-//var Move = require('./move');
-//var Piece = require('./piece');
-
-//var Board = require('./board');
-
-var deepEquals = function(obj1,obj2){
-        return (Array.isArray(obj1))
-                ? obj1.every(function(n,i){return deepEquals(obj1[i], obj2[i]);})
-                : (obj1 == obj2);
-};
-
 describe("Pieces_Generator", function(){
 	it('should exist', function () {
 	    expect(PiecesGenerator).to.be.a('function');
@@ -51,25 +36,25 @@ describe("Piece", function(){
 	//     var newPiece = new Piece()
 	//     newPiece.shape = [[0,0],[1,0],[1,1],[2,0]];
 	//     newPiece.flip()
-	//     expect(deepEquals(newPiece.getPieceWithOrientation(), ([[0,0],[1,0],[1,-1],[2,0]]))).to.be.okay
+	//     expect(helper.deepEquals(newPiece.getPieceWithOrientation(), ([[0,0],[1,0],[1,-1],[2,0]]))).to.be.okay
 	// });
 	// it('should respond appropriately when rotated', function () {
 	//     var newPiece = new Piece()
 	//     newPiece.shape = [[0,0],[1,0],[1,1],[2,0]];
 	//     newPiece.rotateCounterClockwise()
-	//     expect(deepEquals(newPiece.getPieceWithOrientation(), [[0,0],[0,1],[1,-1],[0,2]])).to.be.okay
+	//     expect(helper.deepEquals(newPiece.getPieceWithOrientation(), [[0,0],[0,1],[1,-1],[0,2]])).to.be.okay
 	//     newPiece.rotateCounterClockwise()
-	//     expect(deepEquals(newPiece.getPieceWithOrientation(), [[0,0],[-1,0],[-1,-1],[-2,0]])).to.be.okay
+	//     expect(helper.deepEquals(newPiece.getPieceWithOrientation(), [[0,0],[-1,0],[-1,-1],[-2,0]])).to.be.okay
 	//     newPiece.rotateCounterClockwise()
-	//     expect(deepEquals(newPiece.getPieceWithOrientation(), [[0,0],[0,-1],[1,-1],[0,-2]])).to.be.okay
+	//     expect(helper.deepEquals(newPiece.getPieceWithOrientation(), [[0,0],[0,-1],[1,-1],[0,-2]])).to.be.okay
 	//     newPiece.rotateClockwise();
-	//     expect(deepEquals(newPiece.getPieceWithOrientation(), [[0,0],[-1,0],[-1,-1],[-2,0]])).to.be.okay
+	//     expect(helper.deepEquals(newPiece.getPieceWithOrientation(), [[0,0],[-1,0],[-1,-1],[-2,0]])).to.be.okay
 	// });
 	it('should respond appropriately when flipped', function () {
 	    var newPiece = new Piece()
 	    newPiece.shape = [[0,0],[1,0],[1,1],[2,0]];
 	    newPiece.flip()
-	    expect(deepEquals(newPiece.getPieceWithOrientation(), ([[0,1],[1,1],[1,0],[2,1]]))).to.equal(true)
+	    expect(helper.deepEquals(newPiece.getPieceWithOrientation(), ([[0,1],[1,1],[1,0],[2,1]]))).to.equal(true)
 	});
 	
 	it('should respond appropriately when rotated', function () {
@@ -77,14 +62,14 @@ describe("Piece", function(){
 	    newPiece.shape = [[0,0],[1,0],[1,1],[2,0]];
 	    newPiece.rotateCounterClockwise()
 	    //console.log(newPiece.getPieceWithOrientation());
-	    expect(deepEquals(newPiece.getPieceWithOrientation(), [[1,0],[1,1],[0,1],[1,2]])).to.equal(true);
+	    expect(helper.deepEquals(newPiece.getPieceWithOrientation(), [[1,0],[1,1],[0,1],[1,2]])).to.equal(true);
 	    newPiece.rotateCounterClockwise();
 	    //console.log(newPiece.getPieceWithOrientation());
-	    expect(deepEquals(newPiece.getPieceWithOrientation(), [[2,1],[1,1],[1,0],[0,1]])).to.equal(true);
+	    expect(helper.deepEquals(newPiece.getPieceWithOrientation(), [[2,1],[1,1],[1,0],[0,1]])).to.equal(true);
 	    newPiece.rotateCounterClockwise()
-	    expect(deepEquals(newPiece.getPieceWithOrientation(), [[0,2],[0,1],[1,1],[0,0]])).to.equal(true);
+	    expect(helper.deepEquals(newPiece.getPieceWithOrientation(), [[0,2],[0,1],[1,1],[0,0]])).to.equal(true);
 	    newPiece.rotateClockwise();
-	    expect(deepEquals(newPiece.getPieceWithOrientation(), [[2,1],[1,1],[1,0],[0,1]])).to.equal(true);
+	    expect(helper.deepEquals(newPiece.getPieceWithOrientation(), [[2,1],[1,1],[1,0],[0,1]])).to.equal(true);
 	});
 
 	it('should respond appropriately when flipped AND rotated', function () {
@@ -92,7 +77,7 @@ describe("Piece", function(){
 	    newPiece.shape = [[0,0],[1,0],[1,1],[2,0]];
 	    newPiece.flip()
 	    newPiece.rotateCounterClockwise()
-	    expect(deepEquals(newPiece.getPieceWithOrientation(), ([[0,0],[0,1],[1,1],[0,2]]))).to.equal(true);
+	    expect(helper.deepEquals(newPiece.getPieceWithOrientation(), ([[0,0],[0,1],[1,1],[0,2]]))).to.equal(true);
 	});
 
 	it('should be able to give you an array of all possible values', function(){

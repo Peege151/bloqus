@@ -11,15 +11,19 @@ describe("Board", function(){
 	});
 
 	xit('should be able to return an array of the entire board', function(){
-
+		//Should probably parse out however this is stored (a bunch of strings, which are rows), into a multi dimensional array of single characters.
 	});
 
 	xit('should be able to return a particular spot on the board', function(){
 
 	});
 
+	//Should have as input a move.
 	xit('should be able to say whether a particular move passed to it is legal', function(){
-
+		//Are any of the spaces it occupies off the board--if so, illegal.
+		//Are any of the spaces it occupies already occupied--if so, illegal.
+		//Are any of the spaces it is adjacent to the same color--if so, illegal.
+		//Is one of the diagonals for it of the same color
 	});
 
 	xit('should be able to say what all the legal moves are, for a single piece and a single color, passed to it', function(){

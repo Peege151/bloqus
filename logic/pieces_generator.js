@@ -1,5 +1,3 @@
-
-
 var PiecesGenerator = function(num){
 
 	//Returns the index of an array of length two, in an array of arrays of length two.

@@ -20,8 +20,9 @@ helper = {
 
 
 	deepEquals: function(obj1,obj2){
+		var self = this;
         return (Array.isArray(obj1))
-                ? obj1.every(function(n,i){return deepEquals(obj1[i], obj2[i]);})
+                ? obj1.every(function(n,i){return self.deepEquals(obj1[i], obj2[i]);})
                 : (obj1 == obj2);
 	}
 
