@@ -22,7 +22,16 @@ Board.prototype.liberties = function(side){
 }
 
 Board.prototype.doMove = function(move){
-	//returns true if successful, false if it failed.
+	if (this.isLegal(move)){
+		var occupies = move.occupies();
+		for(var x = 0; x < occupies.length; x++){
+			var spot = occupies[x];
+			this.setBoardSpot(spot[0],spot[1], move.color);
+		}
+		return true;
+	}else{
+		return false;
+	}
 }
 
 Board.prototype.isLegal = function(move){
@@ -57,6 +66,10 @@ Board.prototype.isLegal = function(move){
 	var diags = move.legalDiagonals();
 	for(var x = 0; x < diags.length; x++){
 		var spot = diags[x];
+		if(move.color == 'B' && spot[0] == -1 && spot[1] == -1){return true;}
+		if(move.color == 'Y' && spot[0] == this.dimensions && spot[1] == -1){return true;}
+		if(move.color == 'R' && spot[0] == this.dimensions && spot[1] == this.dimensions){return true;}
+		if(move.color == 'G' && spot[0] == -1 && spot[1] == this.dimensions){return true;}
 		if (getBoardSpot(spot[0],spot[1]) == move.color){
 			return true;
 		}
