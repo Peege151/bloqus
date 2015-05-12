@@ -9,6 +9,7 @@ describe("Moves", function(){
 	//should test Move.prototype.occupies
 	describe('should be able to show the places it would occupy', function(){
 		beforeEach(function(){
+
 			newPiece = new Piece();
 		    newPiece.shape = [[0,0],[1,0],[2,0],[1,1]];
 		    otherPiece = new Piece()
@@ -70,7 +71,7 @@ describe("Moves", function(){
 			expect(helper.sameArrElements(move.adjacencies(),[[3,3],[4,2],[5,2],[6,2],[7,3],[6,4],[5,5],[4,4]])).to.equal(true);
 			var otherMove = new Move(newPiece, [4,3], 'G');
 			newPiece.flip();
-			console.log("Stuff", move.adjacencies())
+			//console.log("Stuff", move.adjacencies())
 			expect(helper.sameArrElements(otherMove.adjacencies(),[[5,2],[6,3],[7,4],[6,5],[5,5],[4,5],[3,4],[4,3]])).to.equal(true);
 		});
 

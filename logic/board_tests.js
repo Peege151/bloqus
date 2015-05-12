@@ -8,6 +8,8 @@ describe("Board", function(){
 	    newPiece.shape = [[0,0],[1,0],[2,0],[1,1]];
 	    otherPiece = new Piece()
 	    otherPiece.shape = [[0,0],[1,0],[1,1],[2,1]];
+	    crossPiece = new Piece();
+	    crossPiece.shape = [[1,1],[1,0],[0,1],[2,1],[1,2]];
 	});
 
 	it('should exist', function () {
@@ -16,7 +18,7 @@ describe("Board", function(){
 
 	it('can make a board, and make a multidimensional array from it', function(){
 		var nb = new Board(20);
-		console.log(nb.getBoard())
+		//console.log(nb.getBoard())
 		expect(nb.getBoard().length == 20).to.equal(true);
 		expect(nb.getBoard()[0].length == 20).to.equal(true);
 		expect(nb.getBoardSpot(0,0) == 'N').to.equal(true);
@@ -29,7 +31,7 @@ describe("Board", function(){
 
 		it('should accept legal moves which go from starting position', function(){
 			var oneMove = new Move(newPiece, [0,0], 'B')
-			console.log(oneMove);
+			//console.log(oneMove);
 			expect(nb.doMove(oneMove)).to.equal(true);
 			oneMove = new Move(newPiece, [5,5], 'B');
 			expect(nb.doMove(oneMove)).to.equal(false);
@@ -74,10 +76,24 @@ describe("Board", function(){
 				nb.doMove(oneMove);
 				expect(nb.liberties('B').length).to.equal(3);
 				expect(helper.sameArrElements(nb.liberties('B'), [[3,1],[2,2],[0,2]]));
-				newPiece.rotateCounterClockwise();
-				oneMove = new Move(newPiece, [0,0], 'B');
-				expect(nb.liberties('B').length).to.equal(2);
-				expect(helper.sameArrElements(nb.liberties('B'), [[0,3],[2,3]]));
+			});
+
+			it('has a liberties function, which gives you the free spots on the board when rotated', function(){
+				newPiece.rotateClockwise();
+				var oneMove = new Move(newPiece, [0,0], 'B');
+				nb.doMove(oneMove);
+				expect(nb.liberties('B').length).to.equal(3);
+				expect(helper.sameArrElements(nb.liberties('B'), [[2,0],[2,2],[3,1]]));
+			});
+
+			it('has a liberties function, which gives you the free spots on the board in a more complex situation', function(){
+				newPiece.rotateClockwise();
+				var oneMove = new Move(newPiece, [0,0], 'B');
+				var twoMove = new Move(crossPiece, [1,2], 'B');
+				nb.doMove(oneMove);
+				nb.doMove(twoMove);
+				expect(nb.liberties('B').length).to.equal(7);
+				expect(helper.sameArrElements(nb.liberties('B'), [[2,0],[3,1],[4,2],[4,4],[3,5],[1,5],[0,4]]));
 			});
 
 			xit('should be able to say what all the legal moves are, for a single piece and a single color, passed to it', function(){

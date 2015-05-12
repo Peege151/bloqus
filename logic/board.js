@@ -17,6 +17,8 @@ Board.prototype.setBoardSpot = function(x,y, val){
 }
 
 Board.prototype.liberties = function(color){
+	var self = this;
+	//console.log("!");
 	//finds open diags given color, also check to make sure adjacents are not same color.
 	//array of arrays, subs length of 2 as coordinates possibly legal diags 
 	//use getBoardSpot and setBoardSpot
@@ -25,25 +27,34 @@ Board.prototype.liberties = function(color){
 	var diags = [[1,-1],[1,1],[-1,1],[-1,-1]];
 	for(var i=0; i < this.board.length; i++ ){
 		for(var j=0; j < this.board.length; j++ ){
-			var candidateCoords = this.board[i][j];
-			var spot = getBoardSpot(candidateCoords[0],candidateCoords[1])
+			var candidateCoords = [i,j]
+			var spot = this.getBoardSpot(candidateCoords[0],candidateCoords[1])
 			if (spot === color){
-				for(var adj = 0; adj < adjacents.length; adj++){
-				    var adjSpot = [candidateCoords[0] + adjacents[adj][0], candidateCoords[1] + adjacents[adj][1]];
-				    if (getBoardSpot(adjSpot[0],adjSpot[1]) === color) return false
-				}
 				for(var diag = 0; diag < diags.length; diag++){
 				    var diagSpot = [candidateCoords[0] + diags[diag][0], candidateCoords[1] + diags[diag][1]];
-				    if (getBoardSpot(diagSpot[0], diagSpot[1]) === 'N'){
-				    	ret.push(diagSpot)
+				    if (this.getBoardSpot(diagSpot[0], diagSpot[1]) === 'N'){
+				    	var isClean = true;
+				    	for(var adj = 0; adj < adjacents.length; adj++){
+						    var adjSpot = [diagSpot[0] + adjacents[adj][0], diagSpot[1] + adjacents[adj][1]];
+						    //console.log(this.getBoardSpot(adjSpot[0],adjSpot[1]));
+						    if (this.getBoardSpot(adjSpot[0],adjSpot[1]) === color){
+						    	isClean = false; break;
+						    }
+						}
+				 		isClean && liberties.push(diagSpot)
 				    }
 				}
 			}
 		}
 	}
-	return liberties.filter(function(el, idx, arr){
-		return helper.specIndexOf(arr, el) == idx
+	
+	liberties =  liberties.filter(function(el, idx, arr){
+		return helper.specIndexOf(arr, el) == idx && (el[0] >= 0) && (el[1] >= 0) && (el[0] < self.dimensions) && (el[1] < self.dimensions);
 	});
+
+	//console.log("lib", liberties);
+
+	return liberties;
 
 	//takes RGBY value, returns all the diagonals open which are not next to some kind of thing of the same color
 	//i.e., all the places diagonal to the color indicated by side, which are not next to the same color
@@ -82,18 +93,18 @@ Board.prototype.isLegal = function(move){
 			return false
 		}
 	}
-	console.log("passed occu");
+	//console.log("passed occu");
 	var adjacents = move.adjacencies();
 
 	for(var x = 0; x < adjacents.length; x++){
 		var spot = adjacents[x];
 		if (this.getBoardSpot(spot[0],spot[1]) == move.color){
-			console.log(this.getBoardSpot(spot[0],spot[1]));
-			console.log("color: ", move.color);
+			//console.log(this.getBoardSpot(spot[0],spot[1]));
+			//console.log("color: ", move.color);
 			return false;
 		}
 	}
-	console.log("passed adjacencies");
+	//console.log("passed adjacencies");
 
 	var diags = move.legalDiagonals();
 	for(var x = 0; x < diags.length; x++){
