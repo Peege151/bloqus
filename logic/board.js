@@ -15,7 +15,35 @@ Board.prototype.setBoardSpot = function(x,y, val){
 	this.board[y][x] = val;
 }
 
-Board.prototype.liberties = function(side){
+Board.prototype.liberties = function(color){
+	//finds open diags given color, also check to make sure adjacents are not same color.
+	//array of arrays, subs length of 2 as coordinates possibly legal diags 
+	//use getBoardSpot and setBoardSpot
+	var liberties = [];
+	var adjacents = [[1,0],[0,1],[-1,0],[0,-1]];
+	var diags = [[1,-1],[1,1],[-1,1],[-1,-1]];
+	for(var i=0; i < this.board.length; i++ ){
+		for(var j=0; j < this.board.length; j++ ){
+			var candidateCoords = this.board[i][j];
+			var spot = getBoardSpot(candidateCoords[0],candidateCoords[1])
+			if (spot === color){
+				for(var adj = 0; adj < adjacents.length; adj++){
+				    var adjSpot = [candidateCoords[0] + adjacents[adj][0], candidateCoords[1] + adjacents[adj][1]];
+				    if (getBoardSpot(adjSpot[0],adjSpot[1]) === color) return false
+				}
+				for(var diag = 0; diag < diags.length; diag++){
+				    var diagSpot = [candidateCoords[0] + diags[diag][0], candidateCoords[1] + diags[diag][1]];
+				    if (getBoardSpot(diagSpot[0], diagSpot[1]) === 'N'){
+				    	ret.push(diagSpot)
+				    }
+				}
+			}
+		}
+	}
+	return liberties.filter(function(el, idx, arr){
+		return helper.specIndexOf(arr, el) == idx
+	});
+
 	//takes RGBY value, returns all the diagonals open which are not next to some kind of thing of the same color
 	//i.e., all the places diagonal to the color indicated by side, which are not next to the same color
 	//this should be really kinda useful for things all over the place
