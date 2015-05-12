@@ -1,5 +1,17 @@
 helper = {
 
+    array2dFill: function(n,m,fill){
+    	var arr = [];
+    	for(var y = 0; y < n; y++){
+    		arr.push([]);
+    		for (var x = 0; x < m; x++){
+    			arr[y].push(fill(y,x));
+    		}
+    	}
+    	return arr;
+    },
+
+
 	specIndexOf: function(arr, val){
 		for(var x = 0 ; x < arr.length; x++){ if(arr[x][0] === val[0] && arr[x][1] === val[1]){return x;}}
 		return -1;

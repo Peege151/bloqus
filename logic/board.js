@@ -1,13 +1,18 @@
-var Board = function(){
-
+var Board = function(n){
+	this.dimensions = n;
+	this.board = helper.array2dFill(n,n,function(){return 'N'});
 }
 
 Board.prototype.getBoard = function(){
-	//returns multidimensional array
+	return this.board;
 }
 
 Board.prototype.getBoardSpot = function(x,y){
-	//N (for blank) or RGBY
+	return this.board[y][x];
+}
+
+Board.prototype.setBoardSpot = function(x,y, val){
+	this.board[y][x] = val;
 }
 
 Board.prototype.liberties = function(side){
@@ -21,10 +26,44 @@ Board.prototype.doMove = function(move){
 }
 
 Board.prototype.isLegal = function(move){
+
 	//Are any of the spaces it occupies off the board--if so, illegal.
 	//Are any of the spaces it occupies already occupied--if so, illegal.
 	//Are any of the spaces it is adjacent to the same color--if so, illegal.
-	//Is one of the diagonals for it of the same color
+	//Is one of the diagonals for it of the same color--if so, true.
+
+	var occupies = move.occupies();
+
+	for(var x = 0; x < occupies.length; x++){
+		var spot = occupies[x];
+		//Off the board.
+		if(spot[0] < 0 || spot[0] >= this.dimensions || spot[1] < 0 || spot[1] >= this.dimensions){
+			return false;
+		}
+		if (getBoardSpot(spot[0],spot[1]) !== 'N'){
+			return false
+		}
+	}
+
+	var adjacents = move.adjacencies();
+
+	for(var x = 0; x < adjacents.length; x++){
+		var spot = adjacents[x];
+		if (getBoardSpot(spot[0],spot[1]) == move.color){
+			return false;
+		}
+	}
+
+	var diags = move.legalDiagonals();
+	for(var x = 0; x < diags.length; x++){
+		var spot = diags[x];
+		if (getBoardSpot(spot[0],spot[1]) == move.color){
+			return true;
+		}
+	}
+
+	return false;
+
 }
 
 Board.prototype.allLegalMoves = function(pieces, color){

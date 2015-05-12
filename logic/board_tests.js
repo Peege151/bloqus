@@ -3,6 +3,12 @@ describe("Board", function(){
 	    expect(Board).to.be.a('function');
 	});
 
+	it('can make a board, and make a multidimensional array from it', function(){
+		var nb = new Board(20);
+		console.log(nb.getBoard())
+		expect(nb.getBoard().length == 20).to.equal(true);
+		expect(nb.getBoard()[0].length == 20).to.equal(true);
+	});
 
 
 	//NB: This should check whether it is legal.
