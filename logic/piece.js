@@ -33,7 +33,6 @@ Piece.prototype.getPieceWithAlternateOrientation = function(flipped, rotated){
 	var lowestY = 100;
 	return this
 		.shape
-		.slice()
 		.map(function(el){
 			return (!flipped) ? el : [el[0],-el[1]];
 		})
@@ -54,30 +53,12 @@ Piece.prototype.getPieceWithOrientation = function(){
 	return this.getPieceWithAlternateOrientation(this.flipped, this.rotated);
 }
 
-Piece.prototype._sameArrElements = function(one, two){
-
-	var specIndexOf = function(arr, val){
-		for(var x = 0 ; x < arr.length; x++){ if(arr[x][0] === val[0] && arr[x][1] === val[1]){return x;}}
-		return -1;
-	}
-
-	if (one.length != two.length){return false;}
-	var thisShape = one.slice();
-	var otherShape = two.slice();
-	for(var x = 0; x < thisShape.length; x++){
-		if(specIndexOf(otherShape, thisShape[x]) === -1){return false;}
-		if(specIndexOf(thisShape, otherShape[x]) === -1){return false;}
-	}
-
-	return true;
-}
-
 Piece.prototype.sameShapeAtAll = function(other){
 	var selfOrientations = this.allPieceOrientations();
 	var otherOrientations = other.allPieceOrientations();
 	for(var x = 0, len = selfOrientations.length; x < len; x++){
 		for(var y = 0, innerLen = otherOrientations.length; y < innerLen; y++){
-			if (this._sameArrElements(selfOrientations[x], otherOrientations[y])){
+			if (helper.sameArrElements(selfOrientations[x], otherOrientations[y])){
 				return true;
 			}
 		}

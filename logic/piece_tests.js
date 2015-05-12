@@ -32,6 +32,7 @@ describe("Pieces_Generator", function(){
 	    expect(PiecesGenerator(6).length).to.equal(56);
 	});
 });
+
 describe("Piece", function(){
 	it('should exist', function () {
 	    expect(Piece).to.be.a('function');
@@ -85,6 +86,7 @@ describe("Piece", function(){
 	    newPiece.rotateClockwise();
 	    expect(deepEquals(newPiece.getPieceWithOrientation(), [[2,1],[1,1],[1,0],[0,1]])).to.equal(true);
 	});
+
 	it('should respond appropriately when flipped AND rotated', function () {
 	    var newPiece = new Piece()
 	    newPiece.shape = [[0,0],[1,0],[1,1],[2,0]];
@@ -92,16 +94,12 @@ describe("Piece", function(){
 	    newPiece.rotateCounterClockwise()
 	    expect(deepEquals(newPiece.getPieceWithOrientation(), ([[0,0],[0,1],[1,1],[0,2]]))).to.equal(true);
 	});
+
 	it('should be able to give you an array of all possible values', function(){
 		var newPiece = new Piece()
 	    newPiece.shape = [[0,0],[1,0],[0,1]];
 	    expect(newPiece.allPieceOrientations().length).to.equal(8);
 	    //console.log(newPiece.allPieceOrientations());
-	});
-	it('can identify arrays with the same elements, disordered', function(){
-		var newPiece = new Piece();
-		expect(newPiece._sameArrElements([[1,1],[0,0]],[[0,0],[1,1]])).to.equal(true);
-		expect(newPiece._sameArrElements([[1,0],[0,0]],[[0,0],[1,1]])).to.equal(false);
 	});
 
 	describe('should be able to see if it has the same shape as another piece', function(){
