@@ -27,7 +27,7 @@ var PiecesGenerator = function(num){
 					//console.log("!");
 					var candidateNewSquare = [ adjacent[z][0] + square[0], adjacent[z][1] + square[1] ];
 
-					if (specIndexOf(curPiece.shape, candidateNewSquare) == -1 && candidateNewSquare[0] >= 0 && candidateNewSquare [1] >= 0){
+					if (helper.specIndexOf(curPiece.shape, candidateNewSquare) == -1 && candidateNewSquare[0] >= 0 && candidateNewSquare [1] >= 0){
 						var shape = curPiece.shape.slice();
 						shape.push(candidateNewSquare);
 						var newPiece = new Piece();

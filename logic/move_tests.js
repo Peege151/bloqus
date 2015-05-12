@@ -48,7 +48,7 @@ describe("Moves", function(){
 
 		it('should be able to show the places it would be adjacent to translated, without repeats', function(){
 			var move = new Move(newPiece, [5,10],'Y');
-			expect(helper.deepEquals(move.adjacencies().length)).to.equal(8);
+			expect(move.adjacencies().length).to.equal(8);
 			
 		});
 
