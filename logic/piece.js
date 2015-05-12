@@ -124,5 +124,5 @@ Piece.prototype.allPieceOrientations = function(){
 	return ret;
 }
 
-module.exports = Piece
+//module.exports = Piece
 //

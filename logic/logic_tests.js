@@ -1,9 +1,11 @@
-var expect = require('chai').expect
-var PiecesGenerator = require('./pieces_generator');
-var Move = require('./move');
-var Piece = require('./piece');
 
-var Board = require('./board');
+var expect = chai.expect;
+//var expect = require('chai').expect
+//var PiecesGenerator = require('./pieces_generator');
+//var Move = require('./move');
+//var Piece = require('./piece');
+
+//var Board = require('./board');
 
 var deepEquals = function(obj1,obj2){
         return (Array.isArray(obj1))

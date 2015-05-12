@@ -1,5 +1,5 @@
 
-var Piece = require('./Piece');
+//var Piece = require('./Piece');
 
 var specIndexOf = function(arr, val){
 	for(var x = 0 ; x < arr.length; x++){
@@ -123,4 +123,4 @@ var PiecesGenerator = function(num){
 
 
 
-module.exports = PiecesGenerator
+//module.exports = PiecesGenerator
