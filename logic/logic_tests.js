@@ -103,45 +103,52 @@ describe("Piece", function(){
 		expect(newPiece._sameArrElements([[1,1],[0,0]],[[0,0],[1,1]])).to.equal(true);
 		expect(newPiece._sameArrElements([[1,0],[0,0]],[[0,0],[1,1]])).to.equal(false);
 	});
-	it('should be able to see if it has the same basic shape as another piece', function(){
-		var newPiece = new Piece()
-	    newPiece.shape = [[0,0],[1,0],[1,1],[2,0]];
-	    var otherPiece = new Piece()
-	    otherPiece.shape = [[1,0],[0,0],[2,0],[1,1]];
-	    expect(newPiece.sameShapeAtAll(otherPiece)).to.equal(true);
-	    var badPiece = new Piece()
-	    otherPiece.shape = [[1,0],[1,0],[2,0],[1,1]];
-	    expect(newPiece.sameShapeAtAll(badPiece)).to.equal(false);
 
-	    newPiece.shape = [[0,0],[1,0]];
-	    otherPiece.shape = [[1,0],[0,0]];
-	    expect(newPiece.sameShapeAtAll(otherPiece)).to.equal(true);
+	describe('should be able to see if it has the same shape as another piece', function(){
+		it('can tell it has the same shape, disordered, as another piece', function(){
+			var newPiece = new Piece()
+		    newPiece.shape = [[0,0],[1,0],[1,1],[2,0]];
+		    var otherPiece = new Piece()
+		    otherPiece.shape = [[1,0],[0,0],[2,0],[1,1]];
+		    expect(newPiece.sameShapeAtAll(otherPiece)).to.equal(true);
+		    var badPiece = new Piece()
+		    otherPiece.shape = [[1,0],[1,0],[2,0],[1,1]];
+		    expect(newPiece.sameShapeAtAll(badPiece)).to.equal(false);
+		    newPiece.shape = [[0,0],[1,0]];
+		    otherPiece.shape = [[1,0],[0,0]];
+		    expect(newPiece.sameShapeAtAll(otherPiece)).to.equal(true);
+		   	newPiece.shape = [[0,0],[1,0],[1,1]];
+		    otherPiece.shape = [[1,0],[0,0],[1,1]];
+		    expect(newPiece.sameShapeAtAll(otherPiece)).to.equal(true);
+		   	newPiece.shape = [[0,0],[1,0]];
+		    otherPiece.shape = [[1,0],[0,0],[1,1]];
+		    expect(newPiece.sameShapeAtAll(otherPiece)).to.equal(false);
 
-	   	newPiece.shape = [[0,0],[1,0],[1,1]];
-	    otherPiece.shape = [[1,0],[0,0],[1,1]];
-	    expect(newPiece.sameShapeAtAll(otherPiece)).to.equal(true);
+		 });
 
-	   	newPiece.shape = [[0,0],[1,0]];
-	    otherPiece.shape = [[1,0],[0,0],[1,1]];
-	    expect(newPiece.sameShapeAtAll(otherPiece)).to.equal(false);
+		it('can tell it has the same shape, rotate or translated all over the place, as another shape', function(){
+			var newPiece = new Piece()
+			var otherPiece = new Piece()
+		    newPiece.shape = [[0,1],[0,0]];
+		    otherPiece.shape = [[1,0],[0,0]];
+		    expect(newPiece.sameShapeAtAll(otherPiece)).to.equal(true);
 
-	    newPiece.shape = [[0,1],[0,0]];
-	    otherPiece.shape = [[1,0],[0,0]];
-	    expect(newPiece.sameShapeAtAll(otherPiece)).to.equal(true);
+		    newPiece.shape = [[0,-1],[0,-2]];
+		    otherPiece.shape = [[1,0],[0,0]];
+		    expect(newPiece.sameShapeAtAll(otherPiece)).to.equal(true);
 
-	    //console.log(newPiece.allPieceOrientations())
+		    newPiece.shape = [[0,-1],[0,-2],[1,-1]];
+		    otherPiece.shape = [[1,0],[0,0],[0,1]];
+		    expect(newPiece.sameShapeAtAll(otherPiece)).to.equal(true);	    
 
-	   	newPiece.shape = [];
-	    otherPiece.shape = [[1,0],[0,0],[1,1]];
-	    expect(newPiece.sameShapeAtAll(otherPiece)).to.equal(false);
+		   	newPiece.shape = [];
+		    otherPiece.shape = [[1,0],[0,0],[1,1]];
+		    expect(newPiece.sameShapeAtAll(otherPiece)).to.equal(false);
 
-	    newPiece.shape = [[0,0]];
-	    otherPiece.shape = [[0,0],[0,1],[1,1]];
-	    expect(newPiece.sameShapeAtAll(otherPiece)).to.equal(false);
-
-
-
-
+		    newPiece.shape = [[0,0]];
+		    otherPiece.shape = [[0,0],[0,1],[1,1]];
+		    expect(newPiece.sameShapeAtAll(otherPiece)).to.equal(false);
+		});
 	});
 });
 
@@ -149,6 +156,19 @@ describe("Moves", function(){
 	it('should exist', function () {
 	    expect(Move).to.be.a('function');
 	});
+
+	it('should be able to show the places it would occupy', function(){
+
+	});
+
+	it('should be able to show the places it would be adjacent to', function(){
+
+	})
+
+	it('should be able to show the places it would be diagonal to', function(){
+
+	})
+
 });
 
 describe("Board", function(){
