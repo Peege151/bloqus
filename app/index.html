@@ -41,7 +41,7 @@
             <ul class="nav navbar-nav">
               <li class="active"><a href="#/">Home</a></li>
               <!-- //angularfire -->
-              <li><a ng-href="#/chat">chat</a></li>
+              <li><a ng-href="#/lobby">Lobby</a></li>
 
             </ul>
           </div>
@@ -49,7 +49,7 @@
       </div>
     </div>
 
-    <div ng-view=""></div>
+    <ui-view></ui-view>
 
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/angular/angular.js"></script>
@@ -61,7 +61,8 @@
     <script src="bower_components/angular-resource/angular-resource.js"></script>
     <script src="bower_components/angular-route/angular-route.js"></script>
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
-    <script src="bower_components/angular-touch/angular-touch.js"></script>
+    <script src="bower_components/angular-touch/angular-touch.min.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 

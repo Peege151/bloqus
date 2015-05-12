@@ -1,13 +1,7 @@
 'use strict';
-/**
- * @ngdoc function
- * @name bloqusApp.controller:ChatCtrl
- * @description
- * # ChatCtrl
- * A demo of using AngularFire to manage a synchronized list.
- */
+
 angular.module('bloqusApp')
-  .controller('ChatCtrl', function ($scope, Ref, $firebaseArray, $timeout) {
+  .controller('LobbyCtrl', function ($scope, Ref, $firebaseArray, $timeout) {
     // synchronize a read-only, synchronized array of messages, limit to most recent 10
     $scope.messages = $firebaseArray(Ref.child('messages').limitToLast(10));
 

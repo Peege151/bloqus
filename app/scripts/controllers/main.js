@@ -2,7 +2,7 @@
 
 angular.module('bloqusApp')
 
-.controller("MainCtrl", function($scope, $firebaseObject) {
+.controller("MainCtrl", function($scope, $state, $firebaseObject) {
   var ref = new Firebase("https://bloqus.firebaseio.com/"),
       firebase = $firebaseObject(ref);
 
@@ -32,11 +32,14 @@ angular.module('bloqusApp')
         game: gameId,
         name: $scope.hostname
       };
+
+      //$('#create-game-modal').modal('hide');
+      $('.modal-backdrop').remove();
       $state.go('lobby');
+
     };
 
-    $scope.enterGame = function (playername){
-      console.log(playername, 'entering game: ', $scope.sharableId);
+    $scope.enterGame = function (playername) {
 
       //generate a random id
       var randomId = Math.round(Math.random() * 100000000);
@@ -46,7 +49,6 @@ angular.module('bloqusApp')
 
       var keepGoing = true;
       angular.forEach($scope.firebase.games[$scope.currentGameId].players, function(name, player){
-        console.log('Name : ', name, "Player : ", player);
         if (keepGoing){
           if(name == 'Computer'){
             $scope.firebase.games[$scope.currentGameId].players[player] = playername;
@@ -57,13 +59,14 @@ angular.module('bloqusApp')
               game: $scope.sharableId,
               name: playername
             };
+
+            $('.modal-backdrop').remove();
+            $state.go('lobby')
           }
         }
         $scope.gameIsFull = true;
-        $('#join-game-modal').modal('hide')
+        $('#join-game-modal').modal('hide');
       });
-
-      $state.go('lobby')
 
     };
 
@@ -79,7 +82,7 @@ angular.module('bloqusApp')
       });
       if (!foundGame){
         $scope.gameDoesNotExist = true;
-        $('#join-game-modal').modal('hide')
+        $('#join-game-modal').modal('hide');
       }
     }
 

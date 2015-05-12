@@ -12,7 +12,7 @@ angular.module('bloqusApp', [
     'ngAnimate',
     'ngCookies',
     'ngResource',
-    'ngRoute',
+    'ui.router',
     'ngSanitize',
     'ngTouch',
     'firebase',

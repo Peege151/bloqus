@@ -2,16 +2,21 @@
 
 angular.module('bloqusApp')
 
-  .config(['$routeProvider', function($routeProvider) {
-    $routeProvider
-      .when('/', {
-        templateUrl: 'views/main.html',
-        controller: 'MainCtrl'
-      })
+    .config(function ($stateProvider, $urlRouterProvider) {
 
-      .when('/lobby', {
-        templateUrl: 'views/lobby.html',
-        controller: 'LobbyCtrl'
-      })
-      .otherwise({redirectTo: '/'});
-  }]);
+        $urlRouterProvider.otherwise("/");
+
+        $stateProvider
+            .state('main', {
+                url: '/',
+                templateUrl: 'views/main.html',
+                controller: 'MainCtrl'
+            })
+
+            .state('lobby', {
+                url: '/lobby',
+                templateUrl: 'views/lobby.html',
+                controller: 'LobbyCtrl'
+            })
+
+    });
