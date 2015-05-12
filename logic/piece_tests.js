@@ -152,27 +152,5 @@ describe("Piece", function(){
 	});
 });
 
-describe("Moves", function(){
-	it('should exist', function () {
-	    expect(Move).to.be.a('function');
-	});
 
-	it('should be able to show the places it would occupy', function(){
 
-	});
-
-	it('should be able to show the places it would be adjacent to', function(){
-
-	})
-
-	it('should be able to show the places it would be diagonal to', function(){
-
-	})
-
-});
-
-describe("Board", function(){
-	it('should exist', function () {
-	    expect(Board).to.be.a('function');
-	});
-});

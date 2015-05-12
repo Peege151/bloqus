@@ -6,11 +6,12 @@ var Move = function(piece, location, side){
 
 //returns the spaces that this move would occupy.
 Move.prototype.occupies = function(){
+	var self = this;
 	return this
 		.piece
 		.getPieceWithOrientation()
 		.map(function(square){
-			return [square[0]+this.location[0], square[1]+this.location[1]];
+			return [square[0]+self.location[0], square[1]+self.location[1]];
 		});
 }
 
@@ -19,8 +20,8 @@ Move.prototype.adjacencies = function(){
 
 }
 
-Move.prototype.diagonals = function(){
-	
+Move.prototype.edges = function(){
+
 }
 
 
