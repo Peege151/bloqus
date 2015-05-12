@@ -1,7 +1,6 @@
 var PiecesGenerator = function(num){
 
 	var adjacent = [[0,1],[1,0],[-1,0],[0,-1]];
-
 	var candidatePieces = [new Piece()];
 	candidatePieces[0].shape = [[10,10]];
 

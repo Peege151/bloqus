@@ -8,6 +8,7 @@ Board.prototype.getBoard = function(){
 }
 
 Board.prototype.getBoardSpot = function(x,y){
+	if ( x > this.dimensions -1 || y > this.dimensions - 1 || x < 0 || y < 0){return 'N';}
 	return this.board[y][x];
 }
 
@@ -49,19 +50,22 @@ Board.prototype.isLegal = function(move){
 		if(spot[0] < 0 || spot[0] >= this.dimensions || spot[1] < 0 || spot[1] >= this.dimensions){
 			return false;
 		}
-		if (getBoardSpot(spot[0],spot[1]) !== 'N'){
+		if (this.getBoardSpot(spot[0],spot[1]) !== 'N'){
 			return false
 		}
 	}
-
+	console.log("passed occu");
 	var adjacents = move.adjacencies();
 
 	for(var x = 0; x < adjacents.length; x++){
 		var spot = adjacents[x];
-		if (getBoardSpot(spot[0],spot[1]) == move.color){
+		if (this.getBoardSpot(spot[0],spot[1]) == move.color){
+			console.log(this.getBoardSpot(spot[0],spot[1]));
+			console.log("color: ", move.color);
 			return false;
 		}
 	}
+	console.log("passed adjacencies");
 
 	var diags = move.legalDiagonals();
 	for(var x = 0; x < diags.length; x++){
@@ -70,7 +74,7 @@ Board.prototype.isLegal = function(move){
 		if(move.color == 'Y' && spot[0] == this.dimensions && spot[1] == -1){return true;}
 		if(move.color == 'R' && spot[0] == this.dimensions && spot[1] == this.dimensions){return true;}
 		if(move.color == 'G' && spot[0] == -1 && spot[1] == this.dimensions){return true;}
-		if (getBoardSpot(spot[0],spot[1]) == move.color){
+		if (this.getBoardSpot(spot[0],spot[1]) == move.color){
 			return true;
 		}
 	}
