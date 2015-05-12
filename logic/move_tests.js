@@ -57,7 +57,7 @@ describe("Moves", function(){
 			
 		});
 
-		xit('should be able to show the places it would be adjacent to rotated, without repeats', function(){
+		it('should be able to show the places it would be adjacent to rotated, without repeats', function(){
 			var move = new Move(newPiece, [4,3], 'G');
 			expect(helper.sameArrElements(move.adjacencies(),[[3,3],[4,2],[5,2],[6,2],[7,3],[6,4],[5,5],[4,4]])).to.equal(true);
 			var otherMove = new Move(newPiece, [4,3], 'G');
@@ -65,12 +65,13 @@ describe("Moves", function(){
 			expect(helper.sameArrElements(otherMove.adjacencies(),[[5,2],[6,3],[6,4],[6,5],[5,6],[4,5],[3,4],[4,3]])).to.equal(true);
 		});
 
-		xit('should be able to show the places it would be adjacent to flipped, without repeats', function(){
+		it('should be able to show the places it would be adjacent to flipped, without repeats', function(){
 			var move = new Move(newPiece, [4,3], 'G');
-			expect(helper.sameArrElements(move.adjacencies(),[[3,3],[4,2],[5,2],[6,2],[7,3],[6,4],[5,5],[4,4]]).to.equal(true);
+			expect(helper.sameArrElements(move.adjacencies(),[[3,3],[4,2],[5,2],[6,2],[7,3],[6,4],[5,5],[4,4]])).to.equal(true);
 			var otherMove = new Move(newPiece, [4,3], 'G');
 			newPiece.flip();
-			expect(helper.sameArrElements(move.adjacencies(),[[5,2],[6,3],[7,4],[6,3],[7,4],[6,5],[5,5],[4,5],[3,4],[4,2]])).to.equal(true);
+			console.log("Stuff", move.adjacencies())
+			expect(helper.sameArrElements(otherMove.adjacencies(),[[5,2],[6,3],[7,4],[6,5],[5,5],[4,5],[3,4],[4,3]])).to.equal(true);
 		});
 
 	})
@@ -85,20 +86,20 @@ describe("Moves", function(){
 		    otherPiece.shape = [[0,0],[1,0],[1,1],[2,1]];
 		});
 
-		xit('should be able to show the places it would be diagonal to translated', function(){
+		it('should be able to show the places it would be diagonal to translated', function(){
 			var move = new Move(newPiece, [4,3], 'G');
 			expect(helper.sameArrElements(move.legalDiagonals(),[[3,2],[7,2],[7,4],[6,5],[4,5],[3,4]])).to.equal(true);
 		});
 
-		xit('should be able to show the places it would be diagonal to rotated', function(){
+		it('should be able to show the places it would be diagonal to rotated', function(){
+			newPiece.rotateCounterClockwise()
 			var move = new Move(newPiece, [4,3], 'G');
-			move.rotateCounterClockwise();
 			expect(helper.sameArrElements(move.legalDiagonals(),[[4,2],[6,2],[6,6],[4,6],[3,5],[3,3]])).to.equal(true);
 		});
 
-		xit('should be able to show the places it would be diagonal to flipped', function(){
+		it('should be able to show the places it would be diagonal to flipped', function(){
+			newPiece.flip();
 			var move = new Move(newPiece, [4,3], 'G');
-			move.flip();
 			expect(helper.sameArrElements(move.legalDiagonals(),[[3,3],[4,2],[6,2],[7,3],[7,5],[3,5]])).to.equal(true);
 		});
 
