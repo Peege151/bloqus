@@ -1,7 +1,7 @@
-var Move = function(piece, location, side){
+var Move = function(piece, location, color){
 	this.piece = piece;
 	this.location = location;
-	this.side = side;
+	this.color = color;
 }
 
 //returns the spaces that this move would occupy.
