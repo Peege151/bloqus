@@ -30,4 +30,9 @@ describe("Board", function(){
 
 	});
 
+	//Alternately, a higher-level thing than board could keep track of this.
+	xit('should be able to say when the game is over--when no one has moves', function(){
+
+	});
+
 });
