@@ -1,12 +1,5 @@
 'use strict';
-/**
- * @ngdoc overview
- * @name bloqusApp:routes
- * @description
- * # routes.js
- *
- * Configure routes for use with Angular, and apply authentication security
- */
+
 angular.module('bloqusApp')
 
   .config(['$routeProvider', function($routeProvider) {
@@ -16,9 +9,9 @@ angular.module('bloqusApp')
         controller: 'MainCtrl'
       })
 
-      .when('/chat', {
-        templateUrl: 'views/chat.html',
-        controller: 'ChatCtrl'
+      .when('/lobby', {
+        templateUrl: 'views/lobby.html',
+        controller: 'LobbyCtrl'
       })
       .otherwise({redirectTo: '/'});
   }]);
