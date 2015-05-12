@@ -24,7 +24,7 @@ describe("Pieces_Generator", function(){
 
 		//console.log(PiecesGenerator(3).map(function(n){return  n.shape}))
 		expect(PiecesGenerator(3).length).to.equal(4);
-		//console.log(PiecesGenerator(3).map(function(n){return  n.shape}))
+		console.log(PiecesGenerator(3).map(function(n){return  n.shape}))
 
 		expect(PiecesGenerator(4).length).to.equal(9);
 
