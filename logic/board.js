@@ -178,7 +178,6 @@ Board.prototype.allLegalMovesForPiece = function(piece, color){
 		var unique = true;
 		for (var z = 0; z < y; z++){
 			if (initialMoves[y].equals(initialMoves[z])){
-				//console.log("!!!!");
 				unique = false;
 				break;
 			}
