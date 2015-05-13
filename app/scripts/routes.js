@@ -14,9 +14,15 @@ angular.module('bloqusApp')
             })
 
             .state('lobby', {
-                url: '/lobby',
+                url: '/lobby/:currentId/:shareId',
                 templateUrl: 'views/lobby.html',
                 controller: 'LobbyCtrl'
+            })
+
+            .state('gameboard', {
+                url: '/game/:game',
+                templateUrl: 'views/gameboard.html',
+                controller: 'GameCtrl'
             })
 
     });
