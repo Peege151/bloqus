@@ -51,6 +51,11 @@ Move.prototype.legalDiagonals = function(){
 		});
 }
 
+//If one move is equivalent to another, this says so.
+Move.prototype.equals = function(other){
+	return helper.sameArrElements(this.occupies(), other.occupies()) && other.color == this.color;
+}
+
 
 
 //module.exports = Move

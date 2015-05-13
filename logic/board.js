@@ -36,7 +36,6 @@ Board.prototype.liberties = function(color){
 				    	var isClean = true;
 				    	for(var adj = 0; adj < adjacents.length; adj++){
 						    var adjSpot = [diagSpot[0] + adjacents[adj][0], diagSpot[1] + adjacents[adj][1]];
-						    //console.log(this.getBoardSpot(adjSpot[0],adjSpot[1]));
 						    if (this.getBoardSpot(adjSpot[0],adjSpot[1]) === color){
 						    	isClean = false; break;
 						    }
@@ -47,6 +46,12 @@ Board.prototype.liberties = function(color){
 			}
 		}
 	}
+
+
+	if(color == 'B' && this.getBoardSpot(0,0) == 'N'){liberties.push([0,0]);}
+	if(color == 'Y' && this.getBoardSpot(this.dimensions-1, 0) == 'N'){liberties.push([this.dimensions-1,0]);}
+	if(color == 'R' && this.getBoardSpot(this.dimensions-1, this.dimensions-1)){liberties.push([this.dimensions-1,this.dimensions-1]);}
+	if(color == 'G' && this.getBoardSpot(0, this.dimensions-1)){liberties.push([0,this.dimensions-1]);}
 	
 	liberties =  liberties.filter(function(el, idx, arr){
 		return helper.specIndexOf(arr, el) == idx && (el[0] >= 0) && (el[1] >= 0) && (el[0] < self.dimensions) && (el[1] < self.dimensions);
@@ -122,12 +127,66 @@ Board.prototype.isLegal = function(move){
 
 }
 
-Board.prototype.allLegalMoves = function(pieces, color){
-	//returns whether a move is 
+Board.prototype.allLegalMovesForPieces = function(pieces, color){
+	var allMoves = [];
+	for(var x = 0; x < pieces.length; x++){
+		//console.log("das")
+		allMoves = allMoves.concat( this.allLegalMovesForPiece(pieces[x], color) );
+	}
+	return allMoves;
 }
 
 Board.prototype.allLegalMovesForPiece = function(piece, color){
+	var self = this;
+	var liberties = this.liberties(color);
+	//console.log("Lib", liberties)
+	var initialMoves = [];
+	for(var x = 0; x < liberties.length; x++){
 
+		//console.log("f", flipped);
+		//For each possibility
+		var spot = liberties[x]
+		for(var fli = 0; fli <= 1; fli++){
+			var flipped = !!fli;
+			for(var deg = 0; deg < 360; deg=deg+90){
+				//console.log("f", flipped)
+				var thisPiece = new Piece();
+				thisPiece.shape = piece.shape;
+				thisPiece.flipped = flipped;
+				thisPiece.rotated = deg;
+				//console.log(thisPiece);
+				var untranslated = new Move(thisPiece, spot, color);
+				//if this.isLegal(untranslated){initialMoves.push(untranslated);}
+				var translationalPossibilities = untranslated.occupies().filter(function(el){
+					return el[0] == spot[0] || el[1] == spot[1];
+				}).map(function(el){
+					return [ spot[0] + spot[0] - el[0], spot[1] + spot[1] - el[1] ];
+				});
+				//console.log(translationalPossibilities.length);
+				for(var m = 0; m < translationalPossibilities.length; m++){
+					var translated = new Move(thisPiece, translationalPossibilities[m], color);
+					if (this.isLegal(translated)){initialMoves.push(translated)}
+				}
+			}
+		}
+
+	}
+
+	//get rid of stuff which is duplicate, given that the above could have repeats;
+	var finalMoves = [];
+	for (var y = 0; y < initialMoves.length; y++){
+		var unique = true;
+		for (var z = 0; z < y; z++){
+			if (initialMoves[y].equals(initialMoves[z])){
+				//console.log("!!!!");
+				unique = false;
+				break;
+			}
+		}
+		unique && finalMoves.push(initialMoves[y]);
+	}
+
+	return finalMoves;
 }
 
 Board.prototype.isOver = function(){

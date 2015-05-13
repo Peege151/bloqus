@@ -96,12 +96,38 @@ describe("Board", function(){
 				expect(helper.sameArrElements(nb.liberties('B'), [[2,0],[3,1],[4,2],[4,4],[3,5],[1,5],[0,4]]));
 			});
 
-			xit('should be able to say what all the legal moves are, for a single piece and a single color, passed to it', function(){
-
+			it('should be able to say what all the legal moves are, for a single piece and a single color, passed to it, when nothing is on the board', function(){
+				var answer = nb.allLegalMovesForPiece(newPiece, 'B')
+				//console.log(answer);
+				expect(answer.length).to.equal(2)
 			});
 
-			xit('should be able to say what all the legal moves are, for an array of pieces and a single color, passed to it', function(){
+			it('should be able to say what all the legal moves are, for a single piece and a single color, passed to it, when stuff is on the board', function(){
+				var oneMove = new Move(newPiece, [0,0], 'B');
+				nb.doMove(oneMove);
+				var answer = nb.allLegalMovesForPiece(newPiece, 'B')
+				expect(answer.length).to.equal(11)
+			});
 
+			it('should be able to say what all the legal moves are, for an array of pieces and a single color, passed to it', function(){
+				one = new Piece()
+				one.shape = [[0,0],[0,1]];
+				two = new Piece();
+				two.shape = [[0,0],[0,1],[0,2]];
+				three = new Piece();
+				three.shape = [[0,0],[1,1],[0,1]];
+				var done = nb.allLegalMovesForPieces([one,two,three], 'B');
+				expect(done.length).to.equal(7);
+				console.log(done);
+
+				three.rotateCounterClockwise();
+				var move = new Move(three,[0,0],'B');
+				nb.doMove(move);
+				done = nb.allLegalMovesForPieces([one,two], 'B');
+				expect(done.length).to.equal(8);
+
+				done = nb.allLegalMovesForPieces([one,two,three], 'B');
+				expect(done.length).to.equal(17);
 			});
 
 	});
@@ -111,7 +137,11 @@ describe("Board", function(){
 		xit('should be able to say when the game is over--when no one has moves', function(){
 
 		});
-	})
 
+		xit('should do something else', function(){
+
+		});
+
+	});
 
 });
