@@ -2,90 +2,51 @@
 
 angular.module('bloqusApp')
 
-.controller("MainCtrl", function($scope, $state, $firebaseObject) {
-  var ref = new Firebase("https://bloqus.firebaseio.com/"),
-      firebase = $firebaseObject(ref);
+    .controller("MainCtrl", function ($scope, $state, FirebaseFactory, $firebaseObject) {
+        var ref = new Firebase("https://bloqus.firebaseio.com/"),
+            firebase = $firebaseObject(ref),
+            shareId, currentGameId;
 
-  firebase.$bindTo($scope, "firebase");
+        firebase.$bindTo($scope, "firebase");
 
-  firebase.$loaded().then( function () {
+        firebase.$loaded().then(function () {
 
-    $scope.createGame = function () {
-      var randomId = Math.round(Math.random() * 100000000);
-      var gameId = Math.round(Math.random() * 100000);
-      if (!$scope.firebase.games) $scope.firebase.games = {};
-      $scope.firebase.games[randomId] = {
-        id: gameId,
-        status: 'active',
-        host: $scope.hostname,
-        players: {
-          player1: $scope.hostname,
-          player2: 'Computer',
-          player3: 'Computer',
-          player4: 'Computer'
-        }
-      };
+            $scope.createGame = function () {
+                var randomId = Math.round(Math.random() * 100000000);
+                var gameId = Math.round(Math.random() * 100000);
+                var hostname = $scope.hostname;
 
-      var hostID = Math.round(Math.random() * 10000000);
-      if (!$scope.firebase.players) $scope.firebase.players = {};
-      $scope.firebase.players[hostID] = {
-        game: gameId,
-        name: $scope.hostname
-      };
+                $scope.firebase = FirebaseFactory.createGame(randomId, gameId, hostname);
 
-      //$('#create-game-modal').modal('hide');
-      $('.modal-backdrop').remove();
-      $state.go('lobby');
+                $('.modal-backdrop').remove();
+                $state.go('lobby', {currentId: randomId, shareId: gameId});
 
-    };
-
-    $scope.enterGame = function (playername) {
-
-      //generate a random id
-      var randomId = Math.round(Math.random() * 100000000);
-
-      //check if a players schema exists, if not create one
-      if (!$scope.firebase.players) $scope.firebase.players = {};
-
-      var keepGoing = true;
-      angular.forEach($scope.firebase.games[$scope.currentGameId].players, function(name, player){
-        if (keepGoing){
-          if(name == 'Computer'){
-            $scope.firebase.games[$scope.currentGameId].players[player] = playername;
-            keepGoing = false;
-
-            //add the player to the database with the game id
-            $scope.firebase.players[randomId] = {
-              game: $scope.sharableId,
-              name: playername
             };
 
-            $('.modal-backdrop').remove();
-            $state.go('lobby')
-          }
-        }
-        $scope.gameIsFull = true;
-        $('#join-game-modal').modal('hide');
-      });
+            $scope.enterGame = function (playername) {
 
-    };
+                $scope.firebase = FirebaseFactory.enterGame(playername, currentGameId, shareId);
 
-    $scope.joinGame = function (gamenum) {
-      var foundGame = false;
-      angular.forEach($scope.firebase.games, function (value, key){
-        if (value.id == gamenum){
-          $scope.gameExists = true;
-          $scope.sharableId = value.id;
-          $scope.currentGameId = key;
-          foundGame = true;
-        }
-      });
-      if (!foundGame){
-        $scope.gameDoesNotExist = true;
-        $('#join-game-modal').modal('hide');
-      }
-    }
+                $('.modal-backdrop').remove();
+                $state.go('lobby', {currentId: currentGameId, shareId: shareId});
 
-  });
+                /*TODO: THROW ERROR IF GAME IS FULL*/
+                //$scope.gameIsFull = true;
+                //$('#join-game-modal').modal('hide');
 
-});
+            };
+
+            $scope.joinGame = function (gamenum) {
+                var gameInfo = FirebaseFactory.joinGame(gamenum);
+
+                if (!gameInfo) {
+                    $scope.gameDoesNotExist = true;
+                    $('#join-game-modal').modal('hide');
+                } else {
+                    shareId = gameInfo.shareId;
+                    currentGameId = gameInfo.currentGameId;
+                    $scope.foundGame = gameInfo.foundGame;
+                }
+            }
+        });
+    });

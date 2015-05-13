@@ -40,9 +40,6 @@
 
             <ul class="nav navbar-nav">
               <li class="active"><a href="#/">Home</a></li>
-              <!-- //angularfire -->
-              <li><a ng-href="#/lobby">Lobby</a></li>
-
             </ul>
           </div>
         </div>
@@ -63,6 +60,7 @@
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="bower_components/angular-touch/angular-touch.min.js"></script>
     <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script src="bower_components/angular-local-storage/dist/angular-local-storage.min.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -72,6 +70,9 @@
         <script src="scripts/angularfire/config.js"></script>
         <script src="scripts/angularfire/firebase.ref.js"></script>
         <script src="scripts/controllers/lobby.js"></script>
+        <script src="scripts/controllers/gameboard.js"></script>
+        <script src="scripts/factories/FirebaseFactory.js"></script>
+        <script src="scripts/factories/GameFactory.js"></script>
         <script src="scripts/filters/reverse.js"></script>
         <script src="scripts/routes.js"></script>
         <!-- endbuild -->
