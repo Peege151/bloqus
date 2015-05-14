@@ -14,13 +14,41 @@ angular.module('bloqusApp')
                 if (!firebase.games) firebase.games = {};
                 firebase.games[randomId] = {
                     id: gameId,
-                    status: 'active',
+                    status: 'lobby',
                     host: hostname,
-                    players: {
-                        Player1: hostname,
-                        Player2: 'Computer',
-                        Player3: 'Computer',
-                        Player4: 'Computer'
+                    polyominoNum: 5,
+                    dimensions: 20,
+                    currentTurn: 'blue',
+                    numColors: 4,
+                    player: {
+                        blue: {
+                            name: hostname,
+                            id: hostId,
+                            pieces: {has: 'somePieces'},
+                            hasPassed: false,
+                            isAI: false
+                        },
+                        yellow: {
+                            name: 'Computer',
+                            id: 'compId',
+                            pieces: {has: 'somePieces'},
+                            hasPassed: false,
+                            isAI: true
+                        },
+                        green: {
+                            name: 'Computer',
+                            id: 'compId',
+                            pieces: {has: 'somePieces'},
+                            hasPassed: false,
+                            isAI: true
+                        },
+                        red: {
+                            name: 'Computer',
+                            id: 'compId',
+                            pieces: {has: 'somePieces'},
+                            hasPassed: false,
+                            isAI: true
+                        }
                     }
                 };
 
@@ -35,7 +63,7 @@ angular.module('bloqusApp')
                 return firebase;
             },
 
-            joinGame: function (gamenum) {
+            checkGameId: function (gamenum) {
                 var obj;
                 angular.forEach(firebase.games, function (value, key) {
                     if (value.id == gamenum) {
@@ -56,10 +84,17 @@ angular.module('bloqusApp')
                 if (!firebase.players) firebase.players = {};
 
                 var keepGoing = true;
-                angular.forEach(firebase.games[currentGameId].players, function (name, player) {
+                angular.forEach(firebase.games[currentGameId].player, function (playerObj, playerColor) {
                     if (keepGoing) {
-                        if (name == 'Computer') {
-                            firebase.games[currentGameId].players[player] = playername;
+                        if (playerObj.name == 'Computer') {
+                            firebase.games[currentGameId].player[playerColor] = {
+                                name: playername,
+                                isAI: false,
+                                id: randomId,
+                                hasPassed: false,
+                                pieces: {has: 'somePieces'}
+                            };
+
                             keepGoing = false;
 
                             //add the player to the database with the game id

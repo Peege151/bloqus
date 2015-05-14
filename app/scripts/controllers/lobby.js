@@ -13,9 +13,21 @@ angular.module('bloqusApp')
         firebase.$loaded().then(function () {
             currentId = $stateParams.currentId;
             currentGame = $scope.firebase.games[currentId];
+            var fbGameStatusRef = new Firebase("https://bloqus.firebaseio.com/games/" + currentId + "/status");
+            var fbGameStatus = $firebaseObject(fbGameStatusRef);
             $scope.shareId = $stateParams.shareId;
-            $scope.currentPlayers = currentGame.players;
-            console.log('current game ', currentGame)
+            $scope.currentPlayers = currentGame.player;
+
+            fbGameStatus.$watch(function () {
+                if (fbGameStatus.$value === 'start'){
+                    $state.go('gameboard', {game: currentGame});
+                }
+            });
+
+            $scope.startGame = function () {
+                $scope.firebase.games[currentId].status = 'start';
+                $state.go('gameboard', {game: currentGame})
+            };
 
         });
 
@@ -36,7 +48,7 @@ angular.module('bloqusApp')
                 var message = messageField.val();
 
                 //SAVE DATA TO FIREBASE AND EMPTY FIELD
-                fbMessages.push({name:username, text:message});
+                fbMessages.push({name: username, text: message});
                 messageField.val('');
             }
         });

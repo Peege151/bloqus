@@ -36,8 +36,8 @@ angular.module('bloqusApp')
 
             };
 
-            $scope.joinGame = function (gamenum) {
-                var gameInfo = FirebaseFactory.joinGame(gamenum);
+            $scope.checkGameId = function (gamenum) {
+                var gameInfo = FirebaseFactory.checkGameId(gamenum);
 
                 if (!gameInfo) {
                     $scope.gameDoesNotExist = true;
