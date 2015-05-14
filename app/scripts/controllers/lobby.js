@@ -22,7 +22,7 @@ angular.module('bloqusApp')
 
             fbGameStatus.$watch(function () {
                 if (fbGameStatus.$value === 'start'){
-                    $state.go('gameboard', {game: {firebaseId: currentId, player: player}});
+                    $state.go('gameboard', {game: {firebaseId: currentId, player: name}});
                 }
             });
 
@@ -36,14 +36,14 @@ angular.module('bloqusApp')
 
             $scope.startGame = function () {
                 $scope.firebase.games[currentId].status = 'start';
-                $state.go('gameboard', {game: {firebaseId: currentId, player: player}})
+                $state.go('gameboard', {game: {firebaseId: currentId, player: name}})
             };
 
         });
 
         $scope.startGame = function () {
           //console.log(currentGame);
-          $state.go('gameboard', {game: {firebaseId: currentId, player: player}})
+          $state.go('gameboard', {game: {firebaseId: currentId, player: name}})
         };
 
         // REGISTER DOM ELEMENTS
