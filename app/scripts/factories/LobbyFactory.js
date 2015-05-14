@@ -8,7 +8,7 @@ angular.module('bloqusApp')
             computerPlayer = {
                 name: 'Computer',
                 id: 'compId',
-                pieces: '1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21',
+                pieces: '0|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|20',
                 hasPassed: false,
                 isAI: true
             };
@@ -17,7 +17,7 @@ angular.module('bloqusApp')
 
             generatePolyominoString: function (val) {
                 var polystring = "";
-                for (var i = 1; i <= val; i++) {
+                for (var i = 0; i < val; i++) {
                     if (i === val) return polystring += i;
                     polystring += i + "|"
                 }
