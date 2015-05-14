@@ -2,7 +2,7 @@
 
 angular.module('bloqusApp')
 
-    .factory('GameFactory', function ($firebaseObject, localStorageService, LogicFactory) {
+    .factory('GameFactory', function ($rootScope, $firebaseObject, localStorageService, LogicFactory) {
 
     	var player, firebaseId;
 
@@ -67,11 +67,19 @@ angular.module('bloqusApp')
 
         initialize: function(){
         	if (!gameFirebase.initialized){
-        		// gameFirebase.polyominoNum = gameFirebase.polyominoNum || 5;
-        		// gameFirebase.dimensions = gameFirebase.dimensions || 20;
-        		// gameFirebase.currentTurn = gameFirebase.currentTurn || 'blue';
-        		// gameFirebase.numColors = gameFirebase.numColors || 4;
-        		// gameFirebase.status = gameFirebase.status || "start";
+        		gameFirebase.polyominoNum = gameFirebase.polyominoNum || 5;
+        		gameFirebase.dimensions = gameFirebase.dimensions || 20;
+        		gameFirebase.currentTurn = gameFirebase.currentTurn || 'blue';
+        		gameFirebase.numColors = gameFirebase.numColors || 4;
+        		gameFirebase.status = gameFirebase.status || "start";
+
+        		var allPieces = [];
+        		for(var x = 0; x < gameFirebase.polyominoNum; x++){
+        			allPieces.push(x);
+        		}
+        		angular.forEach(gameFirebase.player, function(value, key){
+        			gameFirebase.player[key].pieces = allPieces.join('|');
+        		});
 
         		var obj = {};
         		var row = "";
@@ -81,8 +89,11 @@ angular.module('bloqusApp')
         		for(var x = 0, len = gameFirebase.dimensions; x < len; x++){
         			obj["row"+x] = row;
         		}
+
+
         		gameFirebase.board = obj;
-        		
+        		gameFirebase.initialized = true;
+        		$rootScope.$emit("initialized", true)
         	}
         }
     }
