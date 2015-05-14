@@ -7,7 +7,8 @@
 <div>
   <h4>Current Players</h4>
   <div ng-repeat="(key, value) in currentPlayers">
-    <div><strong>{{key}}:</strong>
+    <div><strong>{{key}}:</strong> <span ng-if="value.name === 'Computer'" ng-click="switchToColor(key)">(click to switch to this color)</span>
+
       <p>{{value.name}}</p>
     </div>
   </div>
