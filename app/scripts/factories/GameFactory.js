@@ -92,20 +92,31 @@ angular.module('bloqusApp')
             }
 
             $rootScope.$on('makeMove', function(event, move){
-                //logic that finds what piece the move is using
-                //get rid of that piece in gameFirebase, etc.
-                //place it on board.
-                //update board
-                //save all.
-                var arr = gameFirebase.player[thisColor].pieces.split('|')
-                for(i = 0; i < gameFirebase.player[thisColor].pieces.split('|').length; i++){
-                    if (defaultPiecesArray[arr[i]]].sameShapeAtAll(move.piece)){
-                        arr.splice(i,1);
+                if(thisColor === gameFirebase.currentTurn){
+                    //logic that finds what piece the move is using
+                    //get rid of that piece in gameFirebase, etc.
+                    //place it on board.
+                    //update board
+                    //save all.
+
+                    //Change board
+                    var tempBoard = new LogicFactory.Board(gameFirebase.dimensions);
+                    tempBoard.consumeFire(gameFirebase.board);
+                    tempBoard.doMove(move);
+                    var newFireState = tempBoard.emitFire();
+                    gameFirebase.board =  newFireState;
+
+                    //Change pieces saved
+                    var arr = gameFirebase.player[thisColor].pieces.split('|')
+                    for(i = 0; i < gameFirebase.player[thisColor].pieces.split('|').length; i++){
+                        if (defaultPiecesArray[arr[i]]].sameShapeAtAll(move.piece)){
+                            arr.splice(i,1);
+                        }
                     }
+                    gameFirebase.player[thisColor].pieces = arr.join("|");
+                    
+                    gameFirebase.$save();
                 }
-                gameFirebase.player[thisColor].pieces = arr.join("|");
-                
-                gameFirebase.$save();
 
             });
             $rootScope.$on('passTurn', function(){

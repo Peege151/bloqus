@@ -252,6 +252,7 @@
 
 		var Board = function(n){
 			this.dimensions = n;
+			this.colorTurn = "";
 			this.board = helper.array2dFill(n,n,function(){return 'N'});
 		}
 
