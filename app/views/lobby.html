@@ -13,18 +13,18 @@
 
     <h5>Set Grid Dimensions (square)</h5>
     <form ng-submit="setDimensions(gridDimensions)">
-      <input type="number" placeholder="{{gridDimensions}}" ng-model="gridDimensions">
+      <input ng-disabled="!isHost" type="number" placeholder="{{gridDimensions}}" ng-model="gridDimensions">
     </form>
 
     <h5>Set Polyomino</h5>
     <label class="radio-inline">
-      <input type="radio" name="polyRadios" id="setpoly4" value="option1" ng-click="setPolyomino(4)" ng-checked="polyNum === 4"> 4
+      <input ng-disabled="!isHost" type="radio" name="polyRadios" id="setpoly4" value="option1" ng-click="setPolyomino(4)" ng-checked="polyNum === 4"> 4
     </label>
     <label class="radio-inline">
-      <input type="radio" name="polyRadios" id="setpoly5" value="option2" ng-click="setPolyomino(5)" ng-checked="polyNum === 5"> 5
+      <input ng-disabled="!isHost" type="radio" name="polyRadios" id="setpoly5" value="option2" ng-click="setPolyomino(5)" ng-checked="polyNum === 5"> 5
     </label>
     <label class="radio-inline">
-      <input type="radio" name="polyRadios" id="setpoly6" value="option2" ng-click="setPolyomino(6)" ng-checked="polyNum === 6"> 6
+      <input ng-disabled="!isHost" type="radio" name="polyRadios" id="setpoly6" value="option2" ng-click="setPolyomino(6)" ng-checked="polyNum === 6"> 6
     </label>
 
   </div>

@@ -41,13 +41,13 @@ angular.module('bloqusApp')
             };
 
             $scope.setPolyomino = function (val) {
-                $scope.polyNum = fbCurrentGame.polyominoNum;
+                $scope.polyNum = val;
                 $scope.firebase = LobbyFactory.setPolyomino(val, currentId);
             };
 
             $scope.setDimensions = function (val) {
-                $scope.firebase = LobbyFactory.setDimensions(val, currentId);
                 $scope.gridDimensions = val;
+                $scope.firebase = LobbyFactory.setDimensions(val, currentId);
             };
 
             $scope.startGame = function () {
