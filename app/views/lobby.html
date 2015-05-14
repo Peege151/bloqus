@@ -5,10 +5,10 @@
   <div>
     <h5>Set number of players</h5>
     <label class="radio-inline">
-      <input type="radio" name="playersRadios" id="setplayers2" value="option1" ng-click="setNumOfPlayers(2)"> 2
+      <input ng-disabled="!isHost" type="radio" name="playersRadios" id="setplayers2" value="option1" ng-click="setNumOfPlayers(2)" ng-checked="numColors === 2"> 2
     </label>
     <label class="radio-inline">
-      <input type="radio" name="playersRadios" id="setplayers4" value="option2" ng-click="setNumOfPlayers(4)" checked> 4
+      <input ng-disabled="!isHost" type="radio" name="playersRadios" id="setplayers4" value="option2" ng-click="setNumOfPlayers(4)" ng-checked="numColors === 4"> 4
     </label>
 
     <h5>Set Grid Dimensions (square)</h5>
@@ -18,13 +18,13 @@
 
     <h5>Set Polyomino</h5>
     <label class="radio-inline">
-      <input type="radio" name="polyRadios" id="setpoly4" value="option1" ng-click="setPolyomino(4)"> 4
+      <input type="radio" name="polyRadios" id="setpoly4" value="option1" ng-click="setPolyomino(4)" ng-checked="polyNum === 4"> 4
     </label>
     <label class="radio-inline">
-      <input type="radio" name="polyRadios" id="setpoly5" value="option2" ng-click="setPolyomino(5)" checked> 5
+      <input type="radio" name="polyRadios" id="setpoly5" value="option2" ng-click="setPolyomino(5)" ng-checked="polyNum === 5"> 5
     </label>
     <label class="radio-inline">
-      <input type="radio" name="polyRadios" id="setpoly6" value="option2" ng-click="setPolyomino(6)"> 6
+      <input type="radio" name="polyRadios" id="setpoly6" value="option2" ng-click="setPolyomino(6)" ng-checked="polyNum === 6"> 6
     </label>
 
   </div>
@@ -53,4 +53,4 @@
 </div>
 
 <h4>Start Game</h4>
-<button class="btn btn-success" ng-click="startGame()">Go!</button>
+<button ng-disabled="!isHost" class="btn btn-success" ng-click="startGame()">Go!</button>
