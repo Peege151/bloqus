@@ -15,6 +15,7 @@ angular.module('bloqusApp')
         firebase.$loaded().then(function () {
             currentId = $stateParams.currentId;
             currentGame = $scope.firebase.games[currentId];
+            var fbCurrentGame = $firebaseObject(new Firebase("https://bloqus.firebaseio.com/games/" + currentId));
             var fbGameStatusRef = new Firebase("https://bloqus.firebaseio.com/games/" + currentId + "/status");
             var fbGameStatus = $firebaseObject(fbGameStatusRef);
             $scope.shareId = $stateParams.shareId;
@@ -28,16 +29,25 @@ angular.module('bloqusApp')
 
             $scope.switchToColor = function (newColor) {
                 $scope.firebase = LobbyFactory.switchToColor(userColor, newColor, currentId);
+                userColor = newColor;
             };
 
             $scope.setNumOfPlayers = function (val) {
                 $scope.firebase = LobbyFactory.setNumOfPlayers(val, currentId);
             };
 
+            $scope.setPolyomino = function (val) {
+                $scope.firebase = LobbyFactory.setPolyomino(val, currentId);
+            };
+
             $scope.startGame = function () {
                 $scope.firebase.games[currentId].status = 'start';
                 $state.go('gameboard', {game: currentGame})
             };
+
+            fbCurrentGame.$watch(function () {
+                $scope.currentPlayers = fbCurrentGame.player;
+            });
 
         });
 
