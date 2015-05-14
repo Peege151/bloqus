@@ -13,5 +13,7 @@ angular.module('bloqusApp')
         $scope.pass = function(){
         	$rootScope.$emit("passTurn");
         }
-
+        $scope.makeMove = function(){
+            $rootScope.$emit("makeMove");
+        }
     });

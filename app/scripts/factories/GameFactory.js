@@ -75,10 +75,10 @@ angular.module('bloqusApp')
 
             defaultPiecesArray = LogicFactory.PiecesGenerator(gameFirebase.polyominoNum);
 
-            sequenceOfColors = (gameFirebase.numColors.length == 4) ? ['blue','yellow','green','red'] : ['blue', 'green'];
+            sequenceOfColors = (gameFirebase.numColors == 4) ? ['blue','yellow','green','red'] : ['blue', 'green'];
 
-            thisColor = Object.keys(gameFirebase.player).filter(function(color){ return gameFirebase.player[color].name == thisPlayer })[0];
-
+            thisColor = 'blue';//Object.keys(gameFirebase.player).filter(function(color){ return gameFirebase.player[color].name == thisPlayer })[0];
+            //console.log(thisColor);
             gameFirebase.$watch(function(){
                 alert("Something changed somewhere.");
             });
@@ -90,14 +90,32 @@ angular.module('bloqusApp')
             }else{
                 //do something else.
             }
-            console.log(thisColor);
 
+            $rootScope.$on('makeMove', function(event, move){
+                //logic that finds what piece the move is using
+                //get rid of that piece in gameFirebase, etc.
+                //place it on board.
+                //update board
+                //save all.
+                var arr = gameFirebase.player[thisColor].pieces.split('|')
+                for(i = 0; i < gameFirebase.player[thisColor].pieces.split('|').length; i++){
+                    if (defaultPiecesArray[arr[i]]].sameShapeAtAll(move.piece)){
+                        arr.splice(i,1);
+                    }
+                }
+                gameFirebase.player[thisColor].pieces = arr.join("|");
+                
+                gameFirebase.$save();
+
+            });
             $rootScope.$on('passTurn', function(){
-                if(thisColor = gameFirebase.currentTurn){
+                if(thisColor === gameFirebase.currentTurn){
+                    console.log(thisColor, gameFirebase.currentTurn);
                     var curIndex = sequenceOfColors.indexOf(thisColor);
                     curIndex++;
-                    curIndex = (curIndex > sequenceOfColors.length) ? 0 : curIndex;
+                    curIndex = (curIndex % sequenceOfColors.length)
                     gameFirebase.currentTurn = sequenceOfColors[curIndex];
+                    gameFirebase.$save();                    
                 }
             });
 
