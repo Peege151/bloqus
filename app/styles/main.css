@@ -81,3 +81,41 @@ body {
     border-bottom: 0;
   }
 }
+
+.block{
+  display: inline-block;
+  height: 20px;
+  width: 20px;
+  border: 1px solid white;
+  padding: 0px;
+  padding-bottom: 0px;
+  padding-top: 0px;
+  margin-top: 0px;
+  margin-bottom: -4px;
+}
+
+.row{
+  margin: 0px;
+  border: 0px;
+  padding: 0px;
+}
+
+.B{
+  background: blue;
+}
+
+.Y{
+  background: yellow;
+}
+
+.G{
+  background: green;
+}
+
+.R{
+  background: red;
+}
+
+.N{
+  background: black;
+}

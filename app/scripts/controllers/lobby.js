@@ -16,11 +16,15 @@ angular.module('bloqusApp')
             currentId = $stateParams.currentId;
             currentGame = $scope.firebase.games[currentId];
             var fbCurrentGame = $firebaseObject(new Firebase("https://bloqus.firebaseio.com/games/" + currentId));
-            var fbGameStatusRef = new Firebase("https://bloqus.firebaseio.com/games/" + currentId + "/status");
-            var fbGameStatus = $firebaseObject(fbGameStatusRef);
+
+
             $scope.shareId = $stateParams.shareId;
             $scope.currentPlayers = currentGame.player;
             $scope.gridDimensions = fbCurrentGame.dimensions;
+            $scope.polyNum = firebase.games[currentId].polyominoNum;
+            $scope.numColors = firebase.games[currentId].numColors;
+            $scope.isHost = localStorageService.get('host') == currentId;
+            console.log(currentId)
 
             fbGameStatus.$watch(function () {
                 if (fbGameStatus.$value === 'start'){
@@ -38,13 +42,13 @@ angular.module('bloqusApp')
             };
 
             $scope.setPolyomino = function (val) {
+                $scope.polyNum = val;
                 $scope.firebase = LobbyFactory.setPolyomino(val, currentId);
-                $scope.polyNum = fbCurrentGame.polyominoNum;
             };
 
             $scope.setDimensions = function (val) {
-                $scope.firebase = LobbyFactory.setDimensions(val, currentId);
                 $scope.gridDimensions = val;
+                $scope.firebase = LobbyFactory.setDimensions(val, currentId);
             };
 
             $scope.startGame = function () {
@@ -54,6 +58,9 @@ angular.module('bloqusApp')
 
             fbCurrentGame.$watch(function () {
                 $scope.currentPlayers = fbCurrentGame.player;
+                $scope.numColors = fbCurrentGame.numColors;
+                $scope.polyNum = fbCurrentGame.polyominoNum;
+                $scope.gridDimensions = fbCurrentGame.dimensions;
             });
 
         });

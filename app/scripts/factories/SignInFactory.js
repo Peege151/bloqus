@@ -79,6 +79,8 @@ angular.module('bloqusApp')
                 localStorageService.set('name', hostname);
                 localStorageService.set('id', hostId);
                 localStorageService.set('color', 'blue');
+                localStorageService.set('host', randomId);
+                localStorageService.set('gameId', randomId);
 
                 return firebase;
             },
