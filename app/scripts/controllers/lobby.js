@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('bloqusApp')
-    .controller('LobbyCtrl', function ($scope, $state, $stateParams, $firebaseObject, localStorageService, FirebaseFactory) {
+    .controller('LobbyCtrl', function ($scope, $state, $stateParams, $firebaseObject, localStorageService, LobbyFactory) {
         var ref = new Firebase("https://bloqus.firebaseio.com/"),
             fbMessages = new Firebase("https://bloqus.firebaseio.com/messages"),
             firebase = $firebaseObject(ref),
@@ -27,7 +27,11 @@ angular.module('bloqusApp')
             });
 
             $scope.switchToColor = function (newColor) {
-                $scope.firebase = FirebaseFactory.switchToColor(userColor, newColor, currentId);
+                $scope.firebase = LobbyFactory.switchToColor(userColor, newColor, currentId);
+            };
+
+            $scope.setNumOfPlayers = function (val) {
+                $scope.firebase = LobbyFactory.setNumOfPlayers(val, currentId);
             };
 
             $scope.startGame = function () {

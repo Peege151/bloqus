@@ -2,7 +2,7 @@
 
 angular.module('bloqusApp')
 
-    .factory('FirebaseFactory', function ($firebaseObject, localStorageService) {
+    .factory('SignInFactory', function ($firebaseObject, localStorageService) {
         var ref = new Firebase("https://bloqus.firebaseio.com/"),
             firebase = $firebaseObject(ref);
 

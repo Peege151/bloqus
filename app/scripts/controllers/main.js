@@ -2,7 +2,7 @@
 
 angular.module('bloqusApp')
 
-    .controller("MainCtrl", function ($scope, $state, FirebaseFactory, $firebaseObject) {
+    .controller("MainCtrl", function ($scope, $state, SignInFactory, $firebaseObject) {
         var ref = new Firebase("https://bloqus.firebaseio.com/"),
             firebase = $firebaseObject(ref),
             shareId, currentGameId;
@@ -16,7 +16,7 @@ angular.module('bloqusApp')
                 var gameId = Math.round(Math.random() * 100000);
                 var hostname = $scope.hostname;
 
-                $scope.firebase = FirebaseFactory.createGame(randomId, gameId, hostname);
+                $scope.firebase = SignInFactory.createGame(randomId, gameId, hostname);
 
                 $('.modal-backdrop').remove();
                 $state.go('lobby', {currentId: randomId, shareId: gameId});
@@ -25,7 +25,7 @@ angular.module('bloqusApp')
 
             $scope.enterGame = function (playername) {
 
-                $scope.firebase = FirebaseFactory.enterGame(playername, currentGameId, shareId);
+                $scope.firebase = SignInFactory.enterGame(playername, currentGameId, shareId);
 
                 $('.modal-backdrop').remove();
                 $state.go('lobby', {currentId: currentGameId, shareId: shareId});
@@ -37,7 +37,7 @@ angular.module('bloqusApp')
             };
 
             $scope.checkGameId = function (gamenum) {
-                var gameInfo = FirebaseFactory.checkGameId(gamenum);
+                var gameInfo = SignInFactory.checkGameId(gamenum);
 
                 if (!gameInfo) {
                     $scope.gameDoesNotExist = true;
