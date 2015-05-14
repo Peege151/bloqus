@@ -261,11 +261,11 @@
 
 		Board.prototype.getBoardSpot = function(x,y){
 			if ( x > this.dimensions -1 || y > this.dimensions - 1 || x < 0 || y < 0){return 'N';}
-			return this.board[y][x];
+			return this.board[x][y];
 		}
 
 		Board.prototype.setBoardSpot = function(x,y, val){
-			this.board[y][x] = val;
+			this.board[x][y] = val;
 		}
 
 		Board.prototype.liberties = function(color){
@@ -438,6 +438,30 @@
 			}
 
 			return finalMoves;
+		}
+
+		Board.prototype.consumeFire = function(fire){
+			var len = fire['row0'].length
+			var ret = [];
+			for(var y = 0; y < len; y++){
+				ret.push([]);
+				for(var x = 0; x < len; x++){
+					this.setBoardSpot(x, y, fire['row'+y].charAt(x));
+				}
+			}
+		}
+
+		Board.prototype.emitFire = function(){
+
+			var ret = {};
+			var len = this.dimensions;
+			for(var y = 0; y < len; y++){
+				ret['row'+y] = "";
+				for(var x = 0; x < len; x++){
+					ret['row'+y] = ret['row'+y] + this.getBoardSpot(x,y);
+				}
+			}
+			return ret;
 		}
 
 		Board.prototype.isOver = function(){

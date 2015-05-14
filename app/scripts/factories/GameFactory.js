@@ -9,6 +9,9 @@ angular.module('bloqusApp')
     	var gameRef, gameFirebase
     	var onLoadedEvents = [];
 
+    	var playersPieces;
+    	var boardAsArray
+
         return {
 
     	setGameFactory: function(firebaseId, player){

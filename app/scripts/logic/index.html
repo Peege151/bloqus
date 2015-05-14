@@ -428,6 +428,47 @@
 
     describe('has some higher level stuff', function(){
       //Alternately, a higher-level thing than board could keep track of this.
+      it('should be able to consume things in the format stored in firebase', function(){
+        var n = new Board(3);
+        var obj = {
+          "row0": "BNN",
+          "row1": "NBN",
+          "row2": "NNN"
+        };
+        n.consumeFire(obj);
+        expect(n.getBoardSpot(1,1)).to.equal('B');
+        expect(n.getBoardSpot(0,0)).to.equal('B');
+        expect(n.getBoardSpot(2,2)).to.equal('N');
+      });
+
+      it('should be able to spit out things in the format stored in firebase', function(){
+        var n = new Board(3);
+        var m = new Move(newPiece,[0,0],'B');
+        n.doMove(m);
+        console.log(n.emitFire());
+        expect(n.getBoardSpot(1,1)).to.equal('B');
+        expect(n.getBoardSpot(0,1)).to.equal('N');
+        expect(n.getBoardSpot(1,0)).to.equal('B');
+        //expect(n.getBoardSpot(2,2)).to.equal('B');
+      });
+
+      it('should be able to spit in / out without changing', function(){
+
+          var n = new Board(3);
+          var m = new Move(newPiece,[0,0],'B');
+          n.doMove(m);
+          var fire = n.emitFire();
+          console.log("First", fire)
+          n.consumeFire(fire);
+          console.log("second", n.emitFire());
+          expect(n.getBoardSpot(1,1)).to.equal('B');
+          expect(n.getBoardSpot(0,1)).to.equal('N');
+          expect(n.getBoardSpot(1,0)).to.equal('B');
+          expect(n.getBoardSpot(2,0)).to.equal('B');
+          expect(n.getBoardSpot(2,2)).to.equal('N');
+
+      });
+
       xit('should be able to say when the game is over--when no one has moves', function(){
 
       });
@@ -439,8 +480,6 @@
     });
 
   });
-
-
 
 
       mocha.run();
