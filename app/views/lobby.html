@@ -40,17 +40,8 @@
   </div>
 </div>
 
-<div>
-  <h4>Chat</h4>
-  <div>
 
-    <ul id='example-messages'></ul>
-
-    <footer>
-      <input type='text' id='messageInput'  placeholder='Type a message...'>
-    </footer>
-  </div>
-</div>
 
 <h4>Start Game</h4>
 <button ng-disabled="!isHost" class="btn btn-success" ng-click="startGame()">Go!</button>
+<chat current='currentId'></chat>

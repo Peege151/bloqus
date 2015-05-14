@@ -3,8 +3,7 @@
 angular.module('bloqusApp')
 
     .controller("MainCtrl", function ($scope, $state, SignInFactory, $firebaseObject) {
-        var ref = new Firebase("https://bloqus.firebaseio.com/"),
-            firebase = $firebaseObject(ref),
+        var firebase = $firebaseObject(new Firebase("https://bloqus.firebaseio.com/")),
             shareId, currentGameId;
 
         firebase.$bindTo($scope, "firebase");
