@@ -16,5 +16,6 @@ angular.module('bloqusApp', [
     'ngSanitize',
     'ngTouch',
     'firebase',
-    'firebase.ref'
+    'firebase.ref',
+    'LocalStorageModule'
   ]);

@@ -1,13 +1,29 @@
 
-<h2>Lobby</h2>
+<h2>Lobby (Game {{shareId}})</h2>
+<div>
+  <h4>Game Options</h4>
+</div>
 
-<form>
-  <input placeholder="Message..." ng-model="newMessage">
-  <button type="submit" ng-click="addMessage(newMessage);newMessage = null;">send</button>
-</form>
+<div>
+  <h4>Current Players</h4>
+  <div ng-repeat="(key, value) in currentPlayers">
+    <div><strong>{{key}}:</strong>
+      <p>{{value.name}}</p>
+    </div>
+  </div>
+</div>
 
-<ul id="messages" ng-show="messages.length">
-  <li ng-repeat="message in messages | reverse">{{message.text}}</li>
-</ul>
+<div>
+  <h4>Chat</h4>
+  <div>
 
-<p class="alert alert-danger" ng-show="err">{{err}}</p>
+    <ul id='example-messages'></ul>
+
+    <footer>
+      <input type='text' id='messageInput'  placeholder='Type a message...'>
+    </footer>
+  </div>
+</div>
+
+<h4>Start Game</h4>
+<button class="btn btn-success" ng-click="startGame()">Go!</button>

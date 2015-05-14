@@ -10,7 +10,7 @@
       <div id="create-game-modal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-sm">
           <div class="modal-content">
-            <form ng-submit="createGame(playername)">
+            <form ng-submit="createGame(playername); playername = null">
               <h4>Enter Host's Name</h4><br/>
               <input name="hostname" ng-model="hostname" type="text" class="form-control" placeholder="Enter Host Name">
             </form>
@@ -23,11 +23,11 @@
       <div id="join-game-modal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
-            <form ng-hide="gameExists" ng-submit="joinGame(gamenum)">
+            <form ng-hide="foundGame" ng-submit="checkGameId(gamenum)">
               <h4>Join Game</h4><br/>
               <input name="gamenum" ng-model="gamenum" type="text" class="form-control" placeholder="Enter Game ID">
             </form>
-            <form ng-show="gameExists" ng-submit="enterGame(playername)">
+            <form ng-show="foundGame" ng-submit="enterGame(playername)">
               <h4>Enter Name</h4><br/>
               <input name="playername" ng-model="playername" type="text" class="form-control" placeholder="Enter Name">
             </form>
