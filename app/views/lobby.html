@@ -7,7 +7,9 @@
 <div>
   <h4>Current Players</h4>
   <div ng-repeat="(key, value) in currentPlayers">
-    {{key}}: {{value}}
+    <div><strong>{{key}}:</strong>
+      <p>{{value.name}}</p>
+    </div>
   </div>
 </div>
 

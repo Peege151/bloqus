@@ -16,16 +16,16 @@ angular.module('bloqusApp')
             var fbGameStatusRef = new Firebase("https://bloqus.firebaseio.com/games/" + currentId + "/status");
             var fbGameStatus = $firebaseObject(fbGameStatusRef);
             $scope.shareId = $stateParams.shareId;
-            $scope.currentPlayers = currentGame.players;
+            $scope.currentPlayers = currentGame.player;
 
             fbGameStatus.$watch(function () {
-                if (fbGameStatus.$value === 'started game'){
+                if (fbGameStatus.$value === 'start'){
                     $state.go('gameboard', {game: currentGame});
                 }
             });
 
             $scope.startGame = function () {
-                $scope.firebase.games[currentId].status = 'started game';
+                $scope.firebase.games[currentId].status = 'start';
                 $state.go('gameboard', {game: currentGame})
             };
 
