@@ -17,13 +17,14 @@ angular.module('bloqusApp')
             currentGame = $scope.firebase.games[currentId];
             var fbCurrentGame = $firebaseObject(new Firebase("https://bloqus.firebaseio.com/games/" + currentId));
 
+
             $scope.shareId = $stateParams.shareId;
             $scope.currentPlayers = currentGame.player;
             $scope.gridDimensions = fbCurrentGame.dimensions;
             $scope.polyNum = firebase.games[currentId].polyominoNum;
             $scope.numColors = firebase.games[currentId].numColors;
-            $scope.isHost = localStorageService.get('host');
-            console.log($scope.isHost)
+            $scope.isHost = localStorageService.get('host') == currentId;
+            console.log(currentId)
 
             fbCurrentGame.$watch(function () {
                 if (fbCurrentGame.status.$value === 'start'){
