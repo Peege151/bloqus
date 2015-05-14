@@ -2,6 +2,12 @@
 
 angular.module('bloqusApp')
     .controller('GameCtrl', function ($scope, $stateParams, GameFactory){
-        $scope.game = $stateParams.game;
-        console.log($scope.game)
+
+    	console.log($stateParams);
+    	GameFactory.onGameLoaded(function(fbaseObject){
+    		$scope.game = fbaseObject;
+    	});
+    	console.log("Reaches here.")
+        GameFactory.setGameFactory($stateParams.game.firebaseId, $stateParams.game.player);
+
     });

@@ -20,7 +20,8 @@ angular.module('bloqusApp')
         });
 
         $scope.startGame = function () {
-          $state.go('gameboard', {game: currentGame})
+          //console.log(currentGame);
+          $state.go('gameboard', {game: {firebaseId: currentId, player: player}})
         };
 
         // REGISTER DOM ELEMENTS
