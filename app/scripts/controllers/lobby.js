@@ -1,11 +1,13 @@
 'use strict';
 
 angular.module('bloqusApp')
-    .controller('LobbyCtrl', function ($scope, $state, $stateParams, $firebaseObject, localStorageService) {
+    .controller('LobbyCtrl', function ($scope, $state, $stateParams, $firebaseObject, localStorageService, LobbyFactory) {
         var ref = new Firebase("https://bloqus.firebaseio.com/"),
             fbMessages = new Firebase("https://bloqus.firebaseio.com/messages"),
             firebase = $firebaseObject(ref),
-            player = localStorageService.get('player'),
+            name = localStorageService.get('name'),
+            userId = localStorageService.get('id'),
+            userColor = localStorageService.get('color'),
             currentId, currentGame;
 
         firebase.$bindTo($scope, "firebase");
@@ -13,14 +15,35 @@ angular.module('bloqusApp')
         firebase.$loaded().then(function () {
             currentId = $stateParams.currentId;
             currentGame = $scope.firebase.games[currentId];
+            var fbGameStatusRef = new Firebase("https://bloqus.firebaseio.com/games/" + currentId + "/status");
+            var fbGameStatus = $firebaseObject(fbGameStatusRef);
             $scope.shareId = $stateParams.shareId;
-            $scope.currentPlayers = currentGame.players;
-            console.log('current game ', currentGame)
+            $scope.currentPlayers = currentGame.player;
+
+            fbGameStatus.$watch(function () {
+                if (fbGameStatus.$value === 'start'){
+                    $state.go('gameboard', {game: {firebaseId: currentId, player: name}});
+                }
+            });
+
+            $scope.switchToColor = function (newColor) {
+                $scope.firebase = LobbyFactory.switchToColor(userColor, newColor, currentId);
+            };
+
+            $scope.setNumOfPlayers = function (val) {
+                $scope.firebase = LobbyFactory.setNumOfPlayers(val, currentId);
+            };
+
+            $scope.startGame = function () {
+                $scope.firebase.games[currentId].status = 'start';
+                $state.go('gameboard', {game: {firebaseId: currentId, player: name}})
+            };
 
         });
 
         $scope.startGame = function () {
-          $state.go('gameboard', {game: currentGame})
+          //console.log(currentGame);
+          $state.go('gameboard', {game: {firebaseId: currentId, player: name}})
         };
 
         // REGISTER DOM ELEMENTS
@@ -31,11 +54,11 @@ angular.module('bloqusApp')
         messageField.keypress(function (e) {
             if (e.keyCode == 13) {
                 //FIELD VALUES
-                var username = player;
+                var username = name;
                 var message = messageField.val();
 
                 //SAVE DATA TO FIREBASE AND EMPTY FIELD
-                fbMessages.push({name:username, text:message});
+                fbMessages.push({name: username, text: message});
                 messageField.val('');
             }
         });

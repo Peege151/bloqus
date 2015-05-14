@@ -23,7 +23,7 @@
       <div id="join-game-modal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
-            <form ng-hide="foundGame" ng-submit="joinGame(gamenum)">
+            <form ng-hide="foundGame" ng-submit="checkGameId(gamenum)">
               <h4>Join Game</h4><br/>
               <input name="gamenum" ng-model="gamenum" type="text" class="form-control" placeholder="Enter Game ID">
             </form>

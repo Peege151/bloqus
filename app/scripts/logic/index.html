@@ -1,0 +1,494 @@
+#!html
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Cow tests</title>
+  <link rel="stylesheet" href="mocha.css"></link>
+</head>
+<body ng-app="bloqusApp">
+  <div id="messages"></div>
+  <div id="fixtures"></div>
+    <script src="chai.js"></script>
+  <div id="mocha"></div>
+  <script src="mocha.js"></script>
+  <script src="../../../bower_components/angular/angular.js"></script>
+
+   <script>mocha.setup('bdd')</script>
+  
+  <script>
+  var expect = chai.expect;
+  angular.module('bloqusApp', [])
+    .controller('testController', function($scope, LogicFactory){
+
+      var helper = LogicFactory.helper;
+      var Piece = LogicFactory.Piece;
+      var PiecesGenerator = LogicFactory.PiecesGenerator;
+      var Move = LogicFactory.Move;
+      var Board = LogicFactory.Board;
+
+
+
+
+      describe('Statics', function(){
+
+        it('can identify arrays of (arrays with length two) with the same elements, disordered', function(){
+          var newPiece = new Piece();
+          expect(helper.sameArrElements([[1,1],[0,0]],[[0,0],[1,1]])).to.equal(true);
+          expect(helper.sameArrElements([[1,0],[0,0]],[[0,0],[1,1]])).to.equal(false);
+        });
+
+      });
+
+
+
+      describe("Pieces_Generator", function(){
+        it('should exist', function () {
+            expect(PiecesGenerator).to.be.a('function');
+        });
+        it('should generate peices', function () {
+          expect(PiecesGenerator(1).length).to.equal(1);
+          //console.log(PiecesGenerator(2).map(function(n){return  n.shape}))
+          expect(PiecesGenerator(2).length).to.equal(2);
+
+          //console.log(PiecesGenerator(3).map(function(n){return  n.shape}))
+          expect(PiecesGenerator(3).length).to.equal(4);
+          //console.log(PiecesGenerator(3).map(function(n){return  n.shape}))
+
+          expect(PiecesGenerator(4).length).to.equal(9);
+
+            expect(PiecesGenerator(5).length).to.equal(21);
+            expect(PiecesGenerator(6).length).to.equal(56);
+        });
+      });
+
+      describe("Piece", function(){
+        it('should exist', function () {
+            expect(Piece).to.be.a('function');
+        });
+        it('should have properties of flipped, rotated', function () {
+            var newPiece = new Piece()
+            newPiece.shape = [[0,0],[1,0],[2,0]];
+            expect(newPiece.flipped).to.equal(false);
+            expect(newPiece.rotated).to.equal(0)
+        });
+
+        //Old tests for when rotation / translation didn't move things into the positive zone automatically.
+        //Yeah.  If we decide to go back, these should be reopened.
+        //
+        // it('should respond appropriately when flipped', function () {
+        //     var newPiece = new Piece()
+        //     newPiece.shape = [[0,0],[1,0],[1,1],[2,0]];
+        //     newPiece.flip()
+        //     expect(helper.deepEquals(newPiece.getPieceWithOrientation(), ([[0,0],[1,0],[1,-1],[2,0]]))).to.be.okay
+        // });
+        // it('should respond appropriately when rotated', function () {
+        //     var newPiece = new Piece()
+        //     newPiece.shape = [[0,0],[1,0],[1,1],[2,0]];
+        //     newPiece.rotateCounterClockwise()
+        //     expect(helper.deepEquals(newPiece.getPieceWithOrientation(), [[0,0],[0,1],[1,-1],[0,2]])).to.be.okay
+        //     newPiece.rotateCounterClockwise()
+        //     expect(helper.deepEquals(newPiece.getPieceWithOrientation(), [[0,0],[-1,0],[-1,-1],[-2,0]])).to.be.okay
+        //     newPiece.rotateCounterClockwise()
+        //     expect(helper.deepEquals(newPiece.getPieceWithOrientation(), [[0,0],[0,-1],[1,-1],[0,-2]])).to.be.okay
+        //     newPiece.rotateClockwise();
+        //     expect(helper.deepEquals(newPiece.getPieceWithOrientation(), [[0,0],[-1,0],[-1,-1],[-2,0]])).to.be.okay
+        // });
+        it('should respond appropriately when flipped', function () {
+            var newPiece = new Piece()
+            newPiece.shape = [[0,0],[1,0],[1,1],[2,0]];
+            newPiece.flip()
+            expect(helper.deepEquals(newPiece.getPieceWithOrientation(), ([[0,1],[1,1],[1,0],[2,1]]))).to.equal(true)
+        });
+        
+        it('should respond appropriately when rotated', function () {
+            var newPiece = new Piece()
+            newPiece.shape = [[0,0],[1,0],[1,1],[2,0]];
+            newPiece.rotateCounterClockwise()
+            //console.log(newPiece.getPieceWithOrientation());
+            expect(helper.deepEquals(newPiece.getPieceWithOrientation(), [[1,0],[1,1],[0,1],[1,2]])).to.equal(true);
+            newPiece.rotateCounterClockwise();
+            //console.log(newPiece.getPieceWithOrientation());
+            expect(helper.deepEquals(newPiece.getPieceWithOrientation(), [[2,1],[1,1],[1,0],[0,1]])).to.equal(true);
+            newPiece.rotateCounterClockwise()
+            expect(helper.deepEquals(newPiece.getPieceWithOrientation(), [[0,2],[0,1],[1,1],[0,0]])).to.equal(true);
+            newPiece.rotateClockwise();
+            expect(helper.deepEquals(newPiece.getPieceWithOrientation(), [[2,1],[1,1],[1,0],[0,1]])).to.equal(true);
+        });
+
+        it('should respond appropriately when flipped AND rotated', function () {
+            var newPiece = new Piece()
+            newPiece.shape = [[0,0],[1,0],[1,1],[2,0]];
+            newPiece.flip()
+            newPiece.rotateCounterClockwise()
+            expect(helper.deepEquals(newPiece.getPieceWithOrientation(), ([[0,0],[0,1],[1,1],[0,2]]))).to.equal(true);
+        });
+
+        it('should be able to give you an array of all possible values', function(){
+          var newPiece = new Piece()
+            newPiece.shape = [[0,0],[1,0],[0,1]];
+            expect(newPiece.allPieceOrientations().length).to.equal(8);
+            //console.log(newPiece.allPieceOrientations());
+        });
+
+        describe('should be able to see if it has the same shape as another piece', function(){
+          it('can tell it has the same shape, disordered, as another piece', function(){
+            var newPiece = new Piece()
+              newPiece.shape = [[0,0],[1,0],[1,1],[2,0]];
+              var otherPiece = new Piece()
+              otherPiece.shape = [[1,0],[0,0],[2,0],[1,1]];
+              expect(newPiece.sameShapeAtAll(otherPiece)).to.equal(true);
+              var badPiece = new Piece()
+              otherPiece.shape = [[1,0],[1,0],[2,0],[1,1]];
+              expect(newPiece.sameShapeAtAll(badPiece)).to.equal(false);
+              newPiece.shape = [[0,0],[1,0]];
+              otherPiece.shape = [[1,0],[0,0]];
+              expect(newPiece.sameShapeAtAll(otherPiece)).to.equal(true);
+              newPiece.shape = [[0,0],[1,0],[1,1]];
+              otherPiece.shape = [[1,0],[0,0],[1,1]];
+              expect(newPiece.sameShapeAtAll(otherPiece)).to.equal(true);
+              newPiece.shape = [[0,0],[1,0]];
+              otherPiece.shape = [[1,0],[0,0],[1,1]];
+              expect(newPiece.sameShapeAtAll(otherPiece)).to.equal(false);
+
+           });
+
+          it('can tell it has the same shape, rotate or translated all over the place, as another shape', function(){
+            var newPiece = new Piece()
+            var otherPiece = new Piece()
+              newPiece.shape = [[0,1],[0,0]];
+              otherPiece.shape = [[1,0],[0,0]];
+              expect(newPiece.sameShapeAtAll(otherPiece)).to.equal(true);
+
+              newPiece.shape = [[0,-1],[0,-2]];
+              otherPiece.shape = [[1,0],[0,0]];
+              expect(newPiece.sameShapeAtAll(otherPiece)).to.equal(true);
+
+              newPiece.shape = [[0,-1],[0,-2],[1,-1]];
+              otherPiece.shape = [[1,0],[0,0],[0,1]];
+              expect(newPiece.sameShapeAtAll(otherPiece)).to.equal(true);     
+
+              newPiece.shape = [];
+              otherPiece.shape = [[1,0],[0,0],[1,1]];
+              expect(newPiece.sameShapeAtAll(otherPiece)).to.equal(false);
+
+              newPiece.shape = [[0,0]];
+              otherPiece.shape = [[0,0],[0,1],[1,1]];
+              expect(newPiece.sameShapeAtAll(otherPiece)).to.equal(false);
+          });
+        });
+      });
+
+
+    describe("Moves", function(){
+
+      var newPiece, otherPiece;
+
+      it('should exist', function () {
+          expect(Move).to.be.a('function');
+      });
+
+      //should test Move.prototype.occupies
+      describe('should be able to show the places it would occupy', function(){
+        beforeEach(function(){
+
+          newPiece = new Piece();
+            newPiece.shape = [[0,0],[1,0],[2,0],[1,1]];
+            otherPiece = new Piece()
+            otherPiece.shape = [[0,0],[1,0],[1,1],[2,1]];
+        });
+
+        it('should be able to give a list of the places it would occupy', function(){
+          var move = new Move(newPiece, [5,10],'Y');
+          var otherMove = new Move(otherPiece, [10,5],'Y');
+          //console.log(otherMove.occupies());
+          expect(helper.deepEquals(move.occupies(), [[5,10],[6,10],[7,10],[6,11]])).to.equal(true);
+          expect(helper.deepEquals(otherMove.occupies(), [[10,5],[11,5],[11,6],[12,6]])).to.equal(true);
+        });
+
+        it('should be able to show the places it would occupy when rotated', function(){
+          newPiece.rotateCounterClockwise();
+          otherPiece.rotateCounterClockwise();
+          var move = new Move(newPiece, [5,10],'Y');
+          var otherMove = new Move(otherPiece, [10,5],'Y');
+          //console.log(move.occupies());
+          expect(helper.deepEquals(move.occupies(), [[6,10],[6,11],[6,12],[5,11]])).to.equal(true);
+          expect(helper.deepEquals(otherMove.occupies(), [[11,5],[11,6],[10,6],[10,7]])).to.equal(true);
+        });
+
+        it('should be able to show the places it would occupy when flipped', function(){
+          newPiece.flip();
+          var move = new Move(newPiece, [5,5], 'Y');
+          expect(helper.deepEquals(move.occupies(),[[],[],[],[]]))
+        });
+
+      });
+
+
+      //should tests Move.prototype.adjacencies
+      describe('should be able to give list of places it would be adjacent to', function(){ 
+        beforeEach(function(){
+          newPiece = new Piece();
+            newPiece.shape = [[0,0],[1,0],[2,0],[1,1]];
+            otherPiece = new Piece()
+            otherPiece.shape = [[0,0],[1,0],[1,1],[2,1]];
+        });
+        
+        it('should be able to show the places it would be adjacent to translated (board co-ords), without repeats', function(){
+          var move = new Move(newPiece, [5,10],'Y');
+          expect(move.adjacencies().length).to.equal(8);
+          
+        });
+
+        it('should be able to show the places it would be adjacent to rotated, without repeats', function(){
+          var move = new Move(newPiece, [4,3], 'G');
+          expect(helper.sameArrElements(move.adjacencies(),[[3,3],[4,2],[5,2],[6,2],[7,3],[6,4],[5,5],[4,4]])).to.equal(true);
+          var otherMove = new Move(newPiece, [4,3], 'G');
+          newPiece.rotateCounterClockwise();
+          expect(helper.sameArrElements(otherMove.adjacencies(),[[5,2],[6,3],[6,4],[6,5],[5,6],[4,5],[3,4],[4,3]])).to.equal(true);
+        });
+
+        it('should be able to show the places it would be adjacent to flipped, without repeats', function(){
+          var move = new Move(newPiece, [4,3], 'G');
+          expect(helper.sameArrElements(move.adjacencies(),[[3,3],[4,2],[5,2],[6,2],[7,3],[6,4],[5,5],[4,4]])).to.equal(true);
+          var otherMove = new Move(newPiece, [4,3], 'G');
+          newPiece.flip();
+          //console.log("Stuff", move.adjacencies())
+          expect(helper.sameArrElements(otherMove.adjacencies(),[[5,2],[6,3],[7,4],[6,5],[5,5],[4,5],[3,4],[4,3]])).to.equal(true);
+        });
+
+      })
+
+
+      //should test Move.prototype.edges
+      describe('should be able to show the legal places it would be diagonal to', function(){
+        beforeEach(function(){
+          newPiece = new Piece();
+            newPiece.shape = [[0,0],[1,0],[2,0],[1,1]];
+            otherPiece = new Piece()
+            otherPiece.shape = [[0,0],[1,0],[1,1],[2,1]];
+        });
+
+        it('should be able to show the places it would be diagonal to translated', function(){
+          var move = new Move(newPiece, [4,3], 'G');
+          expect(helper.sameArrElements(move.legalDiagonals(),[[3,2],[7,2],[7,4],[6,5],[4,5],[3,4]])).to.equal(true);
+        });
+
+        it('should be able to show the places it would be diagonal to rotated', function(){
+          newPiece.rotateCounterClockwise()
+          var move = new Move(newPiece, [4,3], 'G');
+          expect(helper.sameArrElements(move.legalDiagonals(),[[4,2],[6,2],[6,6],[4,6],[3,5],[3,3]])).to.equal(true);
+        });
+
+        it('should be able to show the places it would be diagonal to flipped', function(){
+          newPiece.flip();
+          var move = new Move(newPiece, [4,3], 'G');
+          expect(helper.sameArrElements(move.legalDiagonals(),[[3,3],[4,2],[6,2],[7,3],[7,5],[3,5]])).to.equal(true);
+        });
+
+
+      });
+
+    });
+
+
+  describe("Board", function(){
+
+    var newPiece, nb, otherPiece;
+
+    beforeEach(function(){
+      nb = new Board(20);
+      newPiece = new Piece();
+        newPiece.shape = [[0,0],[1,0],[2,0],[1,1]];
+        otherPiece = new Piece()
+        otherPiece.shape = [[0,0],[1,0],[1,1],[2,1]];
+        crossPiece = new Piece();
+        crossPiece.shape = [[1,1],[1,0],[0,1],[2,1],[1,2]];
+    });
+
+    it('should exist', function () {
+        expect(Board).to.be.a('function');
+    });
+
+    it('can make a board, and make a multidimensional array from it', function(){
+      var nb = new Board(20);
+      //console.log(nb.getBoard())
+      expect(nb.getBoard().length == 20).to.equal(true);
+      expect(nb.getBoard()[0].length == 20).to.equal(true);
+      expect(nb.getBoardSpot(0,0) == 'N').to.equal(true);
+      expect(nb.getBoardSpot(3,3) == 'N').to.equal(true);
+    });
+
+
+    //NB: This should check whether it is legal.
+    describe('it should accept / reject moves, insofar as they are ok', function(){
+
+      it('should accept legal moves which go from starting position', function(){
+        var oneMove = new Move(newPiece, [0,0], 'B')
+        //console.log(oneMove);
+        expect(nb.doMove(oneMove)).to.equal(true);
+        oneMove = new Move(newPiece, [5,5], 'B');
+        expect(nb.doMove(oneMove)).to.equal(false);
+      });
+
+      it('should accept legal moves which go from some other piece', function(){
+        var oneMove = new Move(newPiece, [0,0], 'B')
+        nb.doMove(oneMove);
+        oneMove = new Move(newPiece, [2,2], 'B');
+        expect(nb.doMove(oneMove)).to.equal(true);
+      });
+
+      it('should reject moves that place it adjacent to another piece', function(){
+        var oneMove = new Move(newPiece, [0,0], 'B')
+        nb.doMove(oneMove);
+        oneMove = new Move(newPiece, [0,2], 'B');
+        expect(nb.doMove(oneMove)).to.equal(false);
+      });
+
+      it('should reject moves that make it overlap another piece', function(){
+        var oneMove = new Move(newPiece, [0,0], 'B')
+        nb.doMove(oneMove);
+        oneMove = new Move(newPiece, [1,1], 'B');
+        expect(nb.doMove(oneMove)).to.equal(false);
+      });
+
+      it('has changed color after a move is plaed', function(){
+        var oneMove = new Move(newPiece, [0,0], 'B')
+        nb.doMove(oneMove);
+        expect(nb.getBoardSpot(0,0)).to.equal('B');
+        expect(nb.getBoardSpot(1,0)).to.equal('B');
+        expect(nb.getBoardSpot(2,0)).to.equal('B');
+        expect(nb.getBoardSpot(1,1)).to.equal('B');
+      });
+
+    });
+
+    describe('it should be able to tell you what legal moves are', function(){
+
+        it('has a liberties function, which gives you the free spots on the board', function(){
+          var oneMove = new Move(newPiece, [0,0], 'B');
+          nb.doMove(oneMove);
+          expect(nb.liberties('B').length).to.equal(3);
+          expect(helper.sameArrElements(nb.liberties('B'), [[3,1],[2,2],[0,2]]));
+        });
+
+        it('has a liberties function, which gives you the free spots on the board when rotated', function(){
+          newPiece.rotateClockwise();
+          var oneMove = new Move(newPiece, [0,0], 'B');
+          nb.doMove(oneMove);
+          expect(nb.liberties('B').length).to.equal(3);
+          expect(helper.sameArrElements(nb.liberties('B'), [[2,0],[2,2],[3,1]]));
+        });
+
+        it('has a liberties function, which gives you the free spots on the board in a more complex situation', function(){
+          newPiece.rotateClockwise();
+          var oneMove = new Move(newPiece, [0,0], 'B');
+          var twoMove = new Move(crossPiece, [1,2], 'B');
+          nb.doMove(oneMove);
+          nb.doMove(twoMove);
+          expect(nb.liberties('B').length).to.equal(7);
+          expect(helper.sameArrElements(nb.liberties('B'), [[2,0],[3,1],[4,2],[4,4],[3,5],[1,5],[0,4]]));
+        });
+
+        it('should be able to say what all the legal moves are, for a single piece and a single color, passed to it, when nothing is on the board', function(){
+          var answer = nb.allLegalMovesForPiece(newPiece, 'B')
+          //console.log(answer);
+          expect(answer.length).to.equal(2)
+        });
+
+        it('should be able to say what all the legal moves are, for a single piece and a single color, passed to it, when stuff is on the board', function(){
+          var oneMove = new Move(newPiece, [0,0], 'B');
+          nb.doMove(oneMove);
+          var answer = nb.allLegalMovesForPiece(newPiece, 'B')
+          expect(answer.length).to.equal(11)
+        });
+
+        it('should be able to say what all the legal moves are, for an array of pieces and a single color, passed to it', function(){
+          one = new Piece()
+          one.shape = [[0,0],[0,1]];
+          two = new Piece();
+          two.shape = [[0,0],[0,1],[0,2]];
+          three = new Piece();
+          three.shape = [[0,0],[1,1],[0,1]];
+          var done = nb.allLegalMovesForPieces([one,two,three], 'B');
+          expect(done.length).to.equal(7);
+          console.log(done);
+
+          three.rotateCounterClockwise();
+          var move = new Move(three,[0,0],'B');
+          nb.doMove(move);
+          done = nb.allLegalMovesForPieces([one,two], 'B');
+          expect(done.length).to.equal(8);
+
+          done = nb.allLegalMovesForPieces([one,two,three], 'B');
+          expect(done.length).to.equal(17);
+        });
+
+    });
+
+    describe('has some higher level stuff', function(){
+      //Alternately, a higher-level thing than board could keep track of this.
+      it('should be able to consume things in the format stored in firebase', function(){
+        var n = new Board(3);
+        var obj = {
+          "row0": "BNN",
+          "row1": "NBN",
+          "row2": "NNN"
+        };
+        n.consumeFire(obj);
+        expect(n.getBoardSpot(1,1)).to.equal('B');
+        expect(n.getBoardSpot(0,0)).to.equal('B');
+        expect(n.getBoardSpot(2,2)).to.equal('N');
+      });
+
+      it('should be able to spit out things in the format stored in firebase', function(){
+        var n = new Board(3);
+        var m = new Move(newPiece,[0,0],'B');
+        n.doMove(m);
+        console.log(n.emitFire());
+        expect(n.getBoardSpot(1,1)).to.equal('B');
+        expect(n.getBoardSpot(0,1)).to.equal('N');
+        expect(n.getBoardSpot(1,0)).to.equal('B');
+        //expect(n.getBoardSpot(2,2)).to.equal('B');
+      });
+
+      it('should be able to spit in / out without changing', function(){
+
+          var n = new Board(3);
+          var m = new Move(newPiece,[0,0],'B');
+          n.doMove(m);
+          var fire = n.emitFire();
+          console.log("First", fire)
+          n.consumeFire(fire);
+          console.log("second", n.emitFire());
+          expect(n.getBoardSpot(1,1)).to.equal('B');
+          expect(n.getBoardSpot(0,1)).to.equal('N');
+          expect(n.getBoardSpot(1,0)).to.equal('B');
+          expect(n.getBoardSpot(2,0)).to.equal('B');
+          expect(n.getBoardSpot(2,2)).to.equal('N');
+
+      });
+
+      xit('should be able to say when the game is over--when no one has moves', function(){
+
+      });
+
+      xit('should do something else', function(){
+
+      });
+
+    });
+
+  });
+
+
+      mocha.run();
+
+    });
+  </script>
+   <script src="LogicFactory.js"></script>
+
+  <div ng-controller="testController"></div>
+
+</body>
+</html>
