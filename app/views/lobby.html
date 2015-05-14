@@ -2,12 +2,29 @@
 <h2>Lobby (Game {{shareId}})</h2>
 <div>
   <h4>Game Options</h4>
+  <div>
+    <h5>Set number of players</h5>
+    <label class="radio-inline">
+      <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" ng-click="setNumOfPlayers(2)"> 2
+    </label>
+    <label class="radio-inline">
+      <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2" ng-click="setNumOfPlayers(4)" checked> 4
+    </label>
+
+    <h5>Set Grid Dimensions (square)</h5>
+    <input placeholder="20">
+
+    <h5>Set Polyomino</h5>
+    <input placeholder="5">
+
+  </div>
 </div>
 
 <div>
   <h4>Current Players</h4>
   <div ng-repeat="(key, value) in currentPlayers">
-    <div><strong>{{key}}:</strong>
+    <div><strong>{{key}}:</strong> <span ng-if="value.name === 'Computer'" ng-click="switchToColor(key)">(click to switch to this color)</span>
+
       <p>{{value.name}}</p>
     </div>
   </div>

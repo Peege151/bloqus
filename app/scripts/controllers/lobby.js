@@ -1,11 +1,13 @@
 'use strict';
 
 angular.module('bloqusApp')
-    .controller('LobbyCtrl', function ($scope, $state, $stateParams, $firebaseObject, localStorageService) {
+    .controller('LobbyCtrl', function ($scope, $state, $stateParams, $firebaseObject, localStorageService, LobbyFactory) {
         var ref = new Firebase("https://bloqus.firebaseio.com/"),
             fbMessages = new Firebase("https://bloqus.firebaseio.com/messages"),
             firebase = $firebaseObject(ref),
-            player = localStorageService.get('player'),
+            name = localStorageService.get('name'),
+            userId = localStorageService.get('id'),
+            userColor = localStorageService.get('color'),
             currentId, currentGame;
 
         firebase.$bindTo($scope, "firebase");
@@ -23,6 +25,14 @@ angular.module('bloqusApp')
                     $state.go('gameboard', {game: {firebaseId: currentId, player: player}});
                 }
             });
+
+            $scope.switchToColor = function (newColor) {
+                $scope.firebase = LobbyFactory.switchToColor(userColor, newColor, currentId);
+            };
+
+            $scope.setNumOfPlayers = function (val) {
+                $scope.firebase = LobbyFactory.setNumOfPlayers(val, currentId);
+            };
 
             $scope.startGame = function () {
                 $scope.firebase.games[currentId].status = 'start';
@@ -44,7 +54,7 @@ angular.module('bloqusApp')
         messageField.keypress(function (e) {
             if (e.keyCode == 13) {
                 //FIELD VALUES
-                var username = player;
+                var username = name;
                 var message = messageField.val();
 
                 //SAVE DATA TO FIREBASE AND EMPTY FIELD

@@ -2,7 +2,7 @@
 
 angular.module('bloqusApp')
 
-    .factory('FirebaseFactory', function ($firebaseObject, localStorageService) {
+    .factory('SignInFactory', function ($firebaseObject, localStorageService) {
         var ref = new Firebase("https://bloqus.firebaseio.com/"),
             firebase = $firebaseObject(ref);
 
@@ -58,7 +58,9 @@ angular.module('bloqusApp')
                     name: hostname
                 };
 
-                localStorageService.set('player', hostname);
+                localStorageService.set('name', hostname);
+                localStorageService.set('id', hostId);
+                localStorageService.set('color', 'blue');
 
                 return firebase;
             },
@@ -103,11 +105,28 @@ angular.module('bloqusApp')
                                 name: playername
                             };
 
-                            localStorageService.set('player', playername);
+                            localStorageService.set('name', playername);
+                            localStorageService.set('id', randomId);
+                            localStorageService.set('color', playerColor);
 
                         }
                     }
                 });
+                return firebase;
+            },
+
+            switchToColor: function (oldColor, newColor, currentGame) {
+                firebase.games[currentGame].player[newColor] = firebase.games[currentGame].player[oldColor];
+                firebase.games[currentGame].player[oldColor] = {
+                    name: 'Computer',
+                    id: 'compId',
+                    pieces: {has: 'somePieces'},
+                    hasPassed: false,
+                    isAI: true
+                };
+
+                localStorageService.set('color', newColor);
+
                 return firebase;
             }
         }
