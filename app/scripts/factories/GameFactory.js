@@ -2,7 +2,7 @@
 
 angular.module('bloqusApp')
 
-    .factory('GameFactory', function ($firebaseObject, localStorageService) {
+    .factory('GameFactory', function ($firebaseObject, localStorageService, LogicFactory) {
 
     	var player, firebaseId;
 
