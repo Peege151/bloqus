@@ -10,7 +10,7 @@ angular.module('bloqusApp')
 
             createGame: function (randomId, gameId, hostname) {
                 var hostId = Math.round(Math.random() * 100000000);
-
+                //alert();
                 if (!firebase.games) firebase.games = {};
                 firebase.games[randomId] = {
                     id: gameId,

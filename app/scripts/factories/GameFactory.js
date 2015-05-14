@@ -67,11 +67,11 @@ angular.module('bloqusApp')
 
         initialize: function(){
         	if (!gameFirebase.initialized){
-        		gameFirebase.polyominoNum = gameFirebase.polyominoNum || 5;
-        		gameFirebase.dimensions = gameFirebase.dimensions || 20;
-        		gameFirebase.currentTurn = gameFirebase.currentTurn || 'blue';
-        		gameFirebase.numColors = gameFirebase.numColors || 4;
-        		gameFirebase.status = gameFirebase.status || "start";
+        		// gameFirebase.polyominoNum = gameFirebase.polyominoNum || 5;
+        		// gameFirebase.dimensions = gameFirebase.dimensions || 20;
+        		// gameFirebase.currentTurn = gameFirebase.currentTurn || 'blue';
+        		// gameFirebase.numColors = gameFirebase.numColors || 4;
+        		// gameFirebase.status = gameFirebase.status || "start";
 
         		var obj = {};
         		var row = "";
@@ -82,6 +82,7 @@ angular.module('bloqusApp')
         			obj["row"+x] = row;
         		}
         		gameFirebase.board = obj;
+        		
         	}
         }
     }
