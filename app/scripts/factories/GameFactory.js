@@ -4,13 +4,18 @@ angular.module('bloqusApp')
 
     .factory('GameFactory', function ($rootScope, $firebaseObject, localStorageService, LogicFactory) {
 
-    	var player, firebaseId;
+    	var thisPlayer,
+            thisColor,
+            firebaseId;
 
     	var gameRef, gameFirebase
     	var onLoadedEvents = [];
 
-    	var playersPieces;
-    	var boardAsArray
+
+    	var defaultPiecesArray;
+        var actualPiecesArray;
+        var sequenceOfColors;
+
 
         return {
 
@@ -22,7 +27,7 @@ angular.module('bloqusApp')
  			//another controller.
     		if(firebaseId){
     			firebaseId = firebaseId;
-    			player = player;
+    			thisPlayer = player;
         		gameRef = new Firebase("https://bloqus.firebaseio.com/games/"+firebaseId)
         		gameFirebase = $firebaseObject(gameRef);
         		gameFirebase.$loaded().then(function(){
@@ -35,7 +40,7 @@ angular.module('bloqusApp')
         			//Same firebase id for later, in case of reload
     				if (localStorageService.isSupported){
     					localStorageService.set('firebaseId', firebaseId);
-    					localStorageService.set('player', player);
+    					localStorageService.set('player', thisPlayer);
     				}
         		});
 
@@ -66,35 +71,36 @@ angular.module('bloqusApp')
 
 
         initialize: function(){
-        	if (!gameFirebase.initialized){
-        		gameFirebase.polyominoNum = gameFirebase.polyominoNum || 5;
-        		gameFirebase.dimensions = gameFirebase.dimensions || 20;
-        		gameFirebase.currentTurn = gameFirebase.currentTurn || 'blue';
-        		gameFirebase.numColors = gameFirebase.numColors || 4;
-        		gameFirebase.status = gameFirebase.status || "start";
-
-        		var allPieces = [];
-        		for(var x = 0; x < gameFirebase.polyominoNum; x++){
-        			allPieces.push(x);
-        		}
-        		angular.forEach(gameFirebase.player, function(value, key){
-        			gameFirebase.player[key].pieces = allPieces.join('|');
-        		});
-
-        		var obj = {};
-        		var row = "";
-        		for(var x = 0, len = gameFirebase.dimensions; x < len; x++){
-        			row=row+"N";
-        		}
-        		for(var x = 0, len = gameFirebase.dimensions; x < len; x++){
-        			obj["row"+x] = row;
-        		}
 
 
-        		gameFirebase.board = obj;
-        		gameFirebase.initialized = true;
-        		$rootScope.$emit("initialized", true)
-        	}
+            defaultPiecesArray = LogicFactory.PiecesGenerator(gameFirebase.polyominoNum);
+
+            sequenceOfColors = (gameFirebase.numColors.length == 4) ? ['blue','yellow','green','red'] : ['blue', 'green'];
+
+            thisColor = Object.keys(gameFirebase.player).filter(function(color){ return gameFirebase.player[color].name == thisPlayer })[0];
+
+            gameFirebase.$watch(function(){
+                alert("Something changed somewhere.");
+            });
+
+
+
+            if (thisColor == gameFirebase.currentTurn){
+                //do something
+            }else{
+                //do something else.
+            }
+            console.log(thisColor);
+
+            $rootScope.$on('passTurn', function(){
+                if(thisColor = gameFirebase.currentTurn){
+                    var curIndex = sequenceOfColors.indexOf(thisColor);
+                    curIndex++;
+                    curIndex = (curIndex > sequenceOfColors.length) ? 0 : curIndex;
+                    gameFirebase.currentTurn = sequenceOfColors[curIndex];
+                }
+            });
+
         }
     }
 });	
