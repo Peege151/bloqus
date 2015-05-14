@@ -5,24 +5,26 @@
   <div>
     <h5>Set number of players</h5>
     <label class="radio-inline">
-      <input type="radio" name="optionsRadios" id="setplayers2" value="option1" ng-click="setNumOfPlayers(2)"> 2
+      <input type="radio" name="playersRadios" id="setplayers2" value="option1" ng-click="setNumOfPlayers(2)"> 2
     </label>
     <label class="radio-inline">
-      <input type="radio" name="optionsRadios" id="setplayers4" value="option2" ng-click="setNumOfPlayers(4)" checked> 4
+      <input type="radio" name="playersRadios" id="setplayers4" value="option2" ng-click="setNumOfPlayers(4)" checked> 4
     </label>
 
     <h5>Set Grid Dimensions (square)</h5>
-    <input placeholder="20">
+    <form ng-submit="setDimensions(gridDimensions)">
+      <input type="number" placeholder="{{gridDimensions}}" ng-model="gridDimensions">
+    </form>
 
     <h5>Set Polyomino</h5>
     <label class="radio-inline">
-      <input type="radio" name="optionsRadios" id="setpoly4" value="option1" ng-click="setPolyomino(4)"> 4
+      <input type="radio" name="polyRadios" id="setpoly4" value="option1" ng-click="setPolyomino(4)"> 4
     </label>
     <label class="radio-inline">
-      <input type="radio" name="optionsRadios" id="setpoly5" value="option2" ng-click="setPolyomino(5)" checked> 5
+      <input type="radio" name="polyRadios" id="setpoly5" value="option2" ng-click="setPolyomino(5)" checked> 5
     </label>
     <label class="radio-inline">
-      <input type="radio" name="optionsRadios" id="setpoly6" value="option2" ng-click="setPolyomino(6)"> 6
+      <input type="radio" name="polyRadios" id="setpoly6" value="option2" ng-click="setPolyomino(6)"> 6
     </label>
 
   </div>

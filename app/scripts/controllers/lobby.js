@@ -20,6 +20,7 @@ angular.module('bloqusApp')
             var fbGameStatus = $firebaseObject(fbGameStatusRef);
             $scope.shareId = $stateParams.shareId;
             $scope.currentPlayers = currentGame.player;
+            $scope.gridDimensions = fbCurrentGame.dimensions;
 
             fbGameStatus.$watch(function () {
                 if (fbGameStatus.$value === 'start'){
@@ -38,6 +39,12 @@ angular.module('bloqusApp')
 
             $scope.setPolyomino = function (val) {
                 $scope.firebase = LobbyFactory.setPolyomino(val, currentId);
+                $scope.polyNum = fbCurrentGame.polyominoNum;
+            };
+
+            $scope.setDimensions = function (val) {
+                $scope.firebase = LobbyFactory.setDimensions(val, currentId);
+                $scope.gridDimensions = val;
             };
 
             $scope.startGame = function () {

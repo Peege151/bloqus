@@ -5,8 +5,25 @@ angular.module('bloqusApp')
     .factory('SignInFactory', function ($firebaseObject, localStorageService) {
         var ref = new Firebase("https://bloqus.firebaseio.com/"),
             firebase = $firebaseObject(ref);
+        //self = this;
 
-        return {
+        var SignInFactory = {
+
+            boardBuilder: function (dimension) {
+                var obj = {},
+                    row = "",
+                    key = "";
+
+                for (var i = 0; i < dimension; i++) {
+                    row += 'N';
+                }
+
+                for (var j = 0; j < dimension; j++) {
+                    key = 'row' + j;
+                    obj[key] = row;
+                }
+                return obj;
+            },
 
             createGame: function (randomId, gameId, hostname) {
                 var hostId = Math.round(Math.random() * 100000000);
@@ -14,6 +31,7 @@ angular.module('bloqusApp')
                 if (!firebase.games) firebase.games = {};
                 firebase.games[randomId] = {
                     id: gameId,
+                    board: SignInFactory.boardBuilder(20),
                     status: 'lobby',
                     host: hostname,
                     polyominoNum: 5,
@@ -129,5 +147,8 @@ angular.module('bloqusApp')
 
                 return firebase;
             }
-        }
+        };
+
+        return SignInFactory;
+
     });
