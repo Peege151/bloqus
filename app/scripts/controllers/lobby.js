@@ -26,8 +26,8 @@ angular.module('bloqusApp')
             $scope.isHost = localStorageService.get('host') == currentId;
             console.log(currentId)
 
-            fbGameStatus.$watch(function () {
-                if (fbGameStatus.$value === 'start'){
+            fbCurrentGame.$watch(function () {
+                if (fbCurrentGame.$value === 'start'){
                     $state.go('gameboard', {game: {firebaseId: currentId, player: name}});
                 }
             });
