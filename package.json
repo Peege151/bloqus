@@ -2,8 +2,11 @@
   "name": "bloqus",
   "version": "0.0.0",
   "dependencies": {
+    "abbrev": "^1.0.5",
     "angular-ui-router": "^0.2.14",
-    "canvas-grid": "^0.2.1"
+    "canvas-grid": "^0.2.1",
+    "mout": "^0.11.0",
+    "q": "^1.4.0"
   },
   "repository": {},
   "devDependencies": {

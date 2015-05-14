@@ -20,7 +20,11 @@ angular.module('bloqusApp')
             })
 
             .state('gameboard', {
-                url: '/game/:game',
+                url: '/game/',
+                params: {game: {
+                    firebaseId: "",
+                    player: ""
+                }},
                 templateUrl: 'views/gameboard.html',
                 controller: 'GameCtrl'
             })

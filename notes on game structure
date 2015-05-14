@@ -1,0 +1,86 @@
+
+//Old
+{ 	"$id": "70540079",
+	"$priority": null,
+	"host": "ddd",
+	"id": 55233,
+	"players":
+		{ "Player1": "ddd",
+		  "Player2": "Computer",
+		  "Player3": "Computer",
+		  "Player4": "Computer"
+	  },
+    "status": "active" 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//New possible version
+{ 	"$id": "70540079",
+	"$priority": null,
+
+	"host": "ddd",			//Must be set
+	"id": 55233,			//Must be set
+
+	"polyominoNum": 5,		
+	"dimensions": 20,
+	"currentTurn": "blue",
+	"numColors": 4, //always 4 or 2.
+	"status": "lobby"  //either "lobby","start","playing","over"
+
+	"player":
+		{ "blue": {
+			"name": "Bob",
+			"id": 1241292,
+			"piecesLeft": "1|2|3",
+			"hasPassed": false,
+			"isAI": false
+			},
+		  "yellow": {
+		  	"name": "Computer1",
+			"id": 1241292,
+			"pieces": "1|2|3",
+			"hasPassed": false,
+			"isAI": true
+		  },						//would only be two if numcolors
+		  "green": {				//was two, and would only be
+		  	"name": "Bob",			//blue and green.
+			"id": 1241292,
+			"pieces": "1|2|3",
+			"hasPassed": false,
+			"isAI": false
+		  },
+		  "red": {
+		  	"name": "Computer1",
+			"id": 1241292,
+			"pieces": "1|2|3",
+			"hasPassed": false,
+			"isAI": true
+		  },
+	  },
+
+	  //Start stuff which is not set in the lobby.
+
+	  board:
+	  {
+	  	row1: "NNNNNNNNNNNNNNNNNNNN",
+	  	row2: "NNNNNNNNNNNNNNNNNNNN",
+	  	row3: "NNNNNNNNNNNNNNNNNNNN"
+	  }
+
+
+    
+}
+
+
