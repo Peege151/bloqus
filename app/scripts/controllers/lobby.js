@@ -63,7 +63,7 @@ angular.module('bloqusApp')
             });
 
             $rootScope.$on( '$stateChangeStart', function (event, toState, toParams, fromState) {
-                if (toState.name !== 'gameboard'){
+                if (toState.name !== 'gameboard' && fromState.name === 'lobby'){
                     $scope.firebase = LobbyFactory.playerLeftLobby(userColor, currentId);
                 }
             })

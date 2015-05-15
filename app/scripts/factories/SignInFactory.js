@@ -12,8 +12,8 @@ angular.module('bloqusApp')
 
         var generatePolyominoString = function (val) {
             var polystring = "";
-            for (var i = 0; i <= val; i++) {
-                if (i === val) return polystring += i;
+            for (var i = 0; i < val; i++) {
+                if (i === val - 1) return polystring += i;
                 polystring += i + "|"
             }
         };
@@ -143,7 +143,7 @@ angular.module('bloqusApp')
                                 game: shareId,
                                 name: playername
                             };
-                            localStorageService.clearAll()
+                            localStorageService.clearAll();
                             localStorageService.set('name', playername);
                             localStorageService.set('id', randomId);
                             localStorageService.set('color', playerColor);
