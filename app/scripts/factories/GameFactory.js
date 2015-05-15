@@ -98,7 +98,7 @@ angular.module('bloqusApp')
                     var p = gameFirebase.player;
                     var o = gameFirebase.player[universalSequenceOfColors[x]];
                     var q = gameFirebase.player[universalSequenceOfColors[x]].pieces;
-                    debugger;
+                    //debugger;
                     playerPieces[universalSequenceOfColors[x]] = gameFirebase.player[universalSequenceOfColors[x]].pieces.split('|').map(function(num){
                         return universalPiecesArray[num];
                     });
@@ -119,7 +119,7 @@ angular.module('bloqusApp')
 
                 //Stuff only we got, which never changes.
                 //thisPlayer -- already set.
-                debugger;
+                //debugger;
                 thisColors = universalSequenceOfColors.filter(function(c){ return gameFirebase.player[c].name == thisPlayer });
 
 

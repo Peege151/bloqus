@@ -34,6 +34,7 @@ angular.module('bloqusApp')
 
         }
 
+
         $rootScope.$on('stateChanged', function(event, board, pieces, color, current){
 
             console.log("Board passed:  ", board);
@@ -46,7 +47,7 @@ angular.module('bloqusApp')
         	thisColors = color;
             currentColor = current;
 
-
+            //Render the board.
         	$scope.boardHTML = $sce.trustAsHtml();
         	console.log(board, pieces);
         	var temp = "<div>"
@@ -60,6 +61,19 @@ angular.module('bloqusApp')
         	}
         	temp += "</div>"
         	$scope.boardHTML = temp;
+
+
+
+            //Render the pieces in question.
+
+            var temp = temp + "<div>";
+            for (var x = 0; x < pieces[current].length; x++){
+                temp+="<div>";
+       
+                temp+="</div>";
+            }
+            temp += "</div>";
+
         	
         });
 
