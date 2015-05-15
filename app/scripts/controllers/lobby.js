@@ -11,7 +11,6 @@ angular.module('bloqusApp')
         var currentGame;
         $scope.currentId = $stateParams.currentId;
 
-        //$scope.currentId = "asdjalsdhasodals";
 
         firebase.$bindTo($scope, "firebase");
 
@@ -21,10 +20,6 @@ angular.module('bloqusApp')
             currentGame = $scope.firebase.games[currentId];
             var fbCurrentGame = $firebaseObject(new Firebase("https://bloqus.firebaseio.com/games/" + currentId));
 
-            $scope.tabs = [
-              { title:'Dynamic Title 1', content:'Dynamic content 1' },
-              { title:'Dynamic Title 2', content:'Dynamic content 2' }
-            ];
             $scope.currentId = currentId;
             $scope.shareId = $stateParams.shareId;
             $scope.currentPlayers = currentGame.player;
@@ -58,13 +53,11 @@ angular.module('bloqusApp')
 
             $scope.startGame = function () {
                 $scope.firebase.games[currentId].status = 'start';
-                console.log()
                 $state.go('gameboard', {game: currentGame})
             };
 
             fbCurrentGame.$watch(function () {
-                console.log(fbCurrentGame.status.$value)
-                if (fbCurrentGame.status.$value === 'start'){
+                if (fbCurrentGame.status === 'start'){
                     $state.go('gameboard', {game: currentGame});
                 }
                 $scope.currentPlayers = fbCurrentGame.player;
