@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('bloqusApp')
-    .controller('LobbyCtrl', function ($scope, $state, $stateParams, $firebaseObject, localStorageService, LobbyFactory) {
+    .controller('LobbyCtrl', function ($rootScope, $scope, $state, $stateParams, $firebaseObject, localStorageService, LobbyFactory) {
         var ref = new Firebase("https://bloqus.firebaseio.com/"),
             firebase = $firebaseObject(ref),
             name = localStorageService.get('name'),
@@ -61,8 +61,11 @@ angular.module('bloqusApp')
                 $scope.polyNum = fbCurrentGame.polyominoNum;
                 $scope.gridDimensions = fbCurrentGame.dimensions;
             });
-            $scope.$on("$destroy", function(){
-                $scope.firebase = LobbyFactory.playerLeftLobby(color, currentId)
+
+            $rootScope.$on( '$stateChangeStart', function (event, toState, toParams, fromState) {
+                if (toState.name !== 'gameboard'){
+                    $scope.firebase = LobbyFactory.playerLeftLobby(userColor, currentId);
+                }
             })
 
         });

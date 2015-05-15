@@ -14,10 +14,12 @@ angular.module('bloqusApp')
             };
 
         var LobbyFactory = {
+
             playerLeftLobby: function(color, currentGame){
                 firebase.games[currentGame].player[color] = computerPlayer;
-
+                return firebase.$save();
             },
+
             generatePolyominoString: function (val) {
                 var polystring = "";
                 for (var i = 0; i <= val; i++) {

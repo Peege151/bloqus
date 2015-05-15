@@ -36,9 +36,6 @@ angular.module('bloqusApp')
             };
 
             $scope.enterGame = function (playername) {
-                console.log('player name: ', playername)
-                console.log('current game id: ', currentGameId)
-                console.log('share id: ', shareId)
 
                 $scope.firebase = SignInFactory.enterGame(playername, currentGameId, shareId);
 
