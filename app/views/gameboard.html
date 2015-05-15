@@ -3,5 +3,26 @@
 <button type="button" ng-click="pass()">pass move</button>
 <button type="button" ng-click="makeMove()">make move</button>
 
+<div class = "row" ng-repeat="row in boardGrid">
+  <div class = "block" ng-class="s" ng-repeat="s in boardGrid[$index] track by $index" >
+  </div>
+</div> 
+
+
+{{pieces}}
+{{localPieces}}
+<div class = "pieces">
+  <div class="piece" ng-repeat = "piece in pieces" ng-click="">
+    <span ng-init="pieceNum = $index"></span>
+    <div class="row" ng-repeat = "row in pieces[pieceNum] track by $index">
+      <span ng-init="rowNum = $index"></span>
+      <div class="block" ng-class="item" ng-repeat = "item in pieces[pieceNum][rowNum] track by $index">
+      </div>
+    </div>  
+  </div>
+</div>
+
 <div ng-bind-html="boardHTML"></div>
+
+
 <div>{{ game | json }}</div>

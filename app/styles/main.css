@@ -185,3 +185,14 @@ body > ui-view > div > div > div.col-md-6.chat-box > chat > div > div > h4{
 .N{
   background: black;
 }
+
+.T{
+  background: transparent;
+}
+
+.piece{
+  border: black solid 1px;
+  width: 120px;
+  height: 120px;
+  float: left;
+}

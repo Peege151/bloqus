@@ -47,32 +47,56 @@ angular.module('bloqusApp')
         	thisColors = color;
             currentColor = current;
 
-            //Render the board.
-        	$scope.boardHTML = $sce.trustAsHtml();
-        	console.log(board, pieces);
-        	var temp = "<div>"
-        	for(var x = 0; x < board.dimensions; x++){
-        		temp += "<div class='row'>"
-        		for(var y = 0; y < board.dimensions; y++){
-        			temp += "<div class='block " + board.getBoardSpot(y, x) + "'>";
-        			temp += "</div>";
-        		}
-        		temp += "</div>"
-        	}
-        	temp += "</div>"
-        	$scope.boardHTML = temp;
-
-
+            $scope.boardGrid = board.getBoard();
 
             //Render the pieces in question.
-
-            var temp = temp + "<div>";
-            for (var x = 0; x < pieces[current].length; x++){
-                temp+="<div>";
-       
-                temp+="</div>";
+            //To do -- find the next color this person will play.
+            //TODO: Abstract this out to a function elsewhere.
+            var allColors = ["blue", "yellow", "red","green"];
+            var nextColor;
+            for(var x = allColors.indexOf(current); x < 8; x++){
+                var particular = x % 4;
+                if (color.indexOf(allColors[particular]) !== -1){
+                    nextColor = allColors[particular];
+                }
             }
-            temp += "</div>";
+            console.log("Next color to play, ", nextColor);
+
+
+
+
+            var localPieces = pieces[nextColor];
+            $scope.localPieces = localPieces;
+            var visible = []
+            for (var x = 0; x < localPieces.length; x++){
+
+                var arrToPaint = [];
+                var thisShape = localPieces[x].getPieceWithOrientation();
+                var largest = thisShape.reduce(function(largest, current){return Math.max(largest, current[0], current[1])}, 0);
+
+                for(var i = 0; i <= largest; i++){
+                    arrToPaint.push([]);
+                    for(var j = 0; j <= largest; j++){
+                        var isItemThere = thisShape.some(function(a){return a[0] == i && a[1] == j});
+                        if(isItemThere){
+                            arrToPaint[i].push(nextColor.toUpperCase().charAt(0))
+                        }else{
+                            arrToPaint[i].push("T");
+                        }
+                        //.push(isItemThere ? nextColor.toUpperCase().charAt(0) : "N" );
+                    }
+                }
+
+                visible.push(arrToPaint);
+                //Draw it in a grid with largest dimensions.
+
+            }
+
+
+            $scope.pieces = visible;
+
+
+            
 
         	
         });
