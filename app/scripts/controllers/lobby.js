@@ -9,8 +9,10 @@ angular.module('bloqusApp')
             userColor = localStorageService.get('color')
         var currentId
         var currentGame;
-        $scope.currentId = $stateParams.currentId;
 
+
+
+        $scope.currentId = $stateParams.currentId;
 
         firebase.$bindTo($scope, "firebase");
 
@@ -25,10 +27,6 @@ angular.module('bloqusApp')
             $scope.polyNum = fbCurrentGame.polyominoNum;
             $scope.numColors = fbCurrentGame.numColors;
             $scope.isHost = localStorageService.get('host') == currentId;
-
-            fbCurrentGame.$watch(function () {
- 
-            });
 
             $scope.switchToColor = function (newColor) {
                 $scope.firebase = LobbyFactory.switchToColor(userColor, newColor, currentId);
@@ -63,6 +61,9 @@ angular.module('bloqusApp')
                 $scope.polyNum = fbCurrentGame.polyominoNum;
                 $scope.gridDimensions = fbCurrentGame.dimensions;
             });
+            $scope.$on("$destroy", function(){
+                $scope.firebase = LobbyFactory.playerLeftLobby(color, currentId)
+            })
 
         });
     });

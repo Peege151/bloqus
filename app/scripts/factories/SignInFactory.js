@@ -92,7 +92,7 @@ angular.module('bloqusApp')
                     game: gameId,
                     name: hostname
                 };
-
+                localStorageService.clearAll()
                 localStorageService.set('name', hostname);
                 localStorageService.set('id', hostId);
                 localStorageService.set('color', 'blue');
@@ -143,7 +143,7 @@ angular.module('bloqusApp')
                                 game: shareId,
                                 name: playername
                             };
-
+                            localStorageService.clearAll()
                             localStorageService.set('name', playername);
                             localStorageService.set('id', randomId);
                             localStorageService.set('color', playerColor);

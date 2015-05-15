@@ -93,12 +93,10 @@ angular.module('bloqusApp')
             allPieces: function(){
                 var playerPieces = {}
                 for(var x = 0; x < universalSequenceOfColors.length; x++){
-                    //debugger;
                     var m = gameFirebase;
                     var p = gameFirebase.player;
                     var o = gameFirebase.player[universalSequenceOfColors[x]];
                     var q = gameFirebase.player[universalSequenceOfColors[x]].pieces;
-                    debugger;
                     playerPieces[universalSequenceOfColors[x]] = gameFirebase.player[universalSequenceOfColors[x]].pieces.split('|').map(function(num){
                         return universalPiecesArray[num];
                     });
