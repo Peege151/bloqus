@@ -4,17 +4,25 @@ angular.module('bloqusApp')
 
     .factory('SignInFactory', function ($firebaseObject, localStorageService) {
 
-        var generatePolyominoString = function (val) {
-                var polystring = "";
-                for (var i = 0; i < val; i++) {
-                    if (i === val) return polystring += i;
-                    polystring += i + "|"
-            }
-        }
-
         var ref = new Firebase("https://bloqus.firebaseio.com/"),
-            firebase = $firebaseObject(ref);
-        //self = this;
+            firebase = $firebaseObject(ref),
+            getCurrentPolyNum = function (currentId) {
+                return firebase.games[currentId].polyominoNum
+            };
+
+        var generatePolyominoString = function (val) {
+            var polystring = "";
+            for (var i = 0; i <= val; i++) {
+                if (i === val) return polystring += i;
+                polystring += i + "|"
+            }
+        };
+
+        var polyOptions = {
+            4: generatePolyominoString(9),
+            5: generatePolyominoString(21),
+            6: generatePolyominoString(56)
+        };
 
         var SignInFactory = {
 
@@ -111,11 +119,11 @@ angular.module('bloqusApp')
 
             enterGame: function (playername, currentGameId, shareId) {
                 var randomId = Math.round(Math.random() * 100000000);
+                var currentPolyNum = getCurrentPolyNum(currentGameId);
 
                 //check if a players schema exists, if not create one
                 if (!firebase.players) firebase.players = {};
-                //TODO: Fix.
-                //var p = generatePolyominoString(5);
+
                 var keepGoing = true;
                 angular.forEach(firebase.games[currentGameId].player, function (playerObj, playerColor) {
                     if (keepGoing) {
@@ -125,7 +133,7 @@ angular.module('bloqusApp')
                                 isAI: false,
                                 id: randomId,
                                 hasPassed: false,
-                                pieces: '0|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20'
+                                pieces: polyOptions[currentPolyNum]
                             };
 
                             keepGoing = false;
