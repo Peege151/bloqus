@@ -85,6 +85,15 @@ angular.module('bloqusApp')
                 return firebase;
             },
 
+            generatePolyominoString: function (val) {
+                var polystring = "";
+                for (var i = 0; i < val; i++) {
+                    if (i === val) return polystring += i;
+                    polystring += i + "|"
+                }
+            },
+
+
             checkGameId: function (gamenum) {
                 var obj;
                 angular.forEach(firebase.games, function (value, key) {
@@ -114,7 +123,7 @@ angular.module('bloqusApp')
                                 isAI: false,
                                 id: randomId,
                                 hasPassed: false,
-                                pieces: {has: 'somePieces'}
+                                pieces: this.generatePolyominoString(firebase.games[currentGameId].polyominoNum)
                             };
 
                             keepGoing = false;
