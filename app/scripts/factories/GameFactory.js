@@ -22,15 +22,23 @@ angular.module('bloqusApp')
         return {
 
         	setGameFactory: function(fbGameId, playerName){
-        		var self = this;
+        		var self = this; 
 
+                console.log("GameID", fbGameId);
+                console.log("PlayerName", playerName);
                 //What if we didn't get the information handed to us? Let's try to load it.
                 //local storage works synchronously, which makes this pretty easy.
                 //Currently, if we have neither fbGameId, nor support localStorage, we just fail ignominiously.
                 var fbGameId = fbGameId || localStorageService.get('fbGameId')
                 thisPlayer = playerName || localStorageService.get('playerName')
 
+                console.log("GameID", fbGameId);
+                console.log("PlayerName", thisPlayer);
+
         		gameFirebase = $firebaseObject(new Firebase("https://bloqus.firebaseio.com/games/"+fbGameId));
+
+                console.log(gameFirebase);
+
         		gameFirebase.$loaded().then(function(){
                     //Initialize stuff--basically, setting up stuff which is not loaded.
                     //Right now this is mostly just generating the pieces with PiecesGenerator.
