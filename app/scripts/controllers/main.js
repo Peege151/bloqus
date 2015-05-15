@@ -22,7 +22,23 @@ angular.module('bloqusApp')
 
             };
 
+            $scope.checkGameId = function (gamenum) {
+                var gameInfo = SignInFactory.checkGameId(gamenum);
+
+                if (!gameInfo) {
+                    $scope.gameDoesNotExist = true;
+                    $('#join-game-modal').modal('hide');
+                } else {
+                    shareId = gameInfo.shareId;
+                    currentGameId = gameInfo.currentGameId;
+                    $scope.foundGame = gameInfo.foundGame;
+                }
+            };
+
             $scope.enterGame = function (playername) {
+                console.log('player name: ', playername)
+                console.log('current game id: ', currentGameId)
+                console.log('share id: ', shareId)
 
                 $scope.firebase = SignInFactory.enterGame(playername, currentGameId, shareId);
 
@@ -35,17 +51,5 @@ angular.module('bloqusApp')
 
             };
 
-            $scope.checkGameId = function (gamenum) {
-                var gameInfo = SignInFactory.checkGameId(gamenum);
-
-                if (!gameInfo) {
-                    $scope.gameDoesNotExist = true;
-                    $('#join-game-modal').modal('hide');
-                } else {
-                    shareId = gameInfo.shareId;
-                    currentGameId = gameInfo.currentGameId;
-                    $scope.foundGame = gameInfo.foundGame;
-                }
-            }
         });
     });
