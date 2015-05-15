@@ -8,7 +8,7 @@ angular.module('bloqusApp')
             computerPlayer = {
                 name: 'Computer',
                 id: 'compId',
-                pieces: '0|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|20',
+                pieces: '0|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20',
                 hasPassed: false,
                 isAI: true
             };
@@ -34,12 +34,12 @@ angular.module('bloqusApp')
 
             setNumOfPlayers: function (numOfPlayers, currentGame) {
                 if (numOfPlayers === 2) {
-                    firebase.games[currentGame].player.red = null;
                     firebase.games[currentGame].player.yellow = null;
+                    firebase.games[currentGame].player.green = null;
                     firebase.games[currentGame].numColors = 2;
                 } else {
-                    firebase.games[currentGame].player.red = computerPlayer;
                     firebase.games[currentGame].player.yellow = computerPlayer;
+                    firebase.games[currentGame].player.green = computerPlayer;
                     firebase.games[currentGame].numColors = 4;
                 }
                 return firebase;

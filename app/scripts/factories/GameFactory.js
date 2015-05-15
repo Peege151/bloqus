@@ -119,6 +119,7 @@ angular.module('bloqusApp')
 
                 //Stuff only we got, which never changes.
                 //thisPlayer -- already set.
+                debugger;
                 thisColors = universalSequenceOfColors.filter(function(c){ return gameFirebase.player[c].name == thisPlayer });
 
 
