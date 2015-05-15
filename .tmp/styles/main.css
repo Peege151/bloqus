@@ -8,7 +8,70 @@
 body {
   padding: 0;
 }
+@font-face {
+  font-family: block-sketch;
+  src: url('../fonts/Sketch_Block.ttf');
+}.logo-wrap {
+  background: url('../images/blockus.jpg');
+  background-size: cover;
+  width: 100%;
+  height:400px;
+  display:table;
+}
+.lobby-wrap {
+  width:80%;
+  margin:0 auto;
+}
+.bloqus-h1{
+  margin-top:0px;
+  width:100%;
+}
+.logo-wrap h1{
+  display:table-cell;
+    background-color: rgba(0,0,0,.2);
 
+  font-family: block-sketch;
+  font-size: 600%;
+  vertical-align: middle;
+  text-align: center;
+  color:white;
+}
+#example-messages {
+  text-decoration: none;
+  list-style: none;
+  line-height: 150%;
+  padding: 6px 6px;
+  background-color: #F0F8FF;
+  border-right: 1px solid #ddd;
+}
+.player-name {
+  padding-left: 20px;
+}
+ul.player-list {
+  list-style: none;
+  padding:0px;
+}
+.player-list li:nth-child(even) {
+  background-color: #F0F8FF;
+}
+#messageInput{
+  width:100%;
+}
+.game-options {
+  min-height: 380px;
+  height:380px;
+}
+#example-messages li:nth-child(even){
+ background: #3BB9FF;
+ color:white;
+ }
+.chat-box{
+  border-radius: 10px;
+}
+body > ui-view > div > div > div.col-md-6.chat-box > chat > div > div > h4{
+  
+  margin-bottom:0px;
+}
 /* Everything but the jumbotron gets side spacing for mobile first views */
 .header,
 .marketing,
@@ -20,7 +83,6 @@ body {
 /* Custom page header */
 .header {
   border-bottom: 1px solid #e5e5e5;
-  margin-bottom: 10px;
 }
 /* Make the masthead heading the same height as the navigation */
 .header h3 {
@@ -73,14 +135,19 @@ body {
     padding-right: 0;
   }
   /* Space out the masthead */
-  .header {
-    margin-bottom: 30px;
-  }
+
   /* Remove the bottom border on the jumbotron for visual effect */
   .jumbotron {
     border-bottom: 0;
   }
+  .header{
+    margin-bottom: 0px !important;
+  }
+  .navbar, .navbar-default {
+    margin-bottom: 0px !important;
+  }
 }
+
 
 .block{
   display: inline-block;
@@ -119,5 +186,3 @@ body {
 .N{
   background: black;
 }
-
-/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIm1haW4uY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsaUJBQWdCO0VBQ2hCLGtCQUFpQjtFQUNqQixhQUFZO0VBQ1osa0JBQWlCO0VBQ2xCOztBQUVEO0VBQ0UsWUFBVztFQUNaOztBQUVELDRFQUEyRTtBQUMzRTs7O0VBR0Usb0JBQW1CO0VBQ25CLHFCQUFvQjtFQUNyQjs7QUFFRCx5QkFBd0I7QUFDeEI7RUFDRSxrQ0FBaUM7RUFDakMscUJBQW9CO0VBQ3JCO0FBQ0Qsa0VBQWlFO0FBQ2pFO0VBQ0UsZUFBYztFQUNkLGtCQUFpQjtFQUNqQixtQkFBa0I7RUFDbEIsc0JBQXFCO0VBQ3RCOztBQUVELHlCQUF3QjtBQUN4QjtFQUNFLG1CQUFrQjtFQUNsQixhQUFZO0VBQ1osK0JBQThCO0VBQy9COztBQUVEO0VBQ0UsZ0JBQWU7RUFDaEI7O0FBRUQsZ0RBQStDO0FBQy9DO0VBQ0Usb0JBQW1CO0VBQ25CLGtDQUFpQztFQUNsQztBQUNEO0VBQ0UsaUJBQWdCO0VBQ2hCLG9CQUFtQjtFQUNwQjs7QUFFRCxtQ0FBa0M7QUFDbEM7RUFDRSxnQkFBZTtFQUNoQjtBQUNEO0VBQ0Usa0JBQWlCO0VBQ2xCOztBQUVELDBDQUF5QztBQUN6QztFQUNFO0lBQ0Usa0JBQWlCO0lBQ2xCOztFQUVELHdDQUF1QztFQUN2Qzs7O0lBR0UsaUJBQWdCO0lBQ2hCLGtCQUFpQjtJQUNsQjtFQUNELDZCQUE0QjtFQUM1QjtJQUNFLHFCQUFvQjtJQUNyQjtFQUNELGtFQUFpRTtFQUNqRTtJQUNFLGtCQUFpQjtJQUNsQjtFQUNGOztBQUVEO0VBQ0UsdUJBQXNCO0VBQ3RCLGNBQWE7RUFDYixhQUFZO0VBQ1oseUJBQXdCO0VBQ3hCLGNBQWE7RUFDYixxQkFBb0I7RUFDcEIsa0JBQWlCO0VBQ2pCLGlCQUFnQjtFQUNoQixxQkFBb0I7RUFDckI7O0FBRUQ7RUFDRSxhQUFZO0VBQ1osYUFBWTtFQUNaLGNBQWE7RUFDZDs7QUFFRDtFQUNFLGtCQUFpQjtFQUNsQjs7QUFFRDtFQUNFLG9CQUFtQjtFQUNwQjs7QUFFRDtFQUNFLG1CQUFrQjtFQUNuQjs7QUFFRDtFQUNFLGlCQUFnQjtFQUNqQjs7QUFFRDtFQUNFLG1CQUFrQjtFQUNuQiIsImZpbGUiOiJtYWluLmNzcyIsInNvdXJjZXNDb250ZW50IjpbIi5icm93c2VoYXBweSB7XG4gIG1hcmdpbjogMC4yZW0gMDtcbiAgYmFja2dyb3VuZDogI2NjYztcbiAgY29sb3I6ICMwMDA7XG4gIHBhZGRpbmc6IDAuMmVtIDA7XG59XG5cbmJvZHkge1xuICBwYWRkaW5nOiAwO1xufVxuXG4vKiBFdmVyeXRoaW5nIGJ1dCB0aGUganVtYm90cm9uIGdldHMgc2lkZSBzcGFjaW5nIGZvciBtb2JpbGUgZmlyc3Qgdmlld3MgKi9cbi5oZWFkZXIsXG4ubWFya2V0aW5nLFxuLmZvb3RlciB7XG4gIHBhZGRpbmctbGVmdDogMTVweDtcbiAgcGFkZGluZy1yaWdodDogMTVweDtcbn1cblxuLyogQ3VzdG9tIHBhZ2UgaGVhZGVyICovXG4uaGVhZGVyIHtcbiAgYm9yZGVyLWJvdHRvbTogMXB4IHNvbGlkICNlNWU1ZTU7XG4gIG1hcmdpbi1ib3R0b206IDEwcHg7XG59XG4vKiBNYWtlIHRoZSBtYXN0aGVhZCBoZWFkaW5nIHRoZSBzYW1lIGhlaWdodCBhcyB0aGUgbmF2aWdhdGlvbiAqL1xuLmhlYWRlciBoMyB7XG4gIG1hcmdpbi10b3A6IDA7XG4gIG1hcmdpbi1ib3R0b206IDA7XG4gIGxpbmUtaGVpZ2h0OiA0MHB4O1xuICBwYWRkaW5nLWJvdHRvbTogMTlweDtcbn1cblxuLyogQ3VzdG9tIHBhZ2UgZm9vdGVyICovXG4uZm9vdGVyIHtcbiAgcGFkZGluZy10b3A6IDE5cHg7XG4gIGNvbG9yOiAjNzc3O1xuICBib3JkZXItdG9wOiAxcHggc29saWQgI2U1ZTVlNTtcbn1cblxuLmNvbnRhaW5lci1uYXJyb3cgPiBociB7XG4gIG1hcmdpbjogMzBweCAwO1xufVxuXG4vKiBNYWluIG1hcmtldGluZyBtZXNzYWdlIGFuZCBzaWduIHVwIGJ1dHRvbiAqL1xuLmp1bWJvdHJvbiB7XG4gIHRleHQtYWxpZ246IGNlbnRlcjtcbiAgYm9yZGVyLWJvdHRvbTogMXB4IHNvbGlkICNlNWU1ZTU7XG59XG4uanVtYm90cm9uIC5idG4ge1xuICBmb250LXNpemU6IDIxcHg7XG4gIHBhZGRpbmc6IDE0cHggMjRweDtcbn1cblxuLyogU3VwcG9ydGluZyBtYXJrZXRpbmcgY29udGVudCAqL1xuLm1hcmtldGluZyB7XG4gIG1hcmdpbjogNDBweCAwO1xufVxuLm1hcmtldGluZyBwICsgaDQge1xuICBtYXJnaW4tdG9wOiAyOHB4O1xufVxuXG4vKiBSZXNwb25zaXZlOiBQb3J0cmFpdCB0YWJsZXRzIGFuZCB1cCAqL1xuQG1lZGlhIHNjcmVlbiBhbmQgKG1pbi13aWR0aDogNzY4cHgpIHtcbiAgLmNvbnRhaW5lciB7XG4gICAgbWF4LXdpZHRoOiA3MzBweDtcbiAgfVxuXG4gIC8qIFJlbW92ZSB0aGUgcGFkZGluZyB3ZSBzZXQgZWFybGllciAqL1xuICAuaGVhZGVyLFxuICAubWFya2V0aW5nLFxuICAuZm9vdGVyIHtcbiAgICBwYWRkaW5nLWxlZnQ6IDA7XG4gICAgcGFkZGluZy1yaWdodDogMDtcbiAgfVxuICAvKiBTcGFjZSBvdXQgdGhlIG1hc3RoZWFkICovXG4gIC5oZWFkZXIge1xuICAgIG1hcmdpbi1ib3R0b206IDMwcHg7XG4gIH1cbiAgLyogUmVtb3ZlIHRoZSBib3R0b20gYm9yZGVyIG9uIHRoZSBqdW1ib3Ryb24gZm9yIHZpc3VhbCBlZmZlY3QgKi9cbiAgLmp1bWJvdHJvbiB7XG4gICAgYm9yZGVyLWJvdHRvbTogMDtcbiAgfVxufVxuXG4uYmxvY2t7XG4gIGRpc3BsYXk6IGlubGluZS1ibG9jaztcbiAgaGVpZ2h0OiAyMHB4O1xuICB3aWR0aDogMjBweDtcbiAgYm9yZGVyOiAxcHggc29saWQgd2hpdGU7XG4gIHBhZGRpbmc6IDBweDtcbiAgcGFkZGluZy1ib3R0b206IDBweDtcbiAgcGFkZGluZy10b3A6IDBweDtcbiAgbWFyZ2luLXRvcDogMHB4O1xuICBtYXJnaW4tYm90dG9tOiAtNHB4O1xufVxuXG4ucm93e1xuICBtYXJnaW46IDBweDtcbiAgYm9yZGVyOiAwcHg7XG4gIHBhZGRpbmc6IDBweDtcbn1cblxuLkJ7XG4gIGJhY2tncm91bmQ6IGJsdWU7XG59XG5cbi5Ze1xuICBiYWNrZ3JvdW5kOiB5ZWxsb3c7XG59XG5cbi5He1xuICBiYWNrZ3JvdW5kOiBncmVlbjtcbn1cblxuLlJ7XG4gIGJhY2tncm91bmQ6IHJlZDtcbn1cblxuLk57XG4gIGJhY2tncm91bmQ6IGJsYWNrO1xufVxuIl19 */

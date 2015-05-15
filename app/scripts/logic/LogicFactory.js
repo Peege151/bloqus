@@ -235,7 +235,8 @@
 				candidatePieces = pieces;
 			}
 
-			//This is not actually useless.
+			//This is not actually useless.  Do not remove it.  Chesterton's fence and all.
+			//It actually relocates the pieces so they are flush with the edge.
 			for(var x = 0; x < candidatePieces.length; x++){
 				var shape = candidatePieces[x].getPieceWithOrientation();
 				candidatePieces[x].shape = shape;

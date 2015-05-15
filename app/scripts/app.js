@@ -17,5 +17,7 @@ angular.module('bloqusApp', [
     'ngTouch',
     'firebase',
     'firebase.ref',
-    'LocalStorageModule'
+    'LocalStorageModule',
+    'ui.bootstrap',
+    'ui.bootstrap.tabs'
   ]);
