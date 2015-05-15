@@ -16,6 +16,7 @@ angular.module('bloqusApp')
 
             //SAVE DATA TO FIREBASE AND EMPTY FIELD
             fbMessages.push({name: username, text: message});
+            console.log(fbMessages)
             messageField.val('');
         }
     });

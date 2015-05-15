@@ -34,9 +34,7 @@ angular.module('bloqusApp')
             $scope.isHost = localStorageService.get('host') == currentId;
 
             fbCurrentGame.$watch(function () {
-                if (fbCurrentGame.status.$value === 'start'){
-                    $state.go('gameboard', {game: currentGame});
-                }
+ 
             });
 
             $scope.switchToColor = function (newColor) {
@@ -60,10 +58,15 @@ angular.module('bloqusApp')
 
             $scope.startGame = function () {
                 $scope.firebase.games[currentId].status = 'start';
+                console.log()
                 $state.go('gameboard', {game: currentGame})
             };
 
             fbCurrentGame.$watch(function () {
+                console.log(fbCurrentGame.status.$value)
+                if (fbCurrentGame.status.$value === 'start'){
+                    $state.go('gameboard', {game: currentGame});
+                }
                 $scope.currentPlayers = fbCurrentGame.player;
                 $scope.numColors = fbCurrentGame.numColors;
                 $scope.polyNum = fbCurrentGame.polyominoNum;
