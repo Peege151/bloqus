@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('bloqusApp')
-    .controller('LobbyCtrl', function ($scope, $state, $stateParams, $firebaseObject, localStorageService, LobbyFactory) {
+    .controller('LobbyCtrl', function ($rootScope, $scope, $state, $stateParams, $firebaseObject, localStorageService, LobbyFactory) {
         var ref = new Firebase("https://bloqus.firebaseio.com/"),
             firebase = $firebaseObject(ref),
             name = localStorageService.get('name'),
@@ -9,28 +9,24 @@ angular.module('bloqusApp')
             userColor = localStorageService.get('color')
         var currentId
         var currentGame;
-        $scope.currentId = $stateParams.currentId;
 
+
+
+        $scope.currentId = $stateParams.currentId;
 
         firebase.$bindTo($scope, "firebase");
 
         firebase.$loaded().then(function () {
            
             currentId = $stateParams.currentId;
-            currentGame = $scope.firebase.games[currentId];
             var fbCurrentGame = $firebaseObject(new Firebase("https://bloqus.firebaseio.com/games/" + currentId));
-
             $scope.currentId = currentId;
             $scope.shareId = $stateParams.shareId;
-            $scope.currentPlayers = currentGame.player;
+            $scope.currentPlayers = fbCurrentGame.player;
             $scope.gridDimensions = fbCurrentGame.dimensions;
-            $scope.polyNum = firebase.games[currentId].polyominoNum;
-            $scope.numColors = firebase.games[currentId].numColors;
+            $scope.polyNum = fbCurrentGame.polyominoNum;
+            $scope.numColors = fbCurrentGame.numColors;
             $scope.isHost = localStorageService.get('host') == currentId;
-
-            fbCurrentGame.$watch(function () {
- 
-            });
 
             $scope.switchToColor = function (newColor) {
                 $scope.firebase = LobbyFactory.switchToColor(userColor, newColor, currentId);
@@ -65,6 +61,12 @@ angular.module('bloqusApp')
                 $scope.polyNum = fbCurrentGame.polyominoNum;
                 $scope.gridDimensions = fbCurrentGame.dimensions;
             });
+
+            $rootScope.$on( '$stateChangeStart', function (event, toState, toParams, fromState) {
+                if (toState.name !== 'gameboard' && fromState.name === 'lobby'){
+                    $scope.firebase = LobbyFactory.playerLeftLobby(userColor, currentId);
+                }
+            })
 
         });
     });

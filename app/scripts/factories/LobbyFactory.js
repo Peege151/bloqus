@@ -15,10 +15,15 @@ angular.module('bloqusApp')
 
         var LobbyFactory = {
 
+            playerLeftLobby: function(color, currentGame){
+                firebase.games[currentGame].player[color] = computerPlayer;
+                return firebase.$save();
+            },
+
             generatePolyominoString: function (val) {
                 var polystring = "";
                 for (var i = 0; i < val; i++) {
-                    if (i === val) return polystring += i;
+                    if (i === val - 1) return polystring += i;
                     polystring += i + "|"
                 }
             },
@@ -52,7 +57,6 @@ angular.module('bloqusApp')
             },
 
             setPolyomino: function (polyNum, currentGame) {
-
                 var polyOptions = {
                     4: LobbyFactory.generatePolyominoString(9),
                     5: LobbyFactory.generatePolyominoString(21),
@@ -62,7 +66,7 @@ angular.module('bloqusApp')
                 firebase.games[currentGame].polyominoNum = polyNum;
 
                 angular.forEach(firebase.games[currentGame].player, function (value, key) {
-                  value.pieces = polyOptions[polyNum];
+                    value.pieces = polyOptions[polyNum];
                 });
 
                 return firebase;
