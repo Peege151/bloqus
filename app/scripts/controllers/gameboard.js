@@ -39,7 +39,7 @@ angular.module('bloqusApp')
             console.log("Board passed:  ", board);
             console.log("Pieces passed:  ", pieces);
             console.log("Color passed:  ", color);
-            console.log("CurrentColor passed:  ", currentColor);
+            console.log("CurrentColor passed:  ", current);
 
         	thisBoard = board;
         	allPiece = pieces; //pieces[board.currentTurn];

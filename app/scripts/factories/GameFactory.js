@@ -13,7 +13,7 @@ angular.module('bloqusApp')
         //Common across everyone currently playing the game.
     	var universalPiecesArray,           //All the pieces legal in this current game.
             universalSequenceOfColors,      //All colors in game.
-            universalCurrentTurn;            
+            universalCurrentTurn;           //Current colors turn.
 
         var gameFirebase
         var onLoadedEvents = [];
@@ -24,20 +24,20 @@ angular.module('bloqusApp')
         	setGameFactory: function(fbGameId, playerName){
         		var self = this; 
 
-                console.log("GameID", fbGameId);
-                console.log("PlayerName", playerName);
+                //console.log("GameID", fbGameId);
+                //console.log("PlayerName", playerName);
                 //What if we didn't get the information handed to us? Let's try to load it.
                 //local storage works synchronously, which makes this pretty easy.
                 //Currently, if we have neither fbGameId, nor support localStorage, we just fail ignominiously.
                 var fbGameId = fbGameId || localStorageService.get('fbGameId')
                 thisPlayer = playerName || localStorageService.get('playerName')
 
-                console.log("GameID", fbGameId);
-                console.log("PlayerName", thisPlayer);
+                //console.log("GameID", fbGameId);
+                //console.log("PlayerName", thisPlayer);
 
         		gameFirebase = $firebaseObject(new Firebase("https://bloqus.firebaseio.com/games/"+fbGameId));
 
-                console.log(gameFirebase);
+                //console.log(gameFirebase);
 
         		gameFirebase.$loaded().then(function(){
                     //Initialize stuff--basically, setting up stuff which is not loaded.
@@ -92,9 +92,8 @@ angular.module('bloqusApp')
 
             allPieces: function(){
                 var playerPieces = {}
-                var colors = Object.keys(gameFirebase.player);
-                for(var x = 0; x < colors.length; x++){
-                    playerPieces[colors[x]] = gameFirebase.player[colors[x]].pieces.split('|').map(function(num){
+                for(var x = 0; x < universalSequenceOfColors.length; x++){
+                    playerPieces[universalSequenceOfColors[x]] = gameFirebase.player[universalSequenceOfColors[x]].pieces.split('|').map(function(num){
                         return universalPiecesArray[num];
                     });
                 }
@@ -110,11 +109,10 @@ angular.module('bloqusApp')
 
                 //Stuff everyone has in common, which never changes.
                 universalPiecesArray = LogicFactory.PiecesGenerator(gameFirebase.polyominoNum);
-                universalSequenceOfColors = Object.keys(gameFirebase.player);
+                universalSequenceOfColors = (gameFirebase.numColors == 4) ? ["blue", "yellow", "red","green"] : ["blue","red"];
 
-                debugger;
                 //Stuff only we got, which never changes.
-                //thisPlayer -- 
+                //thisPlayer -- already set.
                 thisColors = universalSequenceOfColors.filter(function(c){ return gameFirebase.player[c].name == thisPlayer });
 
 
@@ -129,8 +127,8 @@ angular.module('bloqusApp')
                 //If we hear a move, try to make it.
                 $rootScope.$on('makeMove', function(event, move){
                     console.log("'Move event' caught.");
-                    console.log(gameFirebase.currentTurn)
-                    console.log(thisColors);
+                    //console.log(gameFirebase.currentTurn)
+                    //console.log(thisColors);
                     if(thisColors.indexOf(gameFirebase.currentTurn) !== -1){
                         console.log("Legal move made.")
 
