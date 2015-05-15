@@ -7,13 +7,12 @@ angular.module('bloqusApp')
     // REGISTER DOM ELEMENTS
     var messageField = $('#messageInput');
     var messageList = $('#example-messages');
-
     // LISTEN FOR KEYPRESS EVENT
     messageField.keypress(function (e) {
         if (e.keyCode == 13) {
             //FIELD VALUES
             var username = localStorageService.get("name");
-            var message = messageField.val();
+            var message = ": " + messageField.val();
 
             //SAVE DATA TO FIREBASE AND EMPTY FIELD
             fbMessages.push({name: username, text: message});
@@ -36,7 +35,6 @@ angular.module('bloqusApp')
 
         //ADD MESSAGE
         messageList.append(messageElement);
-
         //SCROLL TO BOTTOM OF MESSAGE LIST
         messageList[0].scrollTop = messageList[0].scrollHeight;
     });

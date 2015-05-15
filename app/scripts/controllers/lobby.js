@@ -21,6 +21,10 @@ angular.module('bloqusApp')
             currentGame = $scope.firebase.games[currentId];
             var fbCurrentGame = $firebaseObject(new Firebase("https://bloqus.firebaseio.com/games/" + currentId));
 
+            $scope.tabs = [
+              { title:'Dynamic Title 1', content:'Dynamic content 1' },
+              { title:'Dynamic Title 2', content:'Dynamic content 2' }
+            ];
             $scope.currentId = currentId;
             $scope.shareId = $stateParams.shareId;
             $scope.currentPlayers = currentGame.player;
