@@ -24,6 +24,19 @@ angular.module('bloqusApp')
             6: generatePolyominoString(56)
         };
 
+        var gameNotFull = function(id){
+            var keepGoing = true;
+            angular.forEach(firebase.games[id].player, function (value, key) {
+                if(keepGoing){
+                    if (value.isAI === true) {
+                        keepGoing = false;
+                    }
+                };
+                return false;
+                });
+            return true;
+        };
+
         var SignInFactory = {
 
             boardBuilder: function (dimension) {
@@ -42,7 +55,7 @@ angular.module('bloqusApp')
                 return obj;
             },
 
-            createGame: function (randomId, gameId, hostname) {
+            createGame: function (randomId, gameId, hostname, privateGame) {
                 var hostId = Math.round(Math.random() * 100000000);
                 //alert();
                 if (!firebase.games) firebase.games = {};
@@ -51,6 +64,7 @@ angular.module('bloqusApp')
                     board: SignInFactory.boardBuilder(20),
                     status: 'lobby',
                     host: hostname,
+                    privateGame: privateGame,
                     polyominoNum: 5,
                     dimensions: 20,
                     currentTurn: 'blue',
@@ -116,7 +130,19 @@ angular.module('bloqusApp')
                 });
                 return obj;
             },
-
+            findPublicGame: function(){
+                var obj;
+                angular.forEach(firebase.games, function (value, key) {
+                    if (value.privateGame == false && value.status === 'lobby' && gameNotFull(key)) {
+                        obj = {
+                            shareId: value.id,
+                            currentGameId: key,
+                            foundGame: true
+                        };
+                    }
+                });
+                return obj;                
+            },
             enterGame: function (playername, currentGameId, shareId) {
                 var randomId = Math.round(Math.random() * 100000000);
                 var currentPolyNum = getCurrentPolyNum(currentGameId);

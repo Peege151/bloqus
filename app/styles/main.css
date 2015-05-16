@@ -27,6 +27,14 @@ body {
   box-shadow:         3px 5px 6px #FF6D00;
 
 }
+.modal-content > h4 {
+  text-align: center;
+}
+.modal-input {
+  width:60%;
+  margin:0 auto;
+  text-align: center;
+}
 .btn-main-page {
   width:60% ;
   margin:0 auto;

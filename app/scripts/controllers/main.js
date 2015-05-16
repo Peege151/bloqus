@@ -5,7 +5,7 @@ angular.module('bloqusApp')
     .controller("MainCtrl", function ($scope, $state, SignInFactory, $firebaseObject) {
         var firebase = $firebaseObject(new Firebase("https://bloqus.firebaseio.com/")),
             shareId, currentGameId;
-
+        $scope.private = false
         firebase.$bindTo($scope, "firebase");
 
         firebase.$loaded().then(function () {
@@ -14,7 +14,7 @@ angular.module('bloqusApp')
                 var randomId = Math.round(Math.random() * 100000000);
                 var gameId = Math.round(Math.random() * 100000);
                 var hostname = $scope.hostname;
-                $scope.firebase = SignInFactory.createGame(randomId, gameId, hostname);
+                $scope.firebase = SignInFactory.createGame(randomId, gameId, hostname, $scope.private);
                 $scope.firebase.$save();
                 $('.modal-backdrop').remove();
                 $state.go('lobby', {currentId: randomId, shareId: gameId});
@@ -46,6 +46,19 @@ angular.module('bloqusApp')
                 //$('#join-game-modal').modal('hide');
 
             };
+
+            $scope.findPublicGame = function(){
+                var gameInfo = SignInFactory.findPublicGame();
+                if (!gameInfo) {
+                    //TO DO For Error Handling
+                    $scope.publicDoesNotExist = true;
+                    $('#join-game-modal').modal('hide');
+                } else {
+                    shareId = gameInfo.shareId;
+                    currentGameId = gameInfo.currentGameId;
+                    $scope.foundGame = gameInfo.foundGame;
+                }
+            }
 
         });
     });
