@@ -48,11 +48,11 @@ angular.module('bloqusApp')
 
             isComputersTurn: function(){
                 return gameFirebase.player[universalCurrentTurn].isAI;
-            }
+            },
 
             currentPlayer: function(){
                 return gameFirebase.player[universalCurrentTurn];
-            }
+            },
 
             //right now, this is a bit misleadingly titled.  Whenever gameFirebase changes,
             //this both (1) emits a universal event and updates the state of gamefactory.
