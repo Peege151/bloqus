@@ -55,13 +55,13 @@ angular.module('bloqusApp')
             var gridX = Math.round(xPosition / squareSize);
             var gridY = Math.round(yPosition / squareSize);
             console.log(data.piece)
-            if(thisColors.indexOf(currentColor) !== -1){
+            //if(thisColors.indexOf(currentColor) !== -1){
                 console.log("asasdasdasasga", data.piece)
 
-                var move = new LogicFactory.Move(data.piece, [gridX, gridY], currentColor.toUpperCase().charAt(0))
+                var move = new LogicFactory.Move(data.piece, [gridY, gridX], currentColor.toUpperCase().charAt(0))
                 console.log("Move", move);
                 $rootScope.$emit("makeMove", move);
-            }
+            //}
 
 
             console.log(gridX, gridY);
