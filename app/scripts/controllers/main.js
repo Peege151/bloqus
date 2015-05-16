@@ -14,9 +14,8 @@ angular.module('bloqusApp')
                 var randomId = Math.round(Math.random() * 100000000);
                 var gameId = Math.round(Math.random() * 100000);
                 var hostname = $scope.hostname;
-
                 $scope.firebase = SignInFactory.createGame(randomId, gameId, hostname);
-
+                $scope.firebase.$save();
                 $('.modal-backdrop').remove();
                 $state.go('lobby', {currentId: randomId, shareId: gameId});
 
