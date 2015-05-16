@@ -479,7 +479,7 @@
 			helper: helper,
 			Move: Move,
 			Piece: Piece,
-			PiecesGenerator,
+			PiecesGenerator: PiecesGenerator,
 			Board: Board
 		}
 		return logic;

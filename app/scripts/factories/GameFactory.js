@@ -2,7 +2,7 @@
 
 angular.module('bloqusApp')
 
-    .factory('GameFactory', function ($rootScope, $firebaseObject, localStorageService, LogicFactory) {
+    .factory('GameFactory', function ($rootScope, $firebaseObject, localStorageService, LogicFactory, $state) {
 
         //Specific to this player.
     	var thisPlayer,        //name of the player
@@ -189,6 +189,11 @@ angular.module('bloqusApp')
 
                         gameFirebase.$save();                    
                     }
+                });
+
+
+                $rootScope.$on('gameover', function(){
+                    $state.go('gameover', {game: gameFirebase});
                 });
 
             }
