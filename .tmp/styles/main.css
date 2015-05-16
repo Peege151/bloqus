@@ -44,7 +44,33 @@ body {
   display: block;
   margin-bottom:20px;
   padding:10px;
+  background-color: #794aa2;
+  border: 1px solid #c7c0de;
+  color: white;
+  outline: 0px;
+
 }
+.btn-main-page:hover {
+  background-color: #573376;
+  outline: 0px;
+
+}
+.btn-main-page:active {
+  background-color: #794aa2 ;
+  border-color: #c7c0de ;
+  border:1px solid #c7c0de;
+  outline: 0px;
+
+}
+.btn-main-page:focus {
+  background-color: #794aa2 ;
+  border-color: #c7c0de ;
+  border:1px solid #c7c0de;
+  outline: 0px;
+
+}
+
+
 .lobby-wrap {
   font-family: benton-sans, 'Helvetica Neue', helvetica;
   padding:20px;

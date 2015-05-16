@@ -21,7 +21,7 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
-    <div class="header" ng-cloak="">
+    <div class="header" ng-cloak="" ng-controller="NavCtrl">
       <div class="navbar navbar-default" role="navigation">
         <div class="container">
           <div class="navbar-header">
@@ -32,8 +32,7 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-
-            <a ng-hide="$state.current.name === 'main'" class="navbar-brand" href="#/">bloqus</a>
+            <a ng-hide="hideNav" class="navbar-brand" href="#/">bloqus</a>
           </div>
 
           <div class="collapse navbar-collapse" id="js-navbar-collapse">
@@ -67,24 +66,27 @@
 
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
     <script src="scripts/app.js"></script>
-    <script src="scripts/controllers/main.js"></script>
     <script src="scripts/angularfire/config.js"></script>
     <script src="scripts/angularfire/firebase.ref.js"></script>
+    <script src="scripts/controllers/main.js"></script>
     <script src="scripts/controllers/lobby.js"></script>
     <script src="scripts/controllers/chat.js"></script>
+    <script src="scripts/controllers/navbar.js"></script>
+    <script src="scripts/controllers/gameboard.js"></script>
+
     <script src="scripts/directives/chat.js"></script>
     <script src="scripts/directives/ngrightclick.js"></script>
-    <script src="scripts/filters/capital.js"></script>
-    <script src="scripts/dragdrop.js"></script>
-
-    <script src="scripts/controllers/gameboard.js"></script>
+   
     <script src="scripts/factories/SignInFactory.js"></script>
     <script src="scripts/factories/GameFactory.js"></script>
     <script src="scripts/factories/LobbyFactory.js"></script>
 
+    <script src="scripts/filters/capital.js"></script>
     <script src="scripts/filters/reverse.js"></script>
-    <script src="scripts/routes.js"></script>
+
+    <script src="scripts/dragdrop.js"></script>
     <script src="scripts/logic/logicfactory.js"></script>
+    <script src="scripts/routes.js"></script>
     <!-- endbuild -->
 
 
