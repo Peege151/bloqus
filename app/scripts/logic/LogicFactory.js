@@ -352,7 +352,7 @@
 					return false
 				}
 			}
-			//console.log("passed occu");
+			console.log("passed occu");
 			var adjacents = move.adjacencies();
 
 			for(var x = 0; x < adjacents.length; x++){
@@ -363,7 +363,7 @@
 					return false;
 				}
 			}
-			//console.log("passed adjacencies");
+			console.log("passed adjacencies");
 
 			var diags = move.legalDiagonals();
 			for(var x = 0; x < diags.length; x++){

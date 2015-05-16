@@ -1,9 +1,10 @@
 'use strict';
 
 angular.module('bloqusApp')
-    .controller('GameCtrl', function ($sce, $rootScope, $scope, $stateParams, GameFactory){
+    .controller('GameCtrl', function ($sce, $rootScope, $scope, $stateParams, GameFactory, LogicFactory){
 
     	var thisBoard, allPiece, thisColors, currentColor, localPieces, nextColor;
+        var squareSize = 33.5;
 
     	console.log($stateParams);
     	GameFactory.onGameLoaded(function(fbaseObject){
@@ -29,6 +30,43 @@ angular.module('bloqusApp')
 
         $scope.pass = function(){
         	$rootScope.$emit("passTurn");
+        }
+
+        $scope.dropPiece = function(evnt, data){
+            console.log(evnt);
+            console.log("data", data);
+
+            var dropX = evnt.originalEvent.x;
+            var dropY = evnt.originalEvent.y;
+
+            var frameX = angular.element(document.querySelector('#frame')).prop('offsetLeft');
+            var frameY = angular.element(document.querySelector('#frame')).prop('offsetTop');
+
+            console.log("Drop X", dropX);
+            console.log("Drop Y", dropY);
+            console.log("Frame X", frameX);
+            console.log("Frame Y", frameY);
+
+            var fudgeY = evnt.currentTarget.clientHeight 
+
+            var xPosition = dropX - frameX;
+            var yPosition = dropY - frameY - fudgeY;
+
+            var gridX = Math.round(xPosition / squareSize);
+            var gridY = Math.round(yPosition / squareSize);
+            console.log(data.piece)
+            if(thisColors.indexOf(currentColor) !== -1){
+                console.log("asasdasdasasga", data.piece)
+
+                var move = new LogicFactory.Move(data.piece, [gridX, gridY], currentColor.toUpperCase().charAt(0))
+                console.log("Move", move);
+                $rootScope.$emit("makeMove", move);
+            }
+
+
+            console.log(gridX, gridY);
+
+            console.log(data);
         }
         $scope.makeMove = function(){
             //$rootScope.$emit("makeMove");
@@ -108,7 +146,7 @@ angular.module('bloqusApp')
                     }
                 }
 
-                visible.push(arrToPaint);
+                visible.push({grid: arrToPaint, piece: localPieces[x]});
                 //Draw it in a grid with largest dimensions.
 
             }

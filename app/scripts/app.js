@@ -19,5 +19,6 @@ angular.module('bloqusApp', [
     'firebase.ref',
     'LocalStorageModule',
     'ui.bootstrap',
-    'ui.bootstrap.tabs'
+    'ui.bootstrap.tabs',
+    'ang-drag-drop'
   ]);

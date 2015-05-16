@@ -214,13 +214,13 @@ body > ui-view > div > div > div.col-md-6.chat-box > chat > div > div > h4{
 
 .block{
   display: inline-block;
-  height: 20px;
-  width: 20px;
-  border: 1px solid white;
-  padding: 0px;
+  height: 30px;
+  width: 30px;
+  border: 0px solid transparent;
+  padding: 2px;
   padding-bottom: 0px;
   padding-top: 0px;
-  margin-top: 0px;
+  margin: 2px;
   margin-bottom: -4px;
 }
 

@@ -139,7 +139,9 @@ angular.module('bloqusApp')
 
                         //Change board
                         var tempBoard = self.createBoard(gameFirebase);
+                        console.log("Move to attempt", move);
                         var moveWorked = tempBoard.doMove(move);
+                        console.log("Move Worked", moveWorked);
                         if(moveWorked){
                             var newFireState = tempBoard.emitFire();
                             gameFirebase.board = newFireState;
