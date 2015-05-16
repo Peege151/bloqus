@@ -33,6 +33,11 @@ body {
   margin:0 auto;
   text-align: center;
 }
+.check-box-wrap{
+  width:60%;
+  margin:0 auto;
+  text-align: right;
+}
 .btn-main-page {
   width:60% ;
   margin:0 auto;
