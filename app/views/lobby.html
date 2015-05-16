@@ -15,10 +15,27 @@
                 <ul class="player-list">
                   
                   <li ng-repeat="(key, value) in currentPlayers">
-                    <div><strong>{{key | capital }}:</strong> <span ng-if="value.name === 'Computer'" ng-click="switchToColor(key)">(click to switch to this color)</span>
-
-                      <p class="player-name">{{value.name}}</p>
+                    <div><strong>{{key | capital }}: <span class="player-name">{{value.name}}</span></strong>
+                        <div class="btn-group player-options" role="group" ng-if="value.name === 'Computer'">
+                            <p class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                Options
+                                <span class="caret"></span>
+                            </p>
+                            <ul class="dropdown-menu" role="menu">
+                                <li ng-click="switchToColor(key)">Switch</li>
+                                <li ng-click="takeOver(key)">Take</li>
+                            </ul>
+                        </div>
+                        <div class="btn-group player-options" role="group" ng-if="value.name === playerName">
+                            <p class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                Options
+                                <span class="caret"></span>
+                            </p>
+                            <ul class="dropdown-menu" role="menu">
+                                <li ng-click="dropControl(key)">Drop</li>
+                            </ul>
                     </div>
+
                   </li>
                 </ul>
           </tab>
