@@ -3,7 +3,7 @@
 angular.module('bloqusApp')
     .controller('GameCtrl', function ($sce, $rootScope, $scope, $stateParams, GameFactory){
 
-    	var thisBoard, allPiece, thisColors, currentColor;
+    	var thisBoard, allPiece, thisColors, currentColor, localPieces, nextColor;
 
     	console.log($stateParams);
     	GameFactory.onGameLoaded(function(fbaseObject){
@@ -11,6 +11,21 @@ angular.module('bloqusApp')
     	});
     	console.log("Reaches here.")
         GameFactory.setGameFactory($stateParams.game.firebaseId, $stateParams.game.player);
+
+        $scope.rotate = function(pieceInQuestion){
+            console.log(pieceInQuestion)
+            var thisPiece = localPieces[pieceInQuestion];
+            thisPiece.rotateClockwise();
+            $scope.renderMyPieces(localPieces);
+            //pieceInQuestion.rotateClockwise();
+        }
+
+        $scope.flip = function(pieceInQuestion){
+            console.log(pieceInQuestion)
+            var thisPiece = localPieces[pieceInQuestion];
+            thisPiece.flip();
+            $scope.renderMyPieces(localPieces);
+        }
 
         $scope.pass = function(){
         	$rootScope.$emit("passTurn");
@@ -53,7 +68,6 @@ angular.module('bloqusApp')
             //To do -- find the next color this person will play.
             //TODO: Abstract this out to a function elsewhere.
             var allColors = ["blue", "yellow", "red","green"];
-            var nextColor;
             for(var x = allColors.indexOf(current); x < 8; x++){
                 var particular = x % 4;
                 if (color.indexOf(allColors[particular]) !== -1){
@@ -63,10 +77,17 @@ angular.module('bloqusApp')
             console.log("Next color to play, ", nextColor);
 
 
+            localPieces = pieces[nextColor];
+            $scope.renderMyPieces(localPieces)
 
 
-            var localPieces = pieces[nextColor];
-            $scope.localPieces = localPieces;
+            
+
+        	
+        });
+
+        $scope.renderMyPieces = function(myPieces){
+            var localPieces = myPieces;
             var visible = []
             for (var x = 0; x < localPieces.length; x++){
 
@@ -94,12 +115,7 @@ angular.module('bloqusApp')
 
 
             $scope.pieces = visible;
-
-
-            
-
-        	
-        });
+        }
 
 
 
