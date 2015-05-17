@@ -40,16 +40,23 @@
                 </ul>
           </tab>
           <tab heading="Advanced Options">
-
+      
           <h5>Set Grid Dimensions (square)</h5>
-          <div class="input-group">
-              <form ng-submit="setDimensions(gridDimensions)">
+          <div class="row">    
+            <div class="col-lg-6">
+              <div class="input-group">
+                <form ng-submit="setDimensions(gridDimensions)">
                 <input ng-disabled="!isHost" type="number" placeholder="{{gridDimensions}}" ng-model="gridDimensions" class="form-control">
                   <span class="input-group-btn">
                     <button class="btn btn-success" type="button">Set</button>
                   </span>
-              </form>
+                  
+                </form>
+              </div>
+            </div>       
           </div>
+          
+
           <h5>Set Polyomino</h5>
           <label class="radio-inline">
             <input ng-disabled="!isHost" type="radio" name="polyRadios" id="setpoly4" value="option1" ng-click="setPolyomino(4)" ng-checked="polyNum === 4"> 4

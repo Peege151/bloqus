@@ -64,7 +64,10 @@ angular.module('bloqusApp')
                     $state.go('gameboard', {game: { firebaseId: currentId, player: name }});
                 }
                 if (fbCurrentGame.status === 'deleted'){
-                    $state.go('main', {error: "Host Left, Game Aborted."});
+                    $state.go('main', {error: "Host Left, Game Aborted."})
+                    .then(function(){
+                        fbCurrentGame.$remove();
+                    });
                 }
                 $scope.currentPlayers = fbCurrentGame.player;
                 $scope.numColors = fbCurrentGame.numColors;
@@ -76,7 +79,9 @@ angular.module('bloqusApp')
                 if (toState.name !== 'gameboard' && fromState.name === 'lobby' && $scope.isHost){
                     console.log("Host Left!")
                     fbCurrentGame.status = "deleted"
-                    fbCurrentGame.$remove();
+                    fbCurrentGame.$save();
+                    console.log(fbCurrentGame.status)
+
                 }
                 if (toState.name !== 'gameboard' && fromState.name === 'lobby'){
                     $scope.firebase = LobbyFactory.playerLeftLobby(userColor, currentId);
