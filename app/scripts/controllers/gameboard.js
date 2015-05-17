@@ -99,9 +99,11 @@ angular.module('bloqusApp')
             //TODO: Abstract this out to a function elsewhere.
             var allColors = ["blue", "yellow", "red","green"];
             for(var x = allColors.indexOf(current); x < 8; x++){
+                //console.log("asda," , x)
                 var particular = x % 4;
                 if (color.indexOf(allColors[particular]) !== -1){
                     nextColor = allColors[particular];
+                    break;
                 }
             }
             // console.log("Next color to play, ", nextColor);
