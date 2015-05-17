@@ -5,6 +5,7 @@ angular.module('bloqusApp')
     .factory('LobbyFactory', function ($firebaseObject, localStorageService, SignInFactory) {
         var ref = new Firebase("https://bloqus.firebaseio.com/"),
             firebase = $firebaseObject(ref),
+            playerBackup,
             computerPlayer = {
                 name: 'Computer',
                 id: 'compId',
@@ -34,6 +35,21 @@ angular.module('bloqusApp')
 
                 localStorageService.set('color', newColor);
 
+                return firebase;
+            },
+
+            takeOver: function (oldColor, newColor, currentGame) {
+                if (firebase.games[currentGame].player[oldColor].name === 'Computer'){
+                    firebase.games[currentGame].player[newColor] = playerBackup;
+                } else {
+                    firebase.games[currentGame].player[newColor] = firebase.games[currentGame].player[oldColor];
+                }
+                return firebase;
+            },
+
+            dropControl: function (oldColor, currentGame) {
+                playerBackup = firebase.games[currentGame].player[oldColor];
+                firebase.games[currentGame].player[oldColor] = computerPlayer;
                 return firebase;
             },
 

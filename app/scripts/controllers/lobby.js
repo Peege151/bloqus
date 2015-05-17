@@ -6,13 +6,11 @@ angular.module('bloqusApp')
             firebase = $firebaseObject(ref),
             name = localStorageService.get('name'),
             userId = localStorageService.get('id'),
-            userColor = localStorageService.get('color')
-        var currentId
-        var currentGame;
-
-
+            userColor = localStorageService.get('color'),
+            userColor2, currentId;
 
         $scope.currentId = $stateParams.currentId;
+        $scope.playerName = name;
 
         firebase.$bindTo($scope, "firebase");
 
@@ -31,6 +29,15 @@ angular.module('bloqusApp')
             $scope.switchToColor = function (newColor) {
                 $scope.firebase = LobbyFactory.switchToColor(userColor, newColor, currentId);
                 userColor = newColor;
+            };
+
+            $scope.takeOver = function (newColor) {
+                $scope.firebase = LobbyFactory.takeOver(userColor, newColor, currentId);
+            };
+
+            $scope.dropControl = function (oldColor) {
+                $scope.firebase = LobbyFactory.dropControl(oldColor, currentId);
+                //userColor = newColor;
             };
 
             $scope.setNumOfPlayers = function (val) {

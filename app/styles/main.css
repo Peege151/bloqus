@@ -74,7 +74,6 @@ body {
   height:380px;
   overflow: scroll;
 }
-
 #example-messages > li {
   padding: 10px;
 }
@@ -94,6 +93,13 @@ ul.player-list {
   color:white;
 ;
 }
+.player-options {
+  float: right;
+}
+.dropdown-menu {
+  color: black;
+  background: white;
+}
 .tab-content {
   border-right: 1px solid #ddd;
   border-bottom: 1px solid #ddd;
@@ -107,7 +113,7 @@ ul.player-list {
   position:relative;top: -1px;
   border-radius: 0 0px 10px 10px;
 }
-#messageInput{
+#messageInput {
   width:100%;
 }
 .game-options {
