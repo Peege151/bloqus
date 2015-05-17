@@ -1,3 +1,32 @@
-<h1>This is the game board!</h1>
+
+<button type="button" ng-click="pass()">pass move</button>
+
+<div ui-on-drop="dropPiece" drop-channel="A" id="frame">
+  <div class = "row" ng-repeat="row in boardGrid">
+    <div class = "block" ng-class="s" ng-repeat="s in boardGrid[$index] track by $index" >
+    </div>
+  </div> 
+</div>
+
+
+
+<div class = "pieces">
+  <div class="piece" jqyoui-draggable ng-repeat = "piece in pieces" ng-click="rotate($index)" ng-right-click="flip($index)">
+
+    <div class="drag-frame" drag="piece" ui-draggable='true' on-drop-success="dropPiece($event, piece)" drag-channel="A">
+
+      <span ng-init="pieceNum = $index"></span>
+      <div class="row" ng-repeat = "row in pieces[pieceNum].grid track by $index">
+        <span ng-init="rowNum = $index"></span>
+        <div class="block" ng-class="item" ng-repeat = "item in pieces[pieceNum].grid[rowNum] track by $index">
+        </div>
+      </div>  
+    </div>
+
+  </div>
+</div>
+
+<div ng-bind-html="boardHTML"></div>
+
 
 <div>{{ game | json }}</div>

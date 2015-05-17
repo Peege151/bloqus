@@ -35,6 +35,8 @@ module.exports = function(config) {
       'bower_components/angular-touch/angular-touch.js',
       'bower_components/angular-ui-router/release/angular-ui-router.js',
       'bower_components/angular-local-storage/dist/angular-local-storage.js',
+      'bower_components/jquery-ui/jquery-ui.js',
+      'bower_components/angular-dragdrop/src/angular-dragdrop.js',
       'bower_components/mockfirebase/browser/mockfirebase.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower

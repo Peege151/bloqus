@@ -235,7 +235,8 @@
 				candidatePieces = pieces;
 			}
 
-			//This is not actually useless.
+			//This is not actually useless.  Do not remove it.  Chesterton's fence and all.
+			//It actually relocates the pieces so they are flush with the edge.
 			for(var x = 0; x < candidatePieces.length; x++){
 				var shape = candidatePieces[x].getPieceWithOrientation();
 				candidatePieces[x].shape = shape;
@@ -252,6 +253,7 @@
 
 		var Board = function(n){
 			this.dimensions = n;
+			this.currentTurn = "";
 			this.board = helper.array2dFill(n,n,function(){return 'N'});
 		}
 
@@ -361,7 +363,7 @@
 					return false;
 				}
 			}
-			//console.log("passed adjacencies");
+			//console.log("passed adjacencies", move.color);
 
 			var diags = move.legalDiagonals();
 			for(var x = 0; x < diags.length; x++){
@@ -370,10 +372,13 @@
 				if(move.color == 'Y' && spot[0] == this.dimensions && spot[1] == -1){return true;}
 				if(move.color == 'R' && spot[0] == this.dimensions && spot[1] == this.dimensions){return true;}
 				if(move.color == 'G' && spot[0] == -1 && spot[1] == this.dimensions){return true;}
+				//console.log("=======", spot)
 				if (this.getBoardSpot(spot[0],spot[1]) == move.color){
+					//console.log("found diagonal")
 					return true;
 				}
 			}
+
 
 			return false;
 
@@ -474,7 +479,7 @@
 			helper: helper,
 			Move: Move,
 			Piece: Piece,
-			PiecesGenerator,
+			PiecesGenerator: PiecesGenerator,
 			Board: Board
 		}
 		return logic;
