@@ -42,16 +42,22 @@ angular.module('bloqusApp')
             // console.log("Frame X", frameX);
             // console.log("Frame Y", frameY);
 
-            var fudgeY = evnt.currentTarget.clientHeight 
+            var fudgeY = evnt.currentTarget.clientHeight;
+            var scrollTop = (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
+
 
             var xPosition = dropX - frameX;
-            var yPosition = dropY - frameY - fudgeY;
+            var yPosition = dropY - frameY - fudgeY + scrollTop;
 
             var gridX = Math.round(xPosition / squareSize);
             var gridY = Math.round(yPosition / squareSize);
             console.log(data.piece)
             if(thisColors.indexOf(currentColor) !== -1){
-                var move = new LogicFactory.Move(data.piece, [gridY, gridX], currentColor.toUpperCase().charAt(0))
+                var move = new LogicFactory.Move(data.piece, [gridY, gridX], currentColor.toUpperCase().charAt(0));
+
+                //Add it to the local board, so we have the feeling 
+                thisBoard.doMove(move);
+                $scope.boardGrid = thisBoard.getBoard();
                 $rootScope.$emit("makeMove", move);
             }
 
