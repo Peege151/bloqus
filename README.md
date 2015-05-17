@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/peege151/bloqus.png?label=ready&title=Ready)](https://waffle.io/peege151/bloqus)
 # bloqus
 
 This project is generated with [yo angular generator](https://github.com/yeoman/generator-angular)

@@ -4,6 +4,7 @@ angular.module('bloqusApp')
 
     .factory('GameFactory', function ($rootScope, $firebaseObject, localStorageService, LogicFactory, AgentFactory) {
 
+
         //Specific to this player, game information
     	var thisPlayer,        //name of the player
             thisColors,       //colors that the player currently has
@@ -195,6 +196,11 @@ angular.module('bloqusApp')
                 $rootScope.$on('makeMove', makeMove);
 
                 $rootScope.$on('passTurn', passTurn);
+
+
+                $rootScope.$on('gameover', function(){
+                    $state.go('gameover', {game: gameFirebase});
+                });
 
             }
         }

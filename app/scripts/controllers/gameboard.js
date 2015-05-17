@@ -22,14 +22,17 @@ angular.module('bloqusApp')
             thisPiece.flip();
             $scope.renderMyPieces(localPieces);
         }
-
+        var passCount = 0;
         $scope.pass = function(){
         	$rootScope.$emit("passTurn");
+          passCount++
+          console.log("PASSCOUNT: ", passCount)
+          if(passCount >= 4) $rootScope.$emit('gameover')
+
         }
 
         $scope.dropPiece = function(evnt, data){
-            console.log(evnt);
-            console.log("data", data);
+
 
             var dropX = evnt.originalEvent.x;
             var dropY = evnt.originalEvent.y;
@@ -46,11 +49,13 @@ angular.module('bloqusApp')
             var scrollTop = (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
 
 
+
             var xPosition = dropX - frameX;
             var yPosition = dropY - frameY - fudgeY + scrollTop;
 
             var gridX = Math.round(xPosition / squareSize);
             var gridY = Math.round(yPosition / squareSize);
+
             console.log(data.piece)
             if(thisColors.indexOf(currentColor) !== -1){
                 var move = new LogicFactory.Move(data.piece, [gridY, gridX], currentColor.toUpperCase().charAt(0));
@@ -58,8 +63,17 @@ angular.module('bloqusApp')
                 //Add it to the local board, so we have the feeling 
                 thisBoard.doMove(move);
                 $scope.boardGrid = thisBoard.getBoard();
+
+ 
+            //if(thisColors.indexOf(currentColor) !== -1){
+
+
+                var move = new LogicFactory.Move(data.piece, [gridY, gridX], currentColor.toUpperCase().charAt(0))
+
+
                 $rootScope.$emit("makeMove", move);
             }
+
 
 
             // console.log(gridX, gridY);
@@ -67,19 +81,15 @@ angular.module('bloqusApp')
             // console.log(data);
         }
         $scope.makeMove = function(){
-            //$rootScope.$emit("makeMove");
-            // console.log(thisColors)
-            // console.log(currentColor);
+
+
             if(thisColors.indexOf(currentColor) !== -1){
-                // console.log("This,", allPiece);
-                // console.log(thisColors);
-                // console.log(thisBoard.currentTurn.toUpperCase().charAt(0));
-               
+
                 var moves = thisBoard.allLegalMovesForPieces(allPiece[currentColor], currentColor.toUpperCase().charAt(0));
-                console.log("moves," , moves);
+
                 var choice = Math.floor(Math.random() * moves.length);
                 var id = moves[choice];
-                console.log("Choice", id);
+
                 $rootScope.$emit('makeMove', id);
             }
 
@@ -88,10 +98,7 @@ angular.module('bloqusApp')
 
         $rootScope.$on('stateChanged', function(event, board, pieces, color, current){
 
-            // console.log("Board passed:  ", board);
-            // console.log("Pieces passed:  ", pieces);
-            // console.log("Color passed:  ", color);
-            // console.log("CurrentColor passed:  ", current);
+
 
         	thisBoard = board;
         	allPiece = pieces; //pieces[board.currentTurn];
@@ -112,7 +119,6 @@ angular.module('bloqusApp')
                     break;
                 }
             }
-            // console.log("Next color to play, ", nextColor);
 
 
             localPieces = pieces[nextColor];
