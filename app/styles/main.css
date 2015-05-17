@@ -7,21 +7,141 @@
 
 body {
   padding: 0;
+  background-color:#FF8F00;
+  font-family: benton-sans, 'Helvetica Neue', helvetica;
 }
+@font-face {
+  font-family: block-sketch;
+  src: url('../fonts/Sketch_Block.ttf');
+}
+.main-page-wrap {
+  width:40%;
+  margin:0 auto;
+  background-color: white;
+  border-radius: 10px;
+  padding:20px;
+  position:relative;
+    top:200px;
+  -webkit-box-shadow: 3px 5px 6px #FF6D00;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+  -moz-box-shadow:    3px 5px 6px #FF6D00;  /* Firefox 3.5 - 3.6 */
+  box-shadow:         3px 5px 6px #FF6D00;
 
+}
+.btn-main-page {
+  width:60% ;
+  margin:0 auto;
+  display: block;
+  margin-bottom:20px;
+  padding:10px;
+}
+.lobby-wrap {
+  font-family: benton-sans, 'Helvetica Neue', helvetica;
+  padding:20px;
+  border-radius: 10px;
+  width:80%;
+  margin:0 auto;
+  background-color: white;
+  -webkit-box-shadow: 3px 5px 6px #FF6D00;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+  -moz-box-shadow:    3px 5px 6px #FF6D00;  /* Firefox 3.5 - 3.6 */
+  box-shadow:         3px 5px 6px #FF6D00;
+}
+.bloqus-h1{
+  text-align: center;
+  width:100%;
+  font-family: block-sketch;
+  font-size: 500%;
+
+}
+.logo-wrap h1{
+  display:table-cell;
+    background-color: rgba(0,0,0,.2);
+
+  vertical-align: middle;
+  text-align: center;
+  color:white;
+}
+#example-messages {
+  text-decoration: none;
+  list-style: none;
+  line-height: 150%;
+  padding: 0px;
+  background-color: #F0F8FF;
+  border-left: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-radius: 0px 0px 10px 10px;
+  min-height: 380px;
+  height:380px;
+  overflow: scroll;
+}
+#example-messages > li {
+  padding: 10px;
+}
+.player-name {
+  padding-left: 20px;
+}
+ul.player-list {
+  list-style: none;
+  padding:0px;
+  background-color: #F0F8FF;
+}
+.player-list > li {
+    padding:10px;
+}
+.player-list li:nth-child(even) {
+  background-color: #99c5ff;
+  color:white;
+;
+}
+.player-options {
+  float: right;
+}
+.dropdown-menu {
+  color: black;
+  background: white;
+}
+.tab-content {
+  border-right: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  padding:10px;
+  overflow:hidden;
+
+
+  height:380px;
+
+  position:relative;top: -1px;
+  border-radius: 0 0px 10px 10px;
+}
+#messageInput {
+  width:100%;
+}
+.game-options {
+  min-height: 380px;
+  height:380px;
+}
+#example-messages li:nth-child(even){
+ background:  #99c5ff;
+ color:white;
+
+ }
+.chat-box{
+  border-radius: 10px;
+}
+body > ui-view > div > div > div.col-md-6.chat-box > chat > div > div > h4{
+  
+  margin-bottom:0px;
+}
 /* Everything but the jumbotron gets side spacing for mobile first views */
 .header,
 .marketing,
 .footer {
+  border:0px;
   padding-left: 15px;
   padding-right: 15px;
 }
 
-/* Custom page header */
-.header {
-  border-bottom: 1px solid #e5e5e5;
-  margin-bottom: 10px;
-}
+
 /* Make the masthead heading the same height as the navigation */
 .header h3 {
   margin-top: 0;
@@ -73,11 +193,76 @@ body {
     padding-right: 0;
   }
   /* Space out the masthead */
-  .header {
-    margin-bottom: 30px;
-  }
+
   /* Remove the bottom border on the jumbotron for visual effect */
   .jumbotron {
     border-bottom: 0;
   }
+  .header{
+    width:80%;
+    margin:0 auto;
+    margin-bottom: 0px !important;
+  }
+  .navbar, .navbar-default {
+    background-color: #FF8F00;
+    margin-bottom: 0px !important;
+    border: 0px;
+  }
+  a.navbar-brand {
+    color:white !important;
+  }
+  .container {
+    width: 100%;
+    margin: 0px !important;
+    border:0px !important;
+  }
+}
+
+.block{
+  display: inline-block;
+  height: 30px;
+  width: 30px;
+  border: 0px solid transparent;
+  padding: 2px;
+  padding-bottom: 0px;
+  padding-top: 0px;
+  margin: 2px;
+  margin-bottom: -4px;
+}
+
+.row{
+  margin: 0px;
+  border: 0px;
+  padding: 0px;
+}
+
+.B{
+  background: blue;
+}
+
+.Y{
+  background: yellow;
+}
+
+.G{
+  background: green;
+}
+
+.R{
+  background: red;
+}
+
+.N{
+  background: black;
+}
+
+.T{
+  background: transparent;
+}
+
+.piece{
+  border: black solid 1px;
+  width: 120px;
+  height: 120px;
+  float: left;
 }

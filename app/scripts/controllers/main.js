@@ -3,8 +3,7 @@
 angular.module('bloqusApp')
 
     .controller("MainCtrl", function ($scope, $state, SignInFactory, $firebaseObject) {
-        var ref = new Firebase("https://bloqus.firebaseio.com/"),
-            firebase = $firebaseObject(ref),
+        var firebase = $firebaseObject(new Firebase("https://bloqus.firebaseio.com/")),
             shareId, currentGameId;
 
         firebase.$bindTo($scope, "firebase");
@@ -15,12 +14,24 @@ angular.module('bloqusApp')
                 var randomId = Math.round(Math.random() * 100000000);
                 var gameId = Math.round(Math.random() * 100000);
                 var hostname = $scope.hostname;
-
                 $scope.firebase = SignInFactory.createGame(randomId, gameId, hostname);
-
+                $scope.firebase.$save();
                 $('.modal-backdrop').remove();
                 $state.go('lobby', {currentId: randomId, shareId: gameId});
 
+            };
+
+            $scope.checkGameId = function (gamenum) {
+                var gameInfo = SignInFactory.checkGameId(gamenum);
+
+                if (!gameInfo) {
+                    $scope.gameDoesNotExist = true;
+                    $('#join-game-modal').modal('hide');
+                } else {
+                    shareId = gameInfo.shareId;
+                    currentGameId = gameInfo.currentGameId;
+                    $scope.foundGame = gameInfo.foundGame;
+                }
             };
 
             $scope.enterGame = function (playername) {
@@ -36,17 +47,5 @@ angular.module('bloqusApp')
 
             };
 
-            $scope.checkGameId = function (gamenum) {
-                var gameInfo = SignInFactory.checkGameId(gamenum);
-
-                if (!gameInfo) {
-                    $scope.gameDoesNotExist = true;
-                    $('#join-game-modal').modal('hide');
-                } else {
-                    shareId = gameInfo.shareId;
-                    currentGameId = gameInfo.currentGameId;
-                    $scope.foundGame = gameInfo.foundGame;
-                }
-            }
         });
     });

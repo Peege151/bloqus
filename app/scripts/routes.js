@@ -29,4 +29,12 @@ angular.module('bloqusApp')
                 controller: 'GameCtrl'
             })
 
+
+            .state('gameover', {
+                url: '/gameover',
+                templateUrl: 'views/gameover.html',
+                params: {game: {}},
+                controller: 'GameOverCtrl'
+            })
+
     });

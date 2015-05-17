@@ -1,86 +1,87 @@
 'use strict';
 
 angular.module('bloqusApp')
-    .controller('LobbyCtrl', function ($scope, $state, $stateParams, $firebaseObject, localStorageService, LobbyFactory) {
+    .controller('LobbyCtrl', function ($rootScope, $scope, $state, $stateParams, $firebaseObject, localStorageService, LobbyFactory) {
         var ref = new Firebase("https://bloqus.firebaseio.com/"),
-            fbMessages = new Firebase("https://bloqus.firebaseio.com/messages"),
             firebase = $firebaseObject(ref),
             name = localStorageService.get('name'),
             userId = localStorageService.get('id'),
             userColor = localStorageService.get('color'),
-            currentId, currentGame;
+            userColor2, currentId;
+
+        $scope.currentId = $stateParams.currentId;
+        $scope.playerName = name;
 
         firebase.$bindTo($scope, "firebase");
 
         firebase.$loaded().then(function () {
+           
             currentId = $stateParams.currentId;
-            currentGame = $scope.firebase.games[currentId];
-            var fbGameStatusRef = new Firebase("https://bloqus.firebaseio.com/games/" + currentId + "/status");
-            var fbGameStatus = $firebaseObject(fbGameStatusRef);
+            var fbCurrentGame = $firebaseObject(new Firebase("https://bloqus.firebaseio.com/games/" + currentId));
+            $scope.currentId = currentId;
             $scope.shareId = $stateParams.shareId;
-            $scope.currentPlayers = currentGame.player;
-
-            fbGameStatus.$watch(function () {
-                if (fbGameStatus.$value === 'start'){
-                    $state.go('gameboard', {game: {firebaseId: currentId, player: name}});
-                }
-            });
+            $scope.currentPlayers = fbCurrentGame.player;
+            $scope.gridDimensions = fbCurrentGame.dimensions;
+            $scope.polyNum = fbCurrentGame.polyominoNum;
+            $scope.numColors = fbCurrentGame.numColors;
+            $scope.isHost = localStorageService.get('host') == currentId;
 
             $scope.switchToColor = function (newColor) {
                 $scope.firebase = LobbyFactory.switchToColor(userColor, newColor, currentId);
+                userColor = newColor;
+            };
+
+            $scope.takeOver = function (newColor) {
+                $scope.firebase = LobbyFactory.takeOver(userColor, newColor, currentId);
+            };
+
+            $scope.dropControl = function (oldColor) {
+                $scope.firebase = LobbyFactory.dropControl(oldColor, currentId);
+                //userColor = newColor;
             };
 
             $scope.setNumOfPlayers = function (val) {
                 $scope.firebase = LobbyFactory.setNumOfPlayers(val, currentId);
             };
 
-            $scope.startGame = function () {
-                $scope.firebase.games[currentId].status = 'start';
-                $state.go('gameboard', {game: {firebaseId: currentId, player: name}})
+            $scope.setPolyomino = function (val) {
+                $scope.polyNum = val;
+                $scope.firebase = LobbyFactory.setPolyomino(val, currentId);
             };
 
+            $scope.setDimensions = function (val) {
+                $scope.gridDimensions = val;
+                $scope.firebase = LobbyFactory.setDimensions(val, currentId);
+            };
+
+            $scope.startGame = function () {
+                $scope.firebase.games[currentId].status = 'start';
+                $state.go('gameboard', {game: { firebaseId: currentId, player: name }})
+            };
+
+            fbCurrentGame.$watch(function () {
+                if (fbCurrentGame.status === 'start'){
+                    $state.go('gameboard', {game: { firebaseId: currentId, player: name }});
+                }
+                if (fbCurrentGame.status === 'deleted'){
+                    $state.go('main', {error: "Host Left, Game Aborted."});
+                }
+                $scope.currentPlayers = fbCurrentGame.player;
+                $scope.numColors = fbCurrentGame.numColors;
+                $scope.polyNum = fbCurrentGame.polyominoNum;
+                $scope.gridDimensions = fbCurrentGame.dimensions;
+            });
+
+            $rootScope.$on( '$stateChangeStart', function (event, toState, toParams, fromState) {
+                if (toState.name !== 'gameboard' && fromState.name === 'lobby' && $scope.isHost){
+                    console.log("Host Left!")
+                    fbCurrentGame.status = "deleted"
+                    fbCurrentGame.$remove();
+                }
+                if (toState.name !== 'gameboard' && fromState.name === 'lobby'){
+                    $scope.firebase = LobbyFactory.playerLeftLobby(userColor, currentId);
+                }
+            })
+
         });
-
-        $scope.startGame = function () {
-          //console.log(currentGame);
-          $state.go('gameboard', {game: {firebaseId: currentId, player: name}})
-        };
-
-        // REGISTER DOM ELEMENTS
-        var messageField = $('#messageInput');
-        var messageList = $('#example-messages');
-
-        // LISTEN FOR KEYPRESS EVENT
-        messageField.keypress(function (e) {
-            if (e.keyCode == 13) {
-                //FIELD VALUES
-                var username = name;
-                var message = messageField.val();
-
-                //SAVE DATA TO FIREBASE AND EMPTY FIELD
-                fbMessages.push({name: username, text: message});
-                messageField.val('');
-            }
-        });
-
-        // Add a callback that is triggered for each chat message.
-        fbMessages.limitToLast(10).on('child_added', function (snapshot) {
-            //GET DATA
-            var data = snapshot.val();
-            var username = data.name || "anonymous";
-            var message = data.text;
-
-            //CREATE ELEMENTS MESSAGE & SANITIZE TEXT
-            var messageElement = $("<li>");
-            var nameElement = $("<strong></strong>");
-            nameElement.text(username);
-            messageElement.text(message).prepend(nameElement);
-
-            //ADD MESSAGE
-            messageList.append(messageElement);
-
-            //SCROLL TO BOTTOM OF MESSAGE LIST
-            messageList[0].scrollTop = messageList[0].scrollHeight;
-        });
-
     });

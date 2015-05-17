@@ -2,99 +2,200 @@
 
 angular.module('bloqusApp')
 
-    .factory('GameFactory', function ($rootScope, $firebaseObject, localStorageService, LogicFactory) {
+    .factory('GameFactory', function ($rootScope, $firebaseObject, localStorageService, LogicFactory, $state) {
 
-    	var player, firebaseId;
+        //Specific to this player.
+    	var thisPlayer,        //name of the player
+            thisColors,       //colors that the player currently has
+            thisPiecesLeft;   //Pieces the player has left.  This is an object, the keys of which are the colors that 
+                              //this particular player has in mind.
 
-    	var gameRef, gameFirebase
-    	var onLoadedEvents = [];
+        //Common across everyone currently playing the game.
+    	var universalPiecesArray,           //All the pieces legal in this current game.
+            universalSequenceOfColors,      //All colors in game.
+            universalCurrentTurn;           //Current colors turn.
 
-    	var playersPieces;
-    	var boardAsArray
+        var gameFirebase
+        var onLoadedEvents = [];
+
 
         return {
 
-    	setGameFactory: function(firebaseId, player){
-    		var self = this;
-    		var gameId = gameId;
-    		//So, if we are passed a gameId, then we should use that.
- 			//This means that this is ocurring after direct state transfer from 
- 			//another controller.
-    		if(firebaseId){
-    			firebaseId = firebaseId;
-    			player = player;
-        		gameRef = new Firebase("https://bloqus.firebaseio.com/games/"+firebaseId)
-        		gameFirebase = $firebaseObject(gameRef);
+        	setGameFactory: function(fbGameId, playerName){
+        		var self = this; 
+
+                //console.log("GameID", fbGameId);
+                //console.log("PlayerName", playerName);
+                //What if we didn't get the information handed to us? Let's try to load it.
+                //local storage works synchronously, which makes this pretty easy.
+                //Currently, if we have neither fbGameId, nor support localStorage, we just fail ignominiously.
+                var fbGameId = fbGameId || localStorageService.get('fbGameId')
+                thisPlayer = playerName || localStorageService.get('playerName')
+
+                //console.log("GameID", fbGameId);
+                //console.log("PlayerName", thisPlayer);
+
+        		gameFirebase = $firebaseObject(new Firebase("https://bloqus.firebaseio.com/games/"+fbGameId));
+
+                //console.log(gameFirebase);
+
         		gameFirebase.$loaded().then(function(){
-        			//Initialize, if intialization is needed, which it should be.
-        			self.initialize();
-        			//Iterate through events.
-        			onLoadedEvents.forEach(function(evnt){
-        				evnt(gameFirebase);
-        			})
-        			//Same firebase id for later, in case of reload
-    				if (localStorageService.isSupported){
-    					localStorageService.set('firebaseId', firebaseId);
-    					localStorageService.set('player', player);
-    				}
-        		});
+                    //Initialize stuff--basically, setting up stuff which is not loaded.
+                    //Right now this is mostly just generating the pieces with PiecesGenerator.
+                    self.initialize();
+                    //Loop through events that happens when game is loaded.  Right now this isn't really used.
+                    onLoadedEvents.forEach(function(evnt){
+                        evnt(gameFirebase);
+                    });
+                    //And we have a state, so let's emit it.
+                    self.emitState();
 
-        	//On the other hand, if we don't have a gameId set, then
-        	//that means that this might have come from some kind of accidental reload.
-        	//In that case, then try to load it from an id stored in local storage.
-    		}else{
-    			firebaseId = localStorageService.get('firebaseId')
-    			player = localStorageService.get('firebaseId')
-    			gameRef = new Firebase("https://bloqus.firebaseio.com/games/"+firebaseId)
-        		gameFirebase = $firebaseObject(gameRef);
-        		gameFirebase.$loaded().then(function(){
-        			//Initialize, if initialization is needed.
-        			self.initialize();
-        			//Iterate through events
-        			onLoadedEvents.forEach(function(evnt){
-        				evnt(gameFirebase);
-        			})
-        		});
-    		}
+                    //save these things for later.
+                    if (localStorageService.isSupported){
+                        localStorageService.set('fbGameId', fbGameId);
+                        localStorageService.set('playerName', thisPlayer);
+                    }
+                });
 
-    	},
+        	},
 
-        onGameLoaded: function(func){
-        	onLoadedEvents.push(func);
-        },
+            onGameLoaded: function(func){
+            	onLoadedEvents.push(func);
+            },
+
+            //right now, this is a bit misleadingly titled.  Whenever gameFirebase changes,
+            //this both (1) emits a universal event and updates the state of gamefactory.
+            emitState: function(){
+                console.log("Change ocurred in database.");
+
+                //Create stuff to be emitted from state.
+                var tempBoard = this.createBoard(gameFirebase);
+                var tempAllPieces = this.allPieces();
+
+                //Changing the state.
+                universalCurrentTurn = gameFirebase.currentTurn;
+                thisPiecesLeft = Object.keys(tempAllPieces).reduce(function(old, cur){ old = (thisColors.indexOf(cur)) ? old[cur] = tempAllPieces[cur] : old; return old; }, {});
+
+                //Emit the event indicating what has changed.
+                $rootScope.$emit("stateChanged", tempBoard, tempAllPieces, thisColors, universalCurrentTurn);
+
+            },
+
+            createBoard: function(fbgame){
+
+                var tempBoard = new LogicFactory.Board(fbgame.dimensions);
+                console.log(fbgame.board)
+                tempBoard.consumeFire(fbgame.board);
+                tempBoard.currentTurn = fbgame.currentTurn;
+                return tempBoard;
+            },
+
+            allPieces: function(){
+                var playerPieces = {}
+                for(var x = 0; x < universalSequenceOfColors.length; x++){
+                    var m = gameFirebase;
+                    var p = gameFirebase.player;
+                    var o = gameFirebase.player[universalSequenceOfColors[x]];
+                    var q = gameFirebase.player[universalSequenceOfColors[x]].pieces;
+                    playerPieces[universalSequenceOfColors[x]] = gameFirebase.player[universalSequenceOfColors[x]].pieces.split('|').map(function(num){
+                        return universalPiecesArray[num];
+                    });
+                }
+                return playerPieces;
+            },
 
 
+            initialize: function(){
 
-        initialize: function(){
-        	if (!gameFirebase.initialized){
-        		gameFirebase.polyominoNum = gameFirebase.polyominoNum || 5;
-        		gameFirebase.dimensions = gameFirebase.dimensions || 20;
-        		gameFirebase.currentTurn = gameFirebase.currentTurn || 'blue';
-        		gameFirebase.numColors = gameFirebase.numColors || 4;
-        		gameFirebase.status = gameFirebase.status || "start";
+                console.log("INIT START:")
 
-        		var allPieces = [];
-        		for(var x = 0; x < gameFirebase.polyominoNum; x++){
-        			allPieces.push(x);
-        		}
-        		angular.forEach(gameFirebase.player, function(value, key){
-        			gameFirebase.player[key].pieces = allPieces.join('|');
-        		});
+                var self = this;
 
-        		var obj = {};
-        		var row = "";
-        		for(var x = 0, len = gameFirebase.dimensions; x < len; x++){
-        			row=row+"N";
-        		}
-        		for(var x = 0, len = gameFirebase.dimensions; x < len; x++){
-        			obj["row"+x] = row;
-        		}
+                //Stuff everyone has in common, which never changes.
+                universalPiecesArray = LogicFactory.PiecesGenerator(gameFirebase.polyominoNum);
+                universalSequenceOfColors = (gameFirebase.numColors == 4) ? ["blue", "yellow", "red","green"] : ["blue","red"];
+
+                //Stuff only we got, which never changes.
+                //thisPlayer -- already set.
+
+                thisColors = universalSequenceOfColors.filter(function(c){ return gameFirebase.player[c].name == thisPlayer });
 
 
-        		gameFirebase.board = obj;
-        		gameFirebase.initialized = true;
-        		$rootScope.$emit("initialized", true)
-        	}
+                //Set up events.
+
+
+                //If anything changes in firebase, emit the state that we're currently in.
+                gameFirebase.$watch(function(){
+                    self.emitState();
+                });
+
+                //If we hear a move, try to make it.
+                $rootScope.$on('makeMove', function(event, move){
+                    console.log("'Move event' caught.");
+                    //console.log(gameFirebase.currentTurn)
+                    //console.log(thisColors);
+                    if(thisColors.indexOf(gameFirebase.currentTurn) !== -1){
+                        console.log("Legal move made.")
+
+                        //Change board
+                        var tempBoard = self.createBoard(gameFirebase);
+                        console.log("Move to attempt", move);
+                        var moveWorked = tempBoard.doMove(move);
+                        console.log("Move Worked", moveWorked);
+                        if(moveWorked){
+                            var newFireState = tempBoard.emitFire();
+                            gameFirebase.board = newFireState;
+
+                            //Change pieces saved
+                            var arr = gameFirebase.player[gameFirebase.currentTurn].pieces.split('|')
+                            for(var i = 0; i < gameFirebase.player[gameFirebase.currentTurn].pieces.split('|').length - 1; i++){
+                                console.log("Len", gameFirebase.player[gameFirebase.currentTurn].pieces.split('|').length);
+                                console.log("arr i", arr[i]);
+                                console.log("universalPiecesArray", universalPiecesArray[arr[i]]);
+                                if (universalPiecesArray[arr[i]].sameShapeAtAll(move.piece)){
+                                    arr.splice(i,1);
+                                }
+                            }
+                            gameFirebase.player[gameFirebase.currentTurn].pieces = arr.join("|");
+
+                            //Advance whose turn it is.
+                            var curIndex = universalSequenceOfColors.indexOf(gameFirebase.currentTurn);
+                            curIndex++;
+                            curIndex = (curIndex % universalSequenceOfColors.length)
+                            gameFirebase.currentTurn = universalSequenceOfColors[curIndex];
+                            
+                            gameFirebase.$save();
+                        }else{
+                            //Do something because the move was illegal.
+                        }
+                    }
+
+                });
+
+                $rootScope.$on('passTurn', function(){
+                    console.log("'Passing' event caught.");
+                    //console.log(thisColors)
+                    if(thisColors.indexOf(gameFirebase.currentTurn) !== -1){
+
+                        //Alter current Turn object in fb.
+                        //console.log(thisColors, gameFirebase.currentTurn);
+                        var curIndex = universalSequenceOfColors.indexOf(thisColors);
+                        curIndex++;
+                        curIndex = (curIndex % universalSequenceOfColors.length)
+                        gameFirebase.currentTurn = universalSequenceOfColors[curIndex];
+
+                        //Mark player so it says that the player has passed.
+                        gameFirebase.player[gameFirebase.currentTurn].hasPassed = true;
+
+                        gameFirebase.$save();                    
+                    }
+                });
+
+
+                $rootScope.$on('gameover', function(){
+                    $state.go('gameover', {game: gameFirebase});
+                });
+
+            }
         }
-    }
 });	

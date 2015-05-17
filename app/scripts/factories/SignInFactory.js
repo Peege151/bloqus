@@ -3,10 +3,44 @@
 angular.module('bloqusApp')
 
     .factory('SignInFactory', function ($firebaseObject, localStorageService) {
-        var ref = new Firebase("https://bloqus.firebaseio.com/"),
-            firebase = $firebaseObject(ref);
 
-        return {
+        var ref = new Firebase("https://bloqus.firebaseio.com/"),
+            firebase = $firebaseObject(ref),
+            getCurrentPolyNum = function (currentId) {
+                return firebase.games[currentId].polyominoNum
+            };
+
+        var generatePolyominoString = function (val) {
+            var polystring = "";
+            for (var i = 0; i < val; i++) {
+                if (i === val - 1) return polystring += i;
+                polystring += i + "|"
+            }
+        };
+
+        var polyOptions = {
+            4: generatePolyominoString(9),
+            5: generatePolyominoString(21),
+            6: generatePolyominoString(56)
+        };
+
+        var SignInFactory = {
+
+            boardBuilder: function (dimension) {
+                var obj = {},
+                    row = "",
+                    key = "";
+
+                for (var i = 0; i < dimension; i++) {
+                    row += 'N';
+                }
+
+                for (var j = 0; j < dimension; j++) {
+                    key = 'row' + j;
+                    obj[key] = row;
+                }
+                return obj;
+            },
 
             createGame: function (randomId, gameId, hostname) {
                 var hostId = Math.round(Math.random() * 100000000);
@@ -14,6 +48,7 @@ angular.module('bloqusApp')
                 if (!firebase.games) firebase.games = {};
                 firebase.games[randomId] = {
                     id: gameId,
+                    board: SignInFactory.boardBuilder(20),
                     status: 'lobby',
                     host: hostname,
                     polyominoNum: 5,
@@ -24,28 +59,28 @@ angular.module('bloqusApp')
                         blue: {
                             name: hostname,
                             id: hostId,
-                            pieces: {has: 'somePieces'},
+                            pieces: '0|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20',
                             hasPassed: false,
                             isAI: false
                         },
                         yellow: {
                             name: 'Computer',
                             id: 'compId',
-                            pieces: {has: 'somePieces'},
+                            pieces: '0|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20',
                             hasPassed: false,
                             isAI: true
                         },
                         green: {
                             name: 'Computer',
                             id: 'compId',
-                            pieces: {has: 'somePieces'},
+                            pieces: '0|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20',
                             hasPassed: false,
                             isAI: true
                         },
                         red: {
                             name: 'Computer',
                             id: 'compId',
-                            pieces: {has: 'somePieces'},
+                            pieces: '0|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20',
                             hasPassed: false,
                             isAI: true
                         }
@@ -57,13 +92,16 @@ angular.module('bloqusApp')
                     game: gameId,
                     name: hostname
                 };
-
+                localStorageService.clearAll()
                 localStorageService.set('name', hostname);
                 localStorageService.set('id', hostId);
                 localStorageService.set('color', 'blue');
+                localStorageService.set('host', randomId);
+                localStorageService.set('gameId', randomId);
 
                 return firebase;
             },
+
 
             checkGameId: function (gamenum) {
                 var obj;
@@ -81,6 +119,7 @@ angular.module('bloqusApp')
 
             enterGame: function (playername, currentGameId, shareId) {
                 var randomId = Math.round(Math.random() * 100000000);
+                var currentPolyNum = getCurrentPolyNum(currentGameId);
 
                 //check if a players schema exists, if not create one
                 if (!firebase.players) firebase.players = {};
@@ -94,7 +133,7 @@ angular.module('bloqusApp')
                                 isAI: false,
                                 id: randomId,
                                 hasPassed: false,
-                                pieces: {has: 'somePieces'}
+                                pieces: polyOptions[currentPolyNum]
                             };
 
                             keepGoing = false;
@@ -104,7 +143,7 @@ angular.module('bloqusApp')
                                 game: shareId,
                                 name: playername
                             };
-
+                            localStorageService.clearAll();
                             localStorageService.set('name', playername);
                             localStorageService.set('id', randomId);
                             localStorageService.set('color', playerColor);
@@ -129,5 +168,8 @@ angular.module('bloqusApp')
 
                 return firebase;
             }
-        }
+        };
+
+        return SignInFactory;
+
     });
