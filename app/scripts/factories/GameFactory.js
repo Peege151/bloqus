@@ -47,11 +47,11 @@ angular.module('bloqusApp')
             },
 
             isComputersTurn: function(){
-                return gameFirebase.player[universalCurrentTurn].isAI;
+                return gameFirebase.player[gameFirebase.currentTurn].isAI;
             },
 
             currentPlayer: function(){
-                return gameFirebase.player[universalCurrentTurn];
+                return gameFirebase.player[gameFirebase.currentTurn];
             },
 
             //right now, this is a bit misleadingly titled.  Whenever gameFirebase changes,
@@ -71,23 +71,42 @@ angular.module('bloqusApp')
                 $rootScope.$emit("stateChanged", tempBoard, tempAllPieces, thisColors, universalCurrentTurn);
 
                 //If it is the computer's turn, and the player right now is a computer, and if we are the host--well, let the computer take a turn.
-                if(self.amHost() && isComputersTurn()){
-                    self.doComputerTurn();
+                if(this.amHost() && this.isComputersTurn()){
+                    console.log("It is the turn of ", universalCurrentTurn);
+                    this.doComputerTurn();
                 }
 
             },
 
             doComputerTurn: function(){
-
                 //It's going to need all these
-                var curPlayer = self.currentPlayer();
-                var computerName = currentPlayer.name;
+                console.log("Computer turn has started.");
+                var curPlayer = this.currentPlayer();
+                var computerName = curPlayer.name;
                 var tempBoard = this.createBoard(gameFirebase);
                 var tempAllPieces = this.allPieces();
                 var tempComputerColors = Object.keys(gameFirebase.player).filter(function(color, index, arr){  return gameFirebase.player[color].name == curPlayer.name});
+                var aiName = (AgentFactory.AgentNames().indexOf(curPlayer) == -1) ? 'Default' : computerName;
+                //debugger;
+                var move = AgentFactory.Agent(aiName)(tempBoard, tempAllPieces, tempComputerColors, universalCurrentTurn);
 
-                //
-            }
+                var moveWorked = tempBoard.doMove(move);
+                //console.log("The computer has a move.")
+                if(moveWorked){
+                    //console.log("Move worked.")
+                    this.advanceTurn();  
+                    var newFireState = tempBoard.emitFire();
+                    gameFirebase.board = newFireState;
+                    //console.log(newFireState);
+                    gameFirebase.player[gameFirebase.currentTurn].pieces = gameFirebase.player[gameFirebase.currentTurn].pieces.split('|').filter(function(num, index, arr){
+                        return !universalPiecesArray[num].sameShapeAtAll(move.piece);
+                    }).join('|');
+                     //Advance whose turn it is.
+            
+
+                    gameFirebase.$save();  //Save everythin
+                }
+            },
 
             isPlayersTurn: function(){
                 console.log(thisColors);
@@ -114,7 +133,9 @@ angular.module('bloqusApp')
 
             advanceTurn: function(){
                 var curIndex = (universalSequenceOfColors.indexOf(gameFirebase.currentTurn) + 1) % universalSequenceOfColors.length;
+                universalCurrentTurn = universalSequenceOfColors[curIndex]
                 gameFirebase.currentTurn = universalSequenceOfColors[curIndex];
+
             },
 
             initialize: function(){
@@ -131,24 +152,30 @@ angular.module('bloqusApp')
 
                 //If anything changes in firebase, emit the state that we're currently in.
                 gameFirebase.$watch(function(){
-                    self.emitState();
+                    if(gameFirebase.currentTurn == universalCurrentTurn){
+                        self.emitState();
+                    }
                 });
 
                 var makeMove = function(event, move){
                     console.log("'Move' event caught.");
                     if(self.isPlayersTurn()){
                         //Change board
+                        console.log("It's your turn.")
                         var tempBoard = self.createBoard(gameFirebase);
                         var moveWorked = tempBoard.doMove(move);
                         if(moveWorked){
+                            console.log("Move worked.")
+                            
                             var newFireState = tempBoard.emitFire();
                             gameFirebase.board = newFireState;
-                            console.log(newFireState);
+                            //console.log(newFireState);
                             gameFirebase.player[gameFirebase.currentTurn].pieces = gameFirebase.player[gameFirebase.currentTurn].pieces.split('|').filter(function(num, index, arr){
                                 return !universalPiecesArray[num].sameShapeAtAll(move.piece);
                             }).join('|');
-                           
                             self.advanceTurn();   //Advance whose turn it is.
+
+                        
                             gameFirebase.$save();  //Save everything.
                         }else{
                             //TODO: Do something else, because the move was illegal.  Or just do nothing, as it does nothing now.

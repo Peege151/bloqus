@@ -352,7 +352,7 @@
 					return false
 				}
 			}
-			console.log("passed occu");
+			//console.log("passed occu");
 			var adjacents = move.adjacencies();
 
 			for(var x = 0; x < adjacents.length; x++){
@@ -363,7 +363,7 @@
 					return false;
 				}
 			}
-			console.log("passed adjacencies", move.color);
+			//console.log("passed adjacencies", move.color);
 
 			var diags = move.legalDiagonals();
 			for(var x = 0; x < diags.length; x++){
@@ -372,9 +372,9 @@
 				if(move.color == 'Y' && spot[0] == this.dimensions && spot[1] == -1){return true;}
 				if(move.color == 'R' && spot[0] == this.dimensions && spot[1] == this.dimensions){return true;}
 				if(move.color == 'G' && spot[0] == -1 && spot[1] == this.dimensions){return true;}
-				console.log("=======", spot)
+				//console.log("=======", spot)
 				if (this.getBoardSpot(spot[0],spot[1]) == move.color){
-					console.log("found diagonal")
+					//console.log("found diagonal")
 					return true;
 				}
 			}
