@@ -1,0 +1,91 @@
+/* THIS WIDTH SHOULD CHANGE IN RESPONSIVE*/
+/*Width is dimension x block width + padding*/
+#style_frame {
+  padding:0px ;
+  text-align: center;
+  width:650px; 
+  margin: 0 auto;
+  background-color: white;
+    background-color: white;
+    text-align: center;
+    margin:0 auto;
+  /*padding:40px;*/
+    border-radius: 10px;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */  /* Firefox 3.5 - 3.6 */
+    box-shadow:         3px 5px 6px #FF6D00;
+}
+.outer-board {
+  display: inline-block;
+
+}
+.block{
+  display: inline-block;
+  height: 30px;
+  width: 30px;
+  line-height: 1;
+  border-radius: 4px;
+
+  
+}
+
+.row{
+  border: 0px;
+  line-height:0;
+}
+.row:first-child{
+  padding-top:40px;
+}
+.row:last-child{
+  padding-bottom:40px;
+}
+
+
+.B{
+  background: #5c6bc0;
+  box-shadow: inset 2px 2px 0px white;
+
+}
+
+.Y{
+  background: #ffeb3b;
+  box-shadow: inset 2px 2px 0px white;
+
+}
+
+.G{
+  background: #4caf50;
+  box-shadow: inset 2px 2px 1px white;
+}
+
+.R{
+  background: #f44336;
+  box-shadow: inset 2px 2px 0px white;
+
+}
+
+.N{
+  background: #dddddd;
+  box-shadow: inset 2px 2px 0px white;
+}
+
+.T{
+  background: transparent;
+}
+.control-bar {
+  width:100%;
+  padding:10px;
+}
+.control-wrap {
+  color: #794aa2;
+  text-align: right;
+  margin-right:20px;  
+}
+.turn-wrap {
+  float:left;
+  padding-right:40px;
+}
+.piece{
+  border: black solid 1px;
+  width: 170px;
+  height: 170px;
+  float: left;
+}

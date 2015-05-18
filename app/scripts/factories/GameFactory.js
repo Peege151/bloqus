@@ -165,6 +165,7 @@ angular.module('bloqusApp')
                         console.log("It's your turn.")
                         var tempBoard = self.createBoard(gameFirebase);
                         var moveWorked = tempBoard.doMove(move);
+                        console.log("Move,", move);
                         if(moveWorked){
                             console.log("Move worked.")
                             
