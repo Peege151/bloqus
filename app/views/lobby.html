@@ -11,6 +11,7 @@
               <label class="radio-inline">
                 <input ng-disabled="!isHost" type="radio" name="playersRadios" id="setplayers4" value="option2" ng-click="setNumOfPlayers(4)" ng-checked="numColors === 4"> 4
               </label>
+              <br \><br \>
                 <h5>Current Players</h5>
                 <ul class="player-list">
                   
@@ -69,10 +70,11 @@
           </label>
           </tab>
       </tabset>
+
     </div>
     <div class="col-md-6 chat-box">
       <chat current='currentId'></chat>
     </div>
   </div>
-  <button ng-disabled="!isHost" class="btn btn-success" ng-click="startGame()">Go!</button>
+  <button ng-disabled="!isHost" class="btn btn-main-page go-btn" ng-click="startGame()">Go!</button>
 </div>

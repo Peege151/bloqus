@@ -1,0 +1,33 @@
+.lobby-wrap {
+  font-family: benton-sans, 'Helvetica Neue', helvetica;
+  padding:20px;
+  border-radius: 10px;
+  width:80%;
+  margin:0 auto;
+  background-color: white;
+  -webkit-box-shadow: 3px 5px 6px #FF6D00;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+  -moz-box-shadow:    3px 5px 6px #FF6D00;  /* Firefox 3.5 - 3.6 */
+  box-shadow:         3px 5px 6px #FF6D00;
+}
+.player-name {
+  padding-left: 20px;
+}
+ul.player-list {
+  list-style: none;
+  padding:0px;
+  background-color: #F0F8FF;
+}
+.player-list > li {
+    padding:10px;
+}
+.player-list li:nth-child(even) {
+  background-color: #99c5ff;
+  color:white;
+}
+.player-options {
+  float: right;
+}
+.game-options {
+  min-height: 380px;
+  height:380px;
+}

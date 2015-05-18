@@ -14,6 +14,7 @@ body {
   font-family: block-sketch;
   src: url('../fonts/Sketch_Block.ttf');
 }
+
 .main-page-wrap {
   width:40%;
   margin:0 auto;
@@ -145,10 +146,7 @@ ul.player-list {
   border-left: 1px solid #ddd;
   padding:10px;
   overflow:hidden;
-
-
   height:380px;
-
   position:relative;top: -1px;
   border-radius: 0 0px 10px 10px;
 }
@@ -257,51 +255,3 @@ body > ui-view > div > div > div.col-md-6.chat-box > chat > div > div > h4{
   }
 }
 
-.block{
-  display: inline-block;
-  height: 30px;
-  width: 30px;
-  border: 0px solid transparent;
-  padding: 2px;
-  padding-bottom: 0px;
-  padding-top: 0px;
-  margin: 2px;
-  margin-bottom: -4px;
-}
-
-.row{
-  margin: 0px;
-  border: 0px;
-  padding: 0px;
-}
-
-.B{
-  background: blue;
-}
-
-.Y{
-  background: yellow;
-}
-
-.G{
-  background: green;
-}
-
-.R{
-  background: red;
-}
-
-.N{
-  background: black;
-}
-
-.T{
-  background: transparent;
-}
-
-.piece{
-  border: black solid 1px;
-  width: 170px;
-  height: 170px;
-  float: left;
-}

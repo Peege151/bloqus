@@ -1,0 +1,123 @@
+.lobby-wrap {
+  font-family: benton-sans, 'Helvetica Neue', helvetica;
+  padding:20px;
+  border-radius: 10px;
+  width:80%;
+  margin:0 auto;
+  background-color: white;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */  /* Firefox 3.5 - 3.6 */
+  box-shadow:         3px 5px 6px #FF6D00;
+}
+.player-name {
+  padding-left: 20px;
+}
+ul.player-list {
+  list-style: none;
+  padding:0px;
+  background-color: #F0F8FF;
+}
+.player-list > li {
+    padding:10px;
+}
+.player-list li:nth-child(even) {
+  background-color: #99c5ff;
+  color:white;
+}
+.player-options {
+  float: right;
+}
+.game-options {
+  min-height: 380px;
+  height:380px;
+}
+.set-player-number {
+  height:40px;
+  display:block;
+  margin: 10px 0px;
+}
+#example-messages {
+  text-decoration: none;
+  list-style: none;
+  line-height: 150%;
+  padding: 0px;
+  background-color: #F0F8FF;
+  border-left: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-radius: 0px 0px 10px 10px;
+  min-height: 380px;
+  height:380px;
+  overflow: scroll;
+}
+#example-messages > li {
+  padding: 10px;
+}
+.radio-inline input[type="radio"]{
+  position:relative;
+}
+.player-name {
+  padding-left: 20px;
+}
+ul.player-list {
+  list-style: none;
+  padding:0px;
+  background-color: #F0F8FF;
+}
+.player-list > li {
+    padding:10px;
+}
+.player-list li:nth-child(even) {
+  background-color: #99c5ff;
+  color:white;
+;
+}
+.player-options {
+  float: right;
+}
+.dropdown-menu {
+  color: black;
+  background: white;
+}
+.tab-content {
+  border-right: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  padding:10px;
+  overflow:hidden;
+  height:380px;
+  position:relative;top: -1px;
+  border-radius: 0 0px 10px 10px;
+}
+
+.game-options {
+  min-height: 380px;
+  height:380px;
+}
+#example-messages li:nth-child(even){
+ background:  #99c5ff;
+ color:white;
+ }
+.chat-box{
+  border-radius: 10px;
+}
+body > ui-view > div > div > div.col-md-6.chat-box > chat > div > div > h4{
+  
+  margin-bottom:0px;
+}
+#messageInput {
+  width:100%;
+  padding:5px;
+}
+
+
+#messageInput::-webkit-input-placeholder {
+  line-height: 1.2;
+  outline: 0px
+}
+#messageInput:focus {
+  outline:0;
+}
+.go-btn {
+  height:30px;
+  margin-top:20px;
+  padding:0px ;
+}

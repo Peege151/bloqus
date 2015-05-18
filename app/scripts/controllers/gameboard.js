@@ -4,7 +4,7 @@ angular.module('bloqusApp')
     .controller('GameCtrl', function ($sce, $rootScope, $scope, $stateParams, GameFactory, LogicFactory){
 
     	var thisBoard, allPiece, thisColors, currentColor, localPieces, nextColor;
-        var squareSize = 33.5;
+        var squareSize = 30.00;
 
         GameFactory.setGameFactory($stateParams.game.firebaseId, $stateParams.game.player);
 
@@ -39,7 +39,7 @@ angular.module('bloqusApp')
 
             var frameX = angular.element(document.querySelector('#frame')).prop('offsetLeft');
             var frameY = angular.element(document.querySelector('#frame')).prop('offsetTop');
-
+            console.log("coords", dropX, dropY);
             // console.log("Drop X", dropX);
             // console.log("Drop Y", dropY);
             // console.log("Frame X", frameX);
@@ -54,9 +54,9 @@ angular.module('bloqusApp')
             var yPosition = dropY - frameY - fudgeY + scrollTop;
 
             var gridX = Math.round(xPosition / squareSize);
-            var gridY = Math.round(yPosition / squareSize);
+            var gridY = Math.round(yPosition / squareSize) - 1;
 
-            console.log(data.piece)
+            //console.log(data.piece)
             if(thisColors.indexOf(currentColor) !== -1){
                 var move = new LogicFactory.Move(data.piece, [gridY, gridX], currentColor.toUpperCase().charAt(0));
 
