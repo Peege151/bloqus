@@ -10,6 +10,7 @@
  */
 angular.module('bloqusApp', [
     'ngAnimate',
+    'ngMessages',
     'ngCookies',
     'ngResource',
     'ui.router',

@@ -4,10 +4,10 @@
   <div class="outer-board">
     <div class="control-bar">    
       <div class="turn-wrap">
-        Current Turn: 
+        Current Turn: {{currentColor | capital}}
       </div>
       <div class="control-wrap">
-        <span ng-click="pass()">Pass Move</span>  
+        <span ng-if="currentColor === userColor" ng-click="pass()">Pass Move</span>
       </div>
     </div>
     <div id="frame"ui-on-drop="dropPiece" drop-channel="A">

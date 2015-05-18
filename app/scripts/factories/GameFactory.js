@@ -115,6 +115,14 @@ angular.module('bloqusApp')
                 return ( thisColors.indexOf(gameFirebase.currentTurn) !== -1 )
             },
 
+            allPlayersHavePassed: function(){
+                var allPassed = true;
+                angular.forEach(gameFirebase.player, function (value, key) {
+                    if (value.hasPassed === false) allPassed = false;
+                });
+                return allPassed;
+            },
+
             createBoard: function(fbgame){
                 var tempBoard = new LogicFactory.Board(fbgame.dimensions);
                 tempBoard.consumeFire(fbgame.board);
@@ -134,9 +142,13 @@ angular.module('bloqusApp')
 
             advanceTurn: function(){
                 var curIndex = (universalSequenceOfColors.indexOf(gameFirebase.currentTurn) + 1) % universalSequenceOfColors.length;
+                console.log('Current turn index ', curIndex)
                 universalCurrentTurn = universalSequenceOfColors[curIndex]
                 gameFirebase.currentTurn = universalSequenceOfColors[curIndex];
 
+                while (gameFirebase.player[gameFirebase.currentTurn].hasPassed){
+                    this.advanceTurn();
+                }
             },
 
             initialize: function(){
@@ -188,9 +200,9 @@ angular.module('bloqusApp')
                 var passTurn = function(){
                     console.log("'Passing' event caught.");
                     if(self.isPlayersTurn()){
-                        self.advanceTurn();
                         gameFirebase.player[gameFirebase.currentTurn].hasPassed = true;  //Mark player so it says that the player has passed.
-                        gameFirebase.$save();                    
+                        self.advanceTurn();
+                        gameFirebase.$save();
                     }
                 };
 
