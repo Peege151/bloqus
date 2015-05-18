@@ -89,30 +89,41 @@ angular.module('bloqusApp')
                 var tempComputerColors = Object.keys(gameFirebase.player).filter(function(color, index, arr){  return gameFirebase.player[color].name == curPlayer.name});
                 var aiName = (AgentFactory.AgentNames().indexOf(curPlayer) == -1) ? 'Default' : computerName;
                 //debugger;
-                var move = AgentFactory.Agent(aiName)(tempBoard, tempAllPieces, tempComputerColors, universalCurrentTurn);
-
-                var moveWorked = tempBoard.doMove(move);
-                //console.log("The computer has a move.")
-                if(moveWorked){
-                    //console.log("Move worked.")
-                    this.advanceTurn();  
-                    var newFireState = tempBoard.emitFire();
-                    gameFirebase.board = newFireState;
-                    //console.log(newFireState);
-                    gameFirebase.player[gameFirebase.currentTurn].pieces = gameFirebase.player[gameFirebase.currentTurn].pieces.split('|').filter(function(num, index, arr){
-                        return !universalPiecesArray[num].sameShapeAtAll(move.piece);
-                    }).join('|');
-                     //Advance whose turn it is.
-            
-
-                    gameFirebase.$save();  //Save everythin
-                }
+                var decision = AgentFactory.Agent(aiName)(tempBoard, tempAllPieces, tempComputerColors, universalCurrentTurn);
+                if (decision.pass==false){
+                    var moveWorked = tempBoard.doMove(decision.move);
+                    if(moveWorked){
+                        //console.log("Move worked.")
+                        var oldTurn = universalCurrentTurn;
+                        this.advanceTurn();  
+                        var newFireState = tempBoard.emitFire();
+                        gameFirebase.board = newFireState;
+                        //console.log(newFireState);
+                        gameFirebase.player[oldTurn].pieces = gameFirebase.player[oldTurn].pieces.split('|').filter(function(num, index, arr){
+                            return !universalPiecesArray[num].sameShapeAtAll(decision.move.piece);
+                        }).join('|');
+                         //Advance whose turn it is.
+                        gameFirebase.$save();  //Save everythin
+                    }
+                }else{
+                        gameFirebase.player[gameFirebase.currentTurn].hasPassed = true;  //Mark player so it says that the player has passed.
+                        this.advanceTurn();
+                        gameFirebase.$save();   
+                } 
             },
 
             isPlayersTurn: function(){
                 console.log(thisColors);
                 console.log(gameFirebase.currentTurn);
                 return ( thisColors.indexOf(gameFirebase.currentTurn) !== -1 )
+            },
+
+            allPlayersHavePassed: function(){
+                var allPassed = true;
+                angular.forEach(gameFirebase.player, function (value, key) {
+                    if (value.hasPassed === false) allPassed = false;
+                });
+                return allPassed;
             },
 
             createBoard: function(fbgame){
@@ -137,6 +148,9 @@ angular.module('bloqusApp')
                 universalCurrentTurn = universalSequenceOfColors[curIndex]
                 gameFirebase.currentTurn = universalSequenceOfColors[curIndex];
 
+                while (gameFirebase.player[gameFirebase.currentTurn].hasPassed){
+                    this.advanceTurn();
+                }
             },
 
             initialize: function(){
@@ -188,8 +202,8 @@ angular.module('bloqusApp')
                 var passTurn = function(){
                     console.log("'Passing' event caught.");
                     if(self.isPlayersTurn()){
-                        self.advanceTurn();
                         gameFirebase.player[gameFirebase.currentTurn].hasPassed = true;  //Mark player so it says that the player has passed.
+                        self.advanceTurn();
                         gameFirebase.$save();                    
                     }
                 };

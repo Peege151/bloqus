@@ -1,10 +1,12 @@
 'use strict';
 
 angular.module('bloqusApp')
-    .controller('GameCtrl', function ($sce, $rootScope, $scope, $stateParams, GameFactory, LogicFactory){
+    .controller('GameCtrl', function ($sce, $rootScope, $scope, $stateParams, GameFactory, LogicFactory, localStorageService){
 
     	var thisBoard, allPiece, thisColors, currentColor, localPieces, nextColor;
         var squareSize = 30.00;
+
+        $scope.userColor = localStorageService.get('color');
 
         GameFactory.setGameFactory($stateParams.game.firebaseId, $stateParams.game.player);
 
@@ -14,25 +16,21 @@ angular.module('bloqusApp')
             thisPiece.rotateClockwise();
             $scope.renderMyPieces(localPieces);
             //pieceInQuestion.rotateClockwise();
-        }
+        };
 
         $scope.flip = function(pieceInQuestion){
             console.log(pieceInQuestion)
             var thisPiece = localPieces[pieceInQuestion];
             thisPiece.flip();
             $scope.renderMyPieces(localPieces);
-        }
-        var passCount = 0;
+        };
+
         $scope.pass = function(){
         	$rootScope.$emit("passTurn");
-          passCount++
-          console.log("PASSCOUNT: ", passCount)
-          if(passCount >= 4) $rootScope.$emit('gameover')
+        };
 
-        }
 
         $scope.dropPiece = function(evnt, data){
-
 
             var dropX = evnt.originalEvent.x;
             var dropY = evnt.originalEvent.y;
@@ -120,10 +118,12 @@ angular.module('bloqusApp')
                 }
             }
 
+            $scope.noMoreMovesLeft();
 
             localPieces = pieces[nextColor];
             $scope.renderMyPieces(localPieces)
 
+            $scope.currentColor = current;
 
             
 
@@ -159,6 +159,14 @@ angular.module('bloqusApp')
 
 
             $scope.pieces = visible;
+        }
+
+        $scope.noMoreMovesLeft = function(){
+            console.log('all legal moves left: ', thisBoard.allLegalMovesForPieces(allPiece[currentColor], currentColor.toUpperCase().charAt(0)).length)
+            if (thisBoard.allLegalMovesForPieces(allPiece[currentColor], currentColor.toUpperCase().charAt(0)).length == 0){
+                console.log('no more moves left!')
+                $scope.pass();
+            }
         }
 
 

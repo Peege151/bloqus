@@ -149,8 +149,8 @@
 		//Flips a thing, rotates it, and translates it so its edges are against the 0-0 x-y axis.
 		Piece.prototype.getPieceWithAlternateOrientation = function(flipped, rotated){
 			var self = this;
-			var lowestX = 100;
-			var lowestY = 100;
+			var lowestX = 1000;
+			var lowestY = 1000;
 			return this
 				.shape
 				.map(function(el){
@@ -342,17 +342,38 @@
 
 			var occupies = move.occupies();
 
+
+			//console.log("Got past occupies!")
 			for(var x = 0; x < occupies.length; x++){
 				var spot = occupies[x];
 				//Off the board.
-				if(spot[0] < 0 || spot[0] >= this.dimensions || spot[1] < 0 || spot[1] >= this.dimensions){
+				// if( (spot[0] < 0) || (spot[0] >= this.dimensions) || (spot[1] < 0) || (spot[1] >= this.dimensions)){
+				// 	return false;
+				// }
+				if (spot[0] < 0){
+					console.log("Smaller X");
+					return false;
+				}
+				if (spot[0] >= this.dimensions){
+					console.log("Greater X");
+					return false;
+				}
+				if (spot[1] < 0){
+					console.log("Smaller Y");
+					return false;
+				}
+				if (spot[1] >= this.dimensions){
+					console.log("Greater Y");
 					return false;
 				}
 				if (this.getBoardSpot(spot[0],spot[1]) !== 'N'){
 					return false
 				}
 			}
-			//console.log("passed occu");
+			
+
+
+
 			var adjacents = move.adjacencies();
 
 			for(var x = 0; x < adjacents.length; x++){
@@ -364,6 +385,8 @@
 				}
 			}
 			//console.log("passed adjacencies", move.color);
+
+
 
 			var diags = move.legalDiagonals();
 			for(var x = 0; x < diags.length; x++){
@@ -387,16 +410,16 @@
 		Board.prototype.allLegalMovesForPieces = function(pieces, color){
 			var allMoves = [];
 			for(var x = 0; x < pieces.length; x++){
-				//console.log("das")
 				allMoves = allMoves.concat( this.allLegalMovesForPiece(pieces[x], color) );
 			}
 			return allMoves;
 		}
 
 		Board.prototype.allLegalMovesForPiece = function(piece, color){
+
 			var self = this;
 			var liberties = this.liberties(color);
-			//console.log("Lib", liberties)
+			//console.log("LIBERTIES!!!!", liberties, color)
 			var initialMoves = [];
 			for(var x = 0; x < liberties.length; x++){
 
@@ -414,15 +437,14 @@
 						//console.log(thisPiece);
 						var untranslated = new Move(thisPiece, spot, color);
 						//if this.isLegal(untranslated){initialMoves.push(untranslated);}
-						var translationalPossibilities = untranslated.occupies().filter(function(el){
-							return el[0] == spot[0] || el[1] == spot[1];
-						}).map(function(el){
+						var translationalPossibilities = untranslated.occupies().map(function(el){
 							return [ spot[0] + spot[0] - el[0], spot[1] + spot[1] - el[1] ];
 						});
 						//console.log(translationalPossibilities.length);
 						for(var m = 0; m < translationalPossibilities.length; m++){
 							var translated = new Move(thisPiece, translationalPossibilities[m], color);
-							if (this.isLegal(translated)){initialMoves.push(translated)}
+							console.log("Hey, this is a possiblity")
+							if (this.isLegal(translated)){initialMoves.push(translated);}
 						}
 					}
 				}
