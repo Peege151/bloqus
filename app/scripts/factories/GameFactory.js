@@ -89,6 +89,7 @@ angular.module('bloqusApp')
                 var tempComputerColors = Object.keys(gameFirebase.player).filter(function(color, index, arr){  return gameFirebase.player[color].name == curPlayer.name});
                 var aiName = (AgentFactory.AgentNames().indexOf(curPlayer) == -1) ? 'Default' : computerName;
                 //debugger;
+<<<<<<< Updated upstream
                 var move = AgentFactory.Agent(aiName)(tempBoard, tempAllPieces, tempComputerColors, universalCurrentTurn);
 
                 var moveWorked = tempBoard.doMove(move);
@@ -107,6 +108,43 @@ angular.module('bloqusApp')
 
                     gameFirebase.$save();  //Save everythin
                 }
+=======
+                var decision = AgentFactory.Agent(aiName)(tempBoard, tempAllPieces, tempComputerColors, universalCurrentTurn);
+                if (decision.pass==false){
+                    var moveWorked = tempBoard.doMove(decision.move);
+                    if(moveWorked){
+                        //console.log("Move worked.")
+                        var oldTurn = universalCurrentTurn;
+                        this.advanceTurn();  
+                        var newFireState = tempBoard.emitFire();
+                        gameFirebase.board = newFireState;
+                        //console.log(newFireState);
+                        gameFirebase.player[oldTurn].pieces = gameFirebase.player[oldTurn].pieces.split('|').filter(function(num, index, arr){
+                            return !universalPiecesArray[num].sameShapeAtAll(decision.move.piece);
+                        }).join('|');
+                         //Advance whose turn it is.
+                        gameFirebase.$save();  //Save everythin
+                    }
+                }else{
+                        gameFirebase.player[gameFirebase.currentTurn].hasPassed = true;  //Mark player so it says that the player has passed.
+                        console.log('!!!!!!!!' + gameFirebase.currentTurn + ' HAS PASSED!!!!!!!!!!!!!!!')
+
+                        if (this.allPlayersHavePassed()) {
+                            console.log('THE GAME IS OVER!!!!!!!!')
+                            $rootScope.$emit('gameover');//e);
+                            return;
+                        }
+
+                        this.advanceTurn();
+                        console.log(universalCurrentTurn);
+                        if(gameFirebase.player[universalCurrentTurn].isAI == false && gameFirebase.player[universalCurrentTurn].hasPassed == true){
+                            this.advanceTurn();
+                            console.log("Do I ever get called.");
+                        }
+
+                        gameFirebase.$save();   
+                } 
+>>>>>>> Stashed changes
             },
 
             isPlayersTurn: function(){
@@ -142,13 +180,14 @@ angular.module('bloqusApp')
 
             advanceTurn: function(){
                 var curIndex = (universalSequenceOfColors.indexOf(gameFirebase.currentTurn) + 1) % universalSequenceOfColors.length;
+<<<<<<< Updated upstream
                 console.log('Current turn index ', curIndex)
                 universalCurrentTurn = universalSequenceOfColors[curIndex]
+=======
+                //universalCurrentTurn = universalSequenceOfColors[curIndex];
+>>>>>>> Stashed changes
                 gameFirebase.currentTurn = universalSequenceOfColors[curIndex];
 
-                while (gameFirebase.player[gameFirebase.currentTurn].hasPassed){
-                    this.advanceTurn();
-                }
             },
 
             initialize: function(){
@@ -165,7 +204,8 @@ angular.module('bloqusApp')
 
                 //If anything changes in firebase, emit the state that we're currently in.
                 gameFirebase.$watch(function(){
-                    if(gameFirebase.currentTurn == universalCurrentTurn){
+                    if(gameFirebase.currentTurn != universalCurrentTurn){
+                        universalCurrentTurn = gameFirebase.currentTurn;
                         self.emitState();
                     }
                 });
@@ -211,9 +251,6 @@ angular.module('bloqusApp')
                 $rootScope.$on('passTurn', passTurn);
 
 
-                $rootScope.$on('gameover', function(){
-                    $state.go('gameover', {game: gameFirebase});
-                });
 
             }
         }

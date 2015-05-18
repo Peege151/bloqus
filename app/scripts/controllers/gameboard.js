@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('bloqusApp')
-    .controller('GameCtrl', function ($sce, $rootScope, $scope, $stateParams, GameFactory, LogicFactory, localStorageService){
+    .controller('GameCtrl', function ($sce, $rootScope, $scope, $stateParams, GameFactory, LogicFactory, localStorageService, $state){
 
     	var thisBoard, allPiece, thisColors, currentColor, localPieces, nextColor;
         var squareSize = 30.00;
@@ -93,11 +93,13 @@ angular.module('bloqusApp')
 
         }
 
+        $rootScope.$on('gameover', function(event, game){
+            console.log('HEARD THE GAME WAS OVER?')
+            $state.go('gameover', {gameFirebase: game});
+        });
 
         $rootScope.$on('stateChanged', function(event, board, pieces, color, current){
-
-
-
+            console.log("The state has changed.")
         	thisBoard = board;
         	allPiece = pieces; //pieces[board.currentTurn];
         	thisColors = color;
@@ -118,15 +120,12 @@ angular.module('bloqusApp')
                 }
             }
 
-            $scope.noMoreMovesLeft();
+            //$scope.noMoreMovesLeft();
 
             localPieces = pieces[nextColor];
             $scope.renderMyPieces(localPieces)
 
             $scope.currentColor = current;
-
-            
-
         	
         });
 
@@ -160,15 +159,5 @@ angular.module('bloqusApp')
 
             $scope.pieces = visible;
         }
-
-        $scope.noMoreMovesLeft = function(){
-            console.log('all legal moves left: ', thisBoard.allLegalMovesForPieces(allPiece[currentColor], currentColor.toUpperCase().charAt(0)).length)
-            if (thisBoard.allLegalMovesForPieces(allPiece[currentColor], currentColor.toUpperCase().charAt(0)).length == 0){
-                console.log('no more moves left!')
-                $scope.pass();
-            }
-        }
-
-
 
     });

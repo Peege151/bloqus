@@ -345,7 +345,27 @@
 			for(var x = 0; x < occupies.length; x++){
 				var spot = occupies[x];
 				//Off the board.
+<<<<<<< Updated upstream
 				if(spot[0] < 0 || spot[0] >= this.dimensions || spot[1] < 0 || spot[1] >= this.dimensions){
+=======
+				// if( (spot[0] < 0) || (spot[0] >= this.dimensions) || (spot[1] < 0) || (spot[1] >= this.dimensions)){
+				// 	return false;
+				// }
+				if (spot[0] < 0){
+					//console.log("Smaller X");
+					return false;
+				}
+				if (spot[0] >= this.dimensions){
+					//console.log("Greater X");
+					return false;
+				}
+				if (spot[1] < 0){
+					//console.log("Smaller Y");
+					return false;
+				}
+				if (spot[1] >= this.dimensions){
+					//console.log("Greater Y");
+>>>>>>> Stashed changes
 					return false;
 				}
 				if (this.getBoardSpot(spot[0],spot[1]) !== 'N'){
@@ -422,7 +442,12 @@
 						//console.log(translationalPossibilities.length);
 						for(var m = 0; m < translationalPossibilities.length; m++){
 							var translated = new Move(thisPiece, translationalPossibilities[m], color);
+<<<<<<< Updated upstream
 							if (this.isLegal(translated)){initialMoves.push(translated)}
+=======
+							//console.log("Hey, this is a possiblity")
+							if (this.isLegal(translated)){initialMoves.push(translated);}
+>>>>>>> Stashed changes
 						}
 					}
 				}
