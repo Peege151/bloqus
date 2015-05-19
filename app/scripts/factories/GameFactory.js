@@ -2,7 +2,7 @@
 
 angular.module('bloqusApp')
 
-    .factory('GameFactory', function ($rootScope, $firebaseObject, localStorageService, LogicFactory, AgentFactory) {
+    .factory('GameFactory', function ($rootScope, $firebaseObject, localStorageService, LogicFactory) {
         //sounds
         var snap = new Howl({urls: ['./sounds/piecesnap.mp3']});
         var passSound = new Howl({urls: ['./sounds/pass.mp3']});
