@@ -5,6 +5,7 @@ angular.module('bloqusApp')
     // REGISTER DOM ELEMENTS
     var messageField = $('#messageInput');
     var messageList = $('#example-messages');
+    var chatSound = new Howl({urls: ['./sounds/chat.mp3']});
     // LISTEN FOR KEYPRESS EVENT
     messageField.keypress(function (e) {
         if (e.keyCode == 13) {
@@ -20,6 +21,7 @@ angular.module('bloqusApp')
 
     // Add a callback that is triggered for each chat message.
     fbMessages.limitToLast(10).on('child_added', function (snapshot) {
+        chatSound.play();
         //GET DATA
         var data = snapshot.val();
         var username = data.name || "anonymous";
