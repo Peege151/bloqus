@@ -3,7 +3,8 @@
 angular.module('bloqusApp')
 
     .factory('GameFactory', function ($rootScope, $firebaseObject, localStorageService, LogicFactory, AgentFactory) {
-
+        //sounds
+        var snap = new Howl({urls: ['./sounds/piecesnap.mp3']});
 
         //Specific to this player, game information
     	var thisPlayer,        //name of the player
@@ -207,6 +208,7 @@ angular.module('bloqusApp')
                 });
 
                 var makeMove = function(event, move){
+                    snap.play();
                     console.log("'Move' event caught.");
                     if(self.isPlayersTurn()){
                         //Change board
