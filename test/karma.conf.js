@@ -38,6 +38,7 @@ module.exports = function(config) {
       'bower_components/jquery-ui/jquery-ui.js',
       'bower_components/angular-dragdrop/src/angular-dragdrop.js',
       'bower_components/angular-messages/angular-messages.js',
+      'bower_components/ngDialog/js/ngDialog.js',
       'bower_components/mockfirebase/browser/mockfirebase.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower

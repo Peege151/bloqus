@@ -2,10 +2,27 @@
 
 angular.module('bloqusApp')
 
-    .controller("MainCtrl", function ($scope, $state, SignInFactory, $firebaseObject) {
+    .controller("MainCtrl", function ($scope, $state, SignInFactory, $firebaseObject, ngDialog) {
         var firebase = $firebaseObject(new Firebase("https://bloqus.firebaseio.com/")),
-            shareId, currentGameId;
-        $scope.private = false
+            shareId, currentGameId, fbCurrentGame;
+
+        $scope.private = false;
+
+        $scope.createGameModal = function (){
+            ngDialog.open({
+                template: 'views/modals/create-game-modal.html',
+                controller: 'MainCtrl'
+            })
+        };
+
+
+        $scope.joinGameModal = function (){
+            ngDialog.open({
+                template: 'views/modals/join-game-modal.html',
+                controller: 'MainCtrl'
+            })
+        };
+
         firebase.$bindTo($scope, "firebase");
 
         firebase.$loaded().then(function () {
@@ -17,6 +34,7 @@ angular.module('bloqusApp')
                 $scope.firebase = SignInFactory.createGame(randomId, gameId, hostname, $scope.private);
                 $scope.firebase.$save();
                 $('.modal-backdrop').remove();
+                ngDialog.closeAll();
                 $state.go('lobby', {currentId: randomId, shareId: gameId});
 
             };
@@ -30,15 +48,16 @@ angular.module('bloqusApp')
                 } else {
                     shareId = gameInfo.shareId;
                     currentGameId = gameInfo.currentGameId;
+                    fbCurrentGame = $firebaseObject(new Firebase("https://bloqus.firebaseio.com/games/" + currentGameId));
                     $scope.foundGame = gameInfo.foundGame;
                 }
             };
 
             $scope.enterGame = function (playername) {
 
-                $scope.firebase = SignInFactory.enterGame(playername, currentGameId, shareId);
-
+                SignInFactory.enterGame(playername, currentGameId, shareId);
                 $('.modal-backdrop').remove();
+                ngDialog.closeAll();
                 $state.go('lobby', {currentId: currentGameId, shareId: shareId});
 
                 /*TODO: THROW ERROR IF GAME IS FULL*/
@@ -56,6 +75,7 @@ angular.module('bloqusApp')
                 } else {
                     shareId = gameInfo.shareId;
                     currentGameId = gameInfo.currentGameId;
+                    fbCurrentGame = $firebaseObject(new Firebase("https://bloqus.firebaseio.com/games/" + currentGameId));
                     $scope.foundGame = gameInfo.foundGame;
                 }
             }
