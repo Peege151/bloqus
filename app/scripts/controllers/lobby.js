@@ -55,12 +55,14 @@ angular.module('bloqusApp')
             };
 
             $scope.startGame = function () {
+                console.log("Went to game.");
                 $scope.firebase.games[currentId].status = 'start';
                 $state.go('gameboard', {game: { firebaseId: currentId, player: name }})
             };
 
             fbCurrentGame.$watch(function () {
                 if (fbCurrentGame.status === 'start'){
+                    console.log("Went to game.");
                     $state.go('gameboard', {game: { firebaseId: currentId, player: name }});
                 }
                 if (fbCurrentGame.status === 'deleted'){
