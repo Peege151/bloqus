@@ -93,7 +93,7 @@ angular.module('bloqusApp')
 
         }
 
-        $rootScope.$on('gameover', function(event, game){
+        $rootScope.$on('gameOver', function(event, game){
             console.log('HEARD THE GAME WAS OVER?')
             $state.go('gameover', {gameFirebase: game});
         });

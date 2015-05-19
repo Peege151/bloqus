@@ -6,20 +6,26 @@ angular.module('bloqusApp').factory("AgentFactory", function(){
 	var IdioticAI = function(board, allPieces, selves, currentTurn){
 		var myPieces = allPieces[currentTurn];
 		var allMoves = board.allLegalMovesForPieces(myPieces, currentTurn.toUpperCase().charAt(0));
-		var myMove = allMoves[Math.floor(allMoves.length*Math.random())];
+		if (allMoves.length > 0){
+			var myMove = allMoves[Math.floor(allMoves.length*Math.random())];
+			return {pass: false, move: myMove};
+		}else{
+			return {pass: true, move: null};
+		}
+		
+
 		return myMove;
 	}
 
 	var EasyAI = function(board, allPieces, selves, currentTurn){
-<<<<<<< Updated upstream
-=======
+
 		var myPieces = allPieces[currentTurn];
 		if(myPieces.length==0){return {pass: true, move: null};}
 		//console.log(" length for mypieces ", myPieces );
 		//console.log("current ", currentTurn.toUpperCase().charAt(0) );
 		//console.log(" selves ", selves );
 		var allMoves = board.allLegalMovesForPieces(myPieces, currentTurn.toUpperCase().charAt(0));
-		//console.log("All moves length for ", allMoves.length, currentTurn)
+		console.log("All moves length for ", allMoves.length, currentTurn)
 		if (allMoves.length==0){
 			return {pass: true, move: null}
 		}
@@ -57,7 +63,7 @@ angular.module('bloqusApp').factory("AgentFactory", function(){
 		}, {move: allMoves[0], value: evaluator(allMoves[0])})
 
 		return {pass: false, move: finalMove.move};
->>>>>>> Stashed changes
+
 
 	}
 
