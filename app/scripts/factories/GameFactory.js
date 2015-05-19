@@ -198,7 +198,7 @@ angular.module('bloqusApp')
                 //If anything changes in firebase, emit the state that we're currently in.
                 gameFirebase.$watch(function(){
                     console.log("WATCH:")
-                    localTurnCounter = localStorageService.get('localTurnCounter', localTurnCounter)
+                    localTurnCounter = localTurnCounter || parseInt(localStorageService.get('localTurnCounter', localTurnCounter));
                     console.log("Local: ", localTurnCounter);
                     console.log("DB: ", gameFirebase.turnCounter);
                     if(localTurnCounter == gameFirebase.turnCounter - 1){
