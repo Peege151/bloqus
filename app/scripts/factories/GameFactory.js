@@ -181,6 +181,8 @@ angular.module('bloqusApp')
 
             initialize: function(){
 
+                var pageJustLoaded = true;
+
                 var self = this;
 
                 //Stuff everyone has in common, which never changes.
@@ -193,18 +195,19 @@ angular.module('bloqusApp')
 
                 //Adding something to keep track of turns
                 gameFirebase.status = 'playing'
-                localTurnCounter = localTurnCounter || 0;
+                localTurnCounter = gameFirebase.turnCounter;
+                //localStorageService.set('localTurnCounter', localTurnCounter);
 
                 //If anything changes in firebase, emit the state that we're currently in.
                 gameFirebase.$watch(function(){
                     console.log("WATCH:")
-                    localTurnCounter = localTurnCounter || parseInt(localStorageService.get('localTurnCounter', localTurnCounter));
                     console.log("Local: ", localTurnCounter);
                     console.log("DB: ", gameFirebase.turnCounter);
                     if(localTurnCounter == gameFirebase.turnCounter - 1){
                         console.log("A turn for stuff.");
                         localTurnCounter++;
-                        localStorageService.set('localTurnCounter', localTurnCounter)
+                        //localStorageService.set('localTurnCounter', localTurnCounter)
+                        pageJustLoaded = false;
                         self.emitState();
                     }
                 });

@@ -63,6 +63,7 @@ angular.module('bloqusApp')
                     id: gameId,
                     board: SignInFactory.boardBuilder(20),
                     status: 'lobby',
+                    turnCounter: 0,
                     host: hostname,
                     privateGame: privateGame,
                     polyominoNum: 5,
