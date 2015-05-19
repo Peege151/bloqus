@@ -21,5 +21,6 @@ angular.module('bloqusApp', [
     'LocalStorageModule',
     'ui.bootstrap',
     'ui.bootstrap.tabs',
-    'ang-drag-drop'
+    'ang-drag-drop',
+    'ngDialog'
   ]);

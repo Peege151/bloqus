@@ -31,4 +31,8 @@ ul.player-list {
   min-height: 380px;
   height:380px;
   line-height:1.3;
+
+}
+.dropdown-menu {
+  line-height: 1.5
 }

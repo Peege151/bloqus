@@ -255,3 +255,8 @@ body > ui-view > div > div > div.col-md-6.chat-box > chat > div > div > h4{
   }
 }
 
+.modal-header{
+  text-align: center;
+  font-weight: bold;
+}
+
