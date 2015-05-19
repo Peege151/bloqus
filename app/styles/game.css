@@ -59,8 +59,8 @@
 }
 .block{
   display: inline-block;
-  height: 30px;
-  width: 30px;
+  height: 20px;
+  width: 20px;
   line-height: 1;
   border-radius: 4px;
 
@@ -71,12 +71,7 @@
   border: 0px;
   line-height:0;
 }
-.row:first-child{
-  padding-top:40px;
-}
-.row:last-child{
-  padding-bottom:40px;
-}
+
 
 
 .B{

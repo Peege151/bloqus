@@ -4,7 +4,7 @@ angular.module('bloqusApp')
 
     .controller("MainCtrl", function ($scope, $state, SignInFactory, $firebaseObject) {
         var firebase = $firebaseObject(new Firebase("https://bloqus.firebaseio.com/")),
-            shareId, currentGameId;
+            shareId, currentGameId, fbCurrentGame;
         $scope.private = false
         firebase.$bindTo($scope, "firebase");
 
@@ -30,14 +30,14 @@ angular.module('bloqusApp')
                 } else {
                     shareId = gameInfo.shareId;
                     currentGameId = gameInfo.currentGameId;
+                    fbCurrentGame = $firebaseObject(new Firebase("https://bloqus.firebaseio.com/games/" + currentGameId));
                     $scope.foundGame = gameInfo.foundGame;
                 }
             };
 
             $scope.enterGame = function (playername) {
 
-                $scope.firebase = SignInFactory.enterGame(playername, currentGameId, shareId);
-
+                SignInFactory.enterGame(playername, currentGameId, shareId);
                 $('.modal-backdrop').remove();
                 $state.go('lobby', {currentId: currentGameId, shareId: shareId});
 
@@ -56,6 +56,7 @@ angular.module('bloqusApp')
                 } else {
                     shareId = gameInfo.shareId;
                     currentGameId = gameInfo.currentGameId;
+                    fbCurrentGame = $firebaseObject(new Firebase("https://bloqus.firebaseio.com/games/" + currentGameId));
                     $scope.foundGame = gameInfo.foundGame;
                 }
             }

@@ -28,4 +28,5 @@ ul.player-list {
 .game-options {
   min-height: 380px;
   height:380px;
+  line-height:1.3;
 }

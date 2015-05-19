@@ -4,7 +4,7 @@ angular.module('bloqusApp')
     .controller('GameCtrl', function ($sce, $rootScope, $scope, $stateParams, GameFactory, LogicFactory, localStorageService, $state, ScoreFactory){
 
     	var thisBoard, allPiece, thisColors, currentColor, localPieces, nextColor;
-        var squareSize = 30.00;
+        var squareSize = 20.00;
 
         $scope.userColor = localStorageService.get('color');
 
@@ -52,7 +52,7 @@ angular.module('bloqusApp')
             var yPosition = dropY - frameY - fudgeY + scrollTop;
 
             var gridX = Math.round(xPosition / squareSize);
-            var gridY = Math.round(yPosition / squareSize) - 1;
+            var gridY = Math.round(yPosition / squareSize);
 
             //console.log(data.piece)
             if(thisColors.indexOf(currentColor) !== -1){
