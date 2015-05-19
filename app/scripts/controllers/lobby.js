@@ -58,7 +58,9 @@ angular.module('bloqusApp')
             $scope.startGame = function () {
                 console.log("Went to game.");
                 $scope.firebase.games[currentId].status = 'start';
-                $state.go('gameboard', {game: { firebaseId: currentId, player: name }})
+                $scope.firebase.$save().then(function(){
+                    $state.go('gameboard', {game: { firebaseId: currentId, player: name }})
+                });
             };
 
             var watcher = fbCurrentGame.$watch(function () {
