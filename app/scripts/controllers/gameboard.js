@@ -93,12 +93,15 @@ angular.module('bloqusApp')
 
         }
 
-        $rootScope.$on('gameOver', function(event, game){
+        var go = $rootScope.$on('gameOver', function(event, game){
             console.log('HEARD THE GAME WAS OVER?')
+            //Drop the event listeners attached to the global scope.
+            go();
+            sc();
             $state.go('gameover', {gameFirebase: game});
         });
 
-        $rootScope.$on('stateChanged', function(event, board, pieces, color, current){
+        var sc = $rootScope.$on('stateChanged', function(event, board, pieces, color, current){
             console.log("The state has changed.")
         	thisBoard = board;
         	allPiece = pieces; //pieces[board.currentTurn];

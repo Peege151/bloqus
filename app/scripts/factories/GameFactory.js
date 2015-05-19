@@ -76,33 +76,34 @@ angular.module('bloqusApp')
                 //If it is the computer's turn, and the player right now is a computer, and if we are the host--well, let the computer take a turn.
                 
                 if( this.allPlayersHavePassed() ){
+                    localTurnCounter = 0;
                     console.log("Everything ends.");
                     $rootScope.$emit('gameOver');
                     return;
-                }   
+                }else{ 
 
-                //
-                if( this.amHost() ){
-                    console.log("Hey, I'm the host.")
+                    if( this.amHost() ){
+                        console.log("Hey, I'm the host.")
 
-                    if(gameFirebase.player[universalCurrentTurn].hasPassed){
+                        if(gameFirebase.player[universalCurrentTurn].hasPassed){
 
-                        //else{
-                            console.log("It is the turn of ", universalCurrentTurn, ", who is passing.")
-                            var curIndex = (universalSequenceOfColors.indexOf(gameFirebase.currentTurn) + 1) % universalSequenceOfColors.length;
-                            gameFirebase.currentTurn = universalSequenceOfColors[curIndex];
-                            gameFirebase.turnCounter++;
-                            gameFirebase.$save();  //Save everything.
-                        //}
+                            //else{
+                                console.log("It is the turn of ", universalCurrentTurn, ", who is passing.")
+                                var curIndex = (universalSequenceOfColors.indexOf(gameFirebase.currentTurn) + 1) % universalSequenceOfColors.length;
+                                gameFirebase.currentTurn = universalSequenceOfColors[curIndex];
+                                gameFirebase.turnCounter++;
+                                gameFirebase.$save();  //Save everything.
+                            //}
 
-                    }else{
-
-                        if ( this.isComputersTurn() ){
-                            console.log("It is the turn of computer ", universalCurrentTurn, " who has not yet passed.");
-                            this.doComputerTurn();
                         }else{
-                            console.log("It is a human's turn.");
-                            //Do nothing, because we need to wait for them to take a turn.
+
+                            if ( this.isComputersTurn() ){
+                                console.log("It is the turn of computer ", universalCurrentTurn, " who has not yet passed.");
+                                this.doComputerTurn();
+                            }else{
+                                console.log("It is a human's turn.");
+                                //Do nothing, because we need to wait for them to take a turn.
+                            }
                         }
                     }
                 }
@@ -198,7 +199,7 @@ angular.module('bloqusApp')
                     console.log("Local: ", localTurnCounter);
                     console.log("DB: ", gameFirebase.turnCounter);
                     if(localTurnCounter == gameFirebase.turnCounter - 1){
-                        console.log("The database changed.");
+                        console.log("A turn for stuff.");
                         localTurnCounter++;
                         self.emitState();
                     }
