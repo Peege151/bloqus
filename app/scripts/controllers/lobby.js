@@ -11,6 +11,7 @@ angular.module('bloqusApp')
 
         $scope.currentId = $stateParams.currentId;
         $scope.playerName = name;
+        $scope.AiNames = AgentFactory.AgentNames();
 
         firebase.$bindTo($scope, "firebase");
 
@@ -63,9 +64,15 @@ angular.module('bloqusApp')
                 });
             };
 
+            $scope.setAiDifficulty = function (difficulty, color) {
+                $scope.firebase = LobbyFactory.setAiDifficulty(difficulty, color, currentId);
+            };
+
+
+
             var watcher = fbCurrentGame.$watch(function () {
                 console.log("Hey, something changed!!!");
-                console.log(fbCurrentGame.status);
+
                 if (fbCurrentGame.status === 'start'){
                     fbCurrentGame.$save().then(function(){
                         watcher();
