@@ -76,10 +76,9 @@ angular.module('bloqusApp').factory("AgentFactory", function(LogicFactory){
 	}
 
 	var agents = {
-		Default: EasyAI,
-		Idiotic: IdioticAI,
-		Easy: EasyAI,
-		Medium: MediumAI
+		'Idiotic AI': IdioticAI,
+		'Easy AI': EasyAI,
+		'Medium AI': MediumAI
 		//Hard: HardAI
 	}
 

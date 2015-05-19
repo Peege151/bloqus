@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('bloqusApp')
-    .controller('LobbyCtrl', function ($rootScope, $scope, $state, $stateParams, $firebaseObject, localStorageService, LobbyFactory) {
+    .controller('LobbyCtrl', function ($rootScope, $scope, $state, $stateParams, $firebaseObject, localStorageService, LobbyFactory, AgentFactory) {
         var ref = new Firebase("https://bloqus.firebaseio.com/"),
             firebase = $firebaseObject(ref),
             name = localStorageService.get('name'),
@@ -11,6 +11,7 @@ angular.module('bloqusApp')
 
         $scope.currentId = $stateParams.currentId;
         $scope.playerName = name;
+        $scope.AiNames = AgentFactory.AgentNames();
 
         firebase.$bindTo($scope, "firebase");
 
@@ -58,6 +59,10 @@ angular.module('bloqusApp')
                 console.log("Went to game.");
                 $scope.firebase.games[currentId].status = 'start';
                 $state.go('gameboard', {game: { firebaseId: currentId, player: name }})
+            };
+
+            $scope.setAiDifficulty = function (difficulty, color) {
+                $scope.firebase = LobbyFactory.setAiDifficulty(difficulty, color, currentId);
             };
 
             fbCurrentGame.$watch(function () {

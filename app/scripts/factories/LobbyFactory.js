@@ -7,7 +7,7 @@ angular.module('bloqusApp')
             firebase = $firebaseObject(ref),
             playerBackup,
             computerPlayer = {
-                name: 'Computer',
+                name: 'Easy AI',
                 id: 'compId',
                 pieces: '0|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20',
                 hasPassed: false,
@@ -87,7 +87,13 @@ angular.module('bloqusApp')
 
                 return firebase;
 
+            },
+
+            setAiDifficulty: function (difficulty, color, currentGame) {
+                firebase.games[currentGame].player[color].name = difficulty;
+                return firebase;
             }
+
         };
 
         return LobbyFactory;

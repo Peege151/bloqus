@@ -37,6 +37,14 @@ angular.module('bloqusApp')
             return true;
         };
 
+        var compPlayer = {
+                name: 'Easy AI',
+                id: 'compId',
+                pieces: '0|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20',
+                hasPassed: false,
+                isAI: true
+            };
+
         var SignInFactory = {
 
             boardBuilder: function (dimension) {
@@ -77,27 +85,9 @@ angular.module('bloqusApp')
                             hasPassed: false,
                             isAI: false
                         },
-                        yellow: {
-                            name: 'Computer',
-                            id: 'compId',
-                            pieces: '0|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20',
-                            hasPassed: false,
-                            isAI: true
-                        },
-                        green: {
-                            name: 'Computer',
-                            id: 'compId',
-                            pieces: '0|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20',
-                            hasPassed: false,
-                            isAI: true
-                        },
-                        red: {
-                            name: 'Computer',
-                            id: 'compId',
-                            pieces: '0|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20',
-                            hasPassed: false,
-                            isAI: true
-                        }
+                        yellow: compPlayer,
+                        green: compPlayer,
+                        red: compPlayer
                     }
                 };
 
@@ -130,6 +120,7 @@ angular.module('bloqusApp')
                 });
                 return obj;
             },
+
             findPublicGame: function(){
                 var obj;
                 angular.forEach(firebase.games, function (value, key) {
@@ -143,6 +134,7 @@ angular.module('bloqusApp')
                 });
                 return obj;                
             },
+
             enterGame: function (playername, currentGameId, shareId) {
                 var randomId = Math.round(Math.random() * 100000000);
                 var currentPolyNum = getCurrentPolyNum(currentGameId);
@@ -182,13 +174,7 @@ angular.module('bloqusApp')
 
             switchToColor: function (oldColor, newColor, currentGame) {
                 firebase.games[currentGame].player[newColor] = firebase.games[currentGame].player[oldColor];
-                firebase.games[currentGame].player[oldColor] = {
-                    name: 'Computer',
-                    id: 'compId',
-                    pieces: {has: 'somePieces'},
-                    hasPassed: false,
-                    isAI: true
-                };
+                firebase.games[currentGame].player[oldColor] = compPlayer;
 
                 localStorageService.set('color', newColor);
 
