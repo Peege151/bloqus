@@ -16,7 +16,7 @@
                 <ul class="player-list">
                   
                   <li ng-repeat="(key, value) in currentPlayers">
-                    <div><strong>{{ key | capital }}:<span class="player-name" ng-if="value.name === playerName">{{ value.name }}</span></strong>
+                    <div><strong>{{ key | capital }}:<span class="player-name" ng-if="!value.isAI">{{ value.name }}</span></strong>
                         <div class="btn-group" role="group" ng-if="AiNames.indexOf(value.name) > -1">
                             <p class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                 <span class="player-name">{{ value.name }}</span></strong>
