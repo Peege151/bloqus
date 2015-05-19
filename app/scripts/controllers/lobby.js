@@ -56,14 +56,16 @@ angular.module('bloqusApp')
 
             $scope.startGame = function () {
                 console.log("Went to game.");
-                $scope.firebase.games[currentId].status = 'playing';
+                $scope.firebase.games[currentId].status = 'start';
                 $state.go('gameboard', {game: { firebaseId: currentId, player: name }})
             };
 
             fbCurrentGame.$watch(function () {
-                if (fbCurrentGame.status === 'playing'){
+                if (fbCurrentGame.status === 'start'){
+                    fbCurrentGame.$save().then(function(){
                     console.log("Went to game.");
                     $state.go('gameboard', {game: { firebaseId: currentId, player: name }});
+                    });
                 }
                 if (fbCurrentGame.status === 'deleted'){
                     $state.go('main', {error: "Host Left, Game Aborted."})
