@@ -1,41 +1,48 @@
 
+<div id ="wrapper"> 
 
-<div  id="style_frame">
-  <div class="outer-board">
-    <div class="control-bar">    
-      <div class="turn-wrap">
-        Current Turn: {{currentColor | capital}}
-      </div>
-      <div class="control-wrap">
-        <span ng-if="currentColor === userColor" ng-click="pass()">Pass Move</span>
-      </div>
+  <div id="score_frame">
+    <b>Scores:</b>
+    <div ng-repeat="(key, value) in scores">
+      {{key}}: {{value}}
     </div>
-    <div id="frame"ui-on-drop="dropPiece" drop-channel="A">
-    <div class = "row" ng-repeat="row in boardGrid">
-      <div class = "block" ng-class="s" ng-repeat="s in boardGrid[$index] track by $index" >
-      </div>
-    </div> 
   </div>
-  </div>
-</div>
 
-
-
-<div class = "pieces">
-  <div class="piece" jqyoui-draggable ng-repeat = "piece in pieces" ng-click="rotate($index)" ng-right-click="flip($index)">
-    <div class="drag-frame" drag="piece" ui-draggable='true' on-drop-success="dropPiece($event, piece)" drag-channel="A">
-      <span ng-init="pieceNum = $index"></span>
-      <div class="row" ng-repeat = "row in pieces[pieceNum].grid track by $index">
-        <span ng-init="rowNum = $index"></span>
-        <div class="block" ng-class="item" ng-repeat = "item in pieces[pieceNum].grid[rowNum] track by $index">
+  <div  id="style_frame">
+    <div class="outer-board">
+      <div class="control-bar">    
+        <div class="turn-wrap">
+          Current Turn: {{currentColor | capital}}
         </div>
-      </div>  
+        <div class="control-wrap">
+          <span ng-if="currentColor === userColor" ng-click="pass()">Pass Move</span>
+        </div>
+      </div>
+      <div id="frame"ui-on-drop="dropPiece" drop-channel="A">
+        <div class = "row" ng-repeat="row in boardGrid">
+          <div class = "block" ng-class="s" ng-repeat="s in boardGrid[$index] track by $index" >
+          </div>
+        </div>
+      </div> 
+    </div>
+  </div>
+
+  <div id="piece_frame">
+
+    <div class = "pieces">
+      <div class="piece" jqyoui-draggable ng-repeat = "piece in pieces" ng-click="rotate($index)" ng-right-click="flip($index)">
+        <div class="drag-frame" drag="piece" ui-draggable='true' on-drop-success="dropPiece($event, piece)" drag-channel="A">
+          <span ng-init="pieceNum = $index"></span>
+          <div class="row" ng-repeat = "row in pieces[pieceNum].grid track by $index">
+            <span ng-init="rowNum = $index"></span>
+            <div class="block" ng-class="item" ng-repeat = "item in pieces[pieceNum].grid[rowNum] track by $index">
+            </div>
+          </div>  
+        </div>
+
+      </div>
     </div>
 
   </div>
+
 </div>
-
-<div ng-bind-html="boardHTML"></div>
-
-
-<div>{{ game | json }}</div>

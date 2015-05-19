@@ -1,28 +1,65 @@
 /* THIS WIDTH SHOULD CHANGE IN RESPONSIVE*/
 /*Width is dimension x block width + padding*/
-#style_frame {
-  padding:0px ;
-  text-align: center;
-  width:650px; 
-  margin: 0 auto;
-  background-color: white;
-    background-color: white;
-    text-align: center;
-    margin:0 auto;
-  /*padding:40px;*/
-    border-radius: 10px;
-    -webkit-box-shadow: 3px 5px 6px #FF6D00;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
-    -moz-box-shadow:    3px 5px 6px #FF6D00;  /* Firefox 3.5 - 3.6 */
-    box-shadow:         3px 5px 6px #FF6D00;
+
+#wrapper{
+  
 }
+
+#score_frame {
+  padding: 0px;
+  float: left;
+  text-align: center;
+  width: 200px; 
+  margin: 20px;
+  background-color: white;
+  text-align: center;
+/*padding:40px;*/
+  border-radius: 10px;
+  -webkit-box-shadow: 3px 5px 6px #FF6D00;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+  -moz-box-shadow:    3px 5px 6px #FF6D00;  /* Firefox 3.5 - 3.6 */
+  box-shadow:         3px 5px 6px #FF6D00;
+}
+
+#style_frame {
+  padding: 60px ;
+  float: left;
+  text-align: center;
+  margin: 10px;
+  background-color: white;
+  text-align: center;
+/*padding:40px;*/
+  border-radius: 10px;
+  -webkit-box-shadow: 3px 5px 6px #FF6D00;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+  -moz-box-shadow:    3px 5px 6px #FF6D00;  /* Firefox 3.5 - 3.6 */
+  box-shadow:         3px 5px 6px #FF6D00;
+}
+
+#piece_frame{
+  padding: 20px ;
+  float: left;
+  margin: 10px;
+  background-color: white;
+  text-align: center;
+  width: 200px;
+  height: 486px;
+  background-color: white;
+  text-align: center;
+  overflow: scroll;
+/*padding:40px;*/
+  border-radius: 10px;
+  -webkit-box-shadow: 3px 5px 6px #FF6D00;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+  -moz-box-shadow:    3px 5px 6px #FF6D00;  /* Firefox 3.5 - 3.6 */
+  box-shadow:         3px 5px 6px #FF6D00;
+}
+
 .outer-board {
   display: inline-block;
 
 }
 .block{
   display: inline-block;
-  height: 30px;
-  width: 30px;
+  height: 20px;
+  width: 20px;
   line-height: 1;
   border-radius: 4px;
 
@@ -32,13 +69,10 @@
 .row{
   border: 0px;
   line-height:0;
+  margin-left: 0px;
+  margin-right: 0px;
 }
-.row:first-child{
-  padding-top:40px;
-}
-.row:last-child{
-  padding-bottom:40px;
-}
+
 
 
 .B{
@@ -78,21 +112,33 @@
   background: transparent;
 }
 .control-bar {
-  width:100%;
-  padding:10px;
+  width: 100%;
+  text-align: left;
+  padding: 10px;
+
 }
 .control-wrap {
+  display: inline;
   color: #794aa2;
   text-align: right;
-  margin-right:20px;  
+  margin-right: 10px;  
 }
 .turn-wrap {
-  float:left;
-  padding-right:40px;
+  padding-right:10px;
+  display: inline;
+  margin-right: 40%;
 }
+
+.drag-frame{
+  display: block;
+  width: 100%;
+}
+
 .piece{
-  border: black solid 1px;
-  width: 170px;
-  height: 170px;
+  position: relative;
+  text-align: left;
+  padding: 0px;
+  width: 110px;
+  height: 110px;
   float: left;
 }
