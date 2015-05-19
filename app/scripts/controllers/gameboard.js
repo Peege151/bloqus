@@ -4,7 +4,7 @@ angular.module('bloqusApp')
     .controller('GameCtrl', function ($sce, $rootScope, $scope, $stateParams, GameFactory, LogicFactory, localStorageService, $state){
 
     	var thisBoard, allPiece, thisColors, currentColor, localPieces, nextColor;
-        var squareSize = 30.00;
+        var squareSize = 20.00;
 
         $scope.userColor = localStorageService.get('color');
 
