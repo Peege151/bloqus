@@ -33,12 +33,7 @@
   border: 0px;
   line-height:0;
 }
-.row:first-child{
-  padding-top:40px;
-}
-.row:last-child{
-  padding-bottom:40px;
-}
+
 
 
 .B{

@@ -33,11 +33,11 @@
 
 
 }
-#messageInput {
+input#messageInput {
   height:40px;
   width:100%;
   position:absolute;
-  bottom:0;
+  bottom:0px;
   right:1px;
   line-height:1.3;
   padding:4px;

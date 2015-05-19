@@ -52,7 +52,7 @@ angular.module('bloqusApp')
             var yPosition = dropY - frameY - fudgeY + scrollTop;
 
             var gridX = Math.round(xPosition / squareSize);
-            var gridY = Math.round(yPosition / squareSize) - 1;
+            var gridY = Math.round(yPosition / squareSize);
 
             //console.log(data.piece)
             if(thisColors.indexOf(currentColor) !== -1){
