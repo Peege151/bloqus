@@ -1,0 +1,10 @@
+
+<div class="main-page-wrap">
+    <h1 class="bloqus-h1"> Final Scores </h1>
+    <div class='scoreboard'>
+        <p ng-repeat="(color, score) in scoreObj |orderBy:'score'"> {{ color }}: {{ score }} </p>
+
+    </div>
+  </div>
+
+
