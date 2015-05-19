@@ -61,6 +61,8 @@ angular.module('bloqusApp')
             };
 
             var watcher = fbCurrentGame.$watch(function () {
+                console.log("Hey, something changed!!!");
+                console.log(fbCurrentGame.status);
                 if (fbCurrentGame.status === 'start'){
                     fbCurrentGame.$save().then(function(){
                         watcher();

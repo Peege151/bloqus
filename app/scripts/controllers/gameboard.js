@@ -128,7 +128,11 @@ angular.module('bloqusApp')
             //$scope.noMoreMovesLeft();
 
             localPieces = pieces[nextColor];
-            $scope.renderMyPieces(localPieces)
+            if (localPieces[0] !== undefined){
+                $scope.renderMyPieces(localPieces)
+            }else{
+                $scope.renderMyPieces([]);
+            }
 
             $scope.currentColor = current;
         	
