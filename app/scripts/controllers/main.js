@@ -10,7 +10,7 @@ angular.module('bloqusApp')
 
         $scope.createGameModal = function (){
             ngDialog.open({
-                template: 'views/modal.html',
+                template: 'views/modals/create-game-modal.html',
                 controller: 'MainCtrl'
             })
         };
@@ -18,7 +18,7 @@ angular.module('bloqusApp')
 
         $scope.joinGameModal = function (){
             ngDialog.open({
-                template: 'views/join-game-modal.html',
+                template: 'views/modals/join-game-modal.html',
                 controller: 'MainCtrl'
             })
         };
