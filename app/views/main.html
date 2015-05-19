@@ -3,7 +3,6 @@
     <h1 class="bloqus-h1"> bloqus </h1>
 
     <div id="gamecontrols">
-        <p ng-click="testModal()">Test modal!</p>
 
         <div ng-show="gameDoesNotExist">
             <p>Sorry, we can't find that game ID :(</p>
@@ -11,57 +10,13 @@
         <div ng-show="gameIsFull">
             <p>Sorry, that game is full :(</p>
         </div>
-        <button type="button" data-toggle="modal" data-target=".bs-example-modal-create"
-                class="btn btn-success btn-main-page">Create Game
+        <button type="button" ng-click="createGameModal()" class="btn btn-success btn-main-page">Create Game
         </button>
-        <div id="create-game-modal" class="modal fade bs-example-modal-create" tabindex="-1" role="dialog"
-             aria-labelledby="mySmallModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <h4>Enter Host's Name</h4><br/>
 
-                    <form ng-submit="createGame(playername); playername = null">
-                        <input name="hostname" ng-model="hostname" type="text" class="form-control  modal-input"
-                               placeholder="Enter Host Name" required>
 
-                        <div class="check-box-wrap">
-                            <input name="private" ng-model="private" type="checkbox"> Private?
-                        </div>
-                    </form>
-                    <br/>
-                </div>
-            </div>
-        </div>
-
-        <button type="button" data-toggle="modal" data-target=".bs-example-modal-lg"
-                class="btn btn-success btn-main-page">Join Game
+        <button type="button" ng-click="joinGameModal()" class="btn btn-success btn-main-page">Join Game
         </button>
-        <div id="join-game-modal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog"
-             aria-labelledby="myLargeModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <h4>Join Game</h4><br/>
-                    <div ng-messages="searchByGameNumber.gamenum.$error" style="color:maroon" role="alert">
-                        <p ng-message="maxlength">Game ID should not exceed 6 digits</p>
-                    </div>
 
-                    <button ng-hide="foundGame" type="button" ng-click="findPublicGame()"
-                            data-target=".bs-example-modal-lg" class="btn btn-success btn-main-page">Join Public Game
-                    </button>
-
-                    <form name="searchByGameNumber" ng-hide="foundGame" ng-submit="searchByGameNumber.gamenum.$valid && checkGameId(gamenum)">
-                        <input name="gamenum" ng-model="gamenum" type="number" ng-maxlength="6"
-                               class="form-control modal-input" placeholder="Or Enter Game ID" required>
-                    </form>
-                    <form ng-show="foundGame" ng-submit="enterGame(playername)">
-                        <h4>Enter Name</h4><br/>
-                        <input name="playername" ng-model="playername" type="text" class="form-control"
-                               placeholder="Enter Name" required>
-                    </form>
-                    <br/>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
     

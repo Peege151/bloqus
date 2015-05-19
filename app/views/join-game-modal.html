@@ -1,0 +1,18 @@
+<h4>Join Game</h4><br/>
+<div ng-messages="searchByGameNumber.gamenum.$error" style="color:maroon" role="alert">
+    <p ng-message="maxlength">Game ID should not exceed 6 digits</p>
+</div>
+
+<button ng-hide="foundGame" type="button" ng-click="findPublicGame()"
+        data-target=".bs-example-modal-lg" class="btn btn-success btn-main-page">Join Public Game
+</button>
+
+<form name="searchByGameNumber" ng-hide="foundGame" ng-submit="searchByGameNumber.gamenum.$valid && checkGameId(gamenum)">
+    <input name="gamenum" ng-model="gamenum" type="number" ng-maxlength="6"
+           class="form-control modal-input" placeholder="Or Enter Game ID" required>
+</form>
+<form ng-show="foundGame" ng-submit="enterGame(playername)">
+    <h4>Enter Name</h4><br/>
+    <input name="playername" ng-model="playername" type="text" class="form-control"
+           placeholder="Enter Name" required>
+</form>

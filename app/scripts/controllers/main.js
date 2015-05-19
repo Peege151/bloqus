@@ -8,10 +8,18 @@ angular.module('bloqusApp')
 
         $scope.private = false;
 
-        $scope.testModal = function (){
+        $scope.createGameModal = function (){
             ngDialog.open({
-                template: "<p>Success!</p>",
-                plain: true
+                template: 'views/modal.html',
+                controller: 'MainCtrl'
+            })
+        };
+
+
+        $scope.joinGameModal = function (){
+            ngDialog.open({
+                template: 'views/join-game-modal.html',
+                controller: 'MainCtrl'
             })
         };
 
@@ -26,6 +34,7 @@ angular.module('bloqusApp')
                 $scope.firebase = SignInFactory.createGame(randomId, gameId, hostname, $scope.private);
                 $scope.firebase.$save();
                 $('.modal-backdrop').remove();
+                ngDialog.closeAll();
                 $state.go('lobby', {currentId: randomId, shareId: gameId});
 
             };
@@ -48,6 +57,7 @@ angular.module('bloqusApp')
                 $scope.firebase = SignInFactory.enterGame(playername, currentGameId, shareId);
 
                 $('.modal-backdrop').remove();
+                ngDialog.closeAll();
                 $state.go('lobby', {currentId: currentGameId, shareId: shareId});
 
                 /*TODO: THROW ERROR IF GAME IS FULL*/
