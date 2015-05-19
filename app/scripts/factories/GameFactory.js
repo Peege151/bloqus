@@ -2,7 +2,7 @@
 
 angular.module('bloqusApp')
 
-    .factory('GameFactory', function ($rootScope, $firebaseObject, localStorageService, LogicFactory) {
+    .factory('GameFactory', function ($rootScope, $firebaseObject, localStorageService, LogicFactory, AgentFactory) {
         //sounds
         var snap = new Howl({urls: ['./sounds/piecesnap.mp3']});
         var passSound = new Howl({urls: ['./sounds/pass.mp3']});
@@ -120,7 +120,6 @@ angular.module('bloqusApp')
                 var tempAllPieces = this.allPieces();
                 var tempComputerColors = Object.keys(gameFirebase.player).filter(function(color, index, arr){  return gameFirebase.player[color].name == curPlayer.name});
                 var aiName = (AgentFactory.AgentNames().indexOf(curPlayer) == -1) ? 'Default' : computerName;
-                //debugger;
 
                 var decision = AgentFactory.Agent(aiName)(tempBoard, tempAllPieces, tempComputerColors, universalCurrentTurn);
                 if (decision.pass==false){
