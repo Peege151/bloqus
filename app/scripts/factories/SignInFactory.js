@@ -153,7 +153,7 @@ angular.module('bloqusApp')
                 var keepGoing = true;
                 angular.forEach(firebase.games[currentGameId].player, function (playerObj, playerColor) {
                     if (keepGoing) {
-                        if (playerObj.name == 'Computer') {
+                        if (playerObj.isAI) {
                             firebase.games[currentGameId].player[playerColor] = {
                                 name: playername,
                                 isAI: false,
@@ -177,7 +177,7 @@ angular.module('bloqusApp')
                         }
                     }
                 });
-                return firebase;
+                firebase.$save();
             },
 
             switchToColor: function (oldColor, newColor, currentGame) {
