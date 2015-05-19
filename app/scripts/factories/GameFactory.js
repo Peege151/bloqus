@@ -77,8 +77,9 @@ angular.module('bloqusApp')
                 
                 if( this.allPlayersHavePassed() ){
                     localTurnCounter = 0;
+                    localTurnCounter.set('localTurnCounter', 0);
                     console.log("Everything ends.");
-                    $rootScope.$emit('gameOver');
+                    $rootScope.$emit('gameOver', tempBoard);
                     return;
                 }else{ 
 
@@ -180,6 +181,8 @@ angular.module('bloqusApp')
 
             initialize: function(){
 
+                var pageJustLoaded = true;
+
                 var self = this;
 
                 //Stuff everyone has in common, which never changes.
@@ -191,8 +194,9 @@ angular.module('bloqusApp')
                 thisColors = universalSequenceOfColors.filter(function(c){ return gameFirebase.player[c].name == thisPlayer });
 
                 //Adding something to keep track of turns
-                gameFirebase.turnCounter = gameFirebase.turnCounter || 0;
-                localTurnCounter = localTurnCounter || 0;
+                gameFirebase.status = 'playing'
+                localTurnCounter = gameFirebase.turnCounter;
+                //localStorageService.set('localTurnCounter', localTurnCounter);
 
                 //If anything changes in firebase, emit the state that we're currently in.
                 gameFirebase.$watch(function(){
@@ -202,6 +206,8 @@ angular.module('bloqusApp')
                     if(localTurnCounter == gameFirebase.turnCounter - 1){
                         console.log("A turn for stuff.");
                         localTurnCounter++;
+                        //localStorageService.set('localTurnCounter', localTurnCounter)
+                        pageJustLoaded = false;
                         self.emitState();
                     }
                 });

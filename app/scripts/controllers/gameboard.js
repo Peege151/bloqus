@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('bloqusApp')
-    .controller('GameCtrl', function ($sce, $rootScope, $scope, $stateParams, GameFactory, LogicFactory, localStorageService, $state){
+    .controller('GameCtrl', function ($sce, $rootScope, $scope, $stateParams, GameFactory, LogicFactory, localStorageService, $state, ScoreFactory){
 
     	var thisBoard, allPiece, thisColors, currentColor, localPieces, nextColor;
-        var squareSize = 30.00;
+        var squareSize = 20.00;
 
         $scope.userColor = localStorageService.get('color');
 
@@ -52,7 +52,7 @@ angular.module('bloqusApp')
             var yPosition = dropY - frameY - fudgeY + scrollTop;
 
             var gridX = Math.round(xPosition / squareSize);
-            var gridY = Math.round(yPosition / squareSize) - 1;
+            var gridY = Math.round(yPosition / squareSize);
 
             //console.log(data.piece)
             if(thisColors.indexOf(currentColor) !== -1){
@@ -93,22 +93,24 @@ angular.module('bloqusApp')
 
         }
 
-        var go = $rootScope.$on('gameOver', function(event, game){
+        var go = $rootScope.$on('gameOver', function(event, board){
             console.log('HEARD THE GAME WAS OVER?')
             //Drop the event listeners attached to the global scope.
             go();
             sc();
-            $state.go('gameover', {gameFirebase: game});
+            $state.go('gameover', {game: board});
         });
 
         var sc = $rootScope.$on('stateChanged', function(event, board, pieces, color, current){
-            console.log("The state has changed.")
+            //console.log("The state has changed.")
         	thisBoard = board;
         	allPiece = pieces; //pieces[board.currentTurn];
         	thisColors = color;
             currentColor = current;
 
             $scope.boardGrid = board.getBoard();
+
+            $scope.scores = ScoreFactory($scope.boardGrid);
 
             //Render the pieces in question.
             //To do -- find the next color this person will play.
