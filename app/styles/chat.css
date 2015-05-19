@@ -1,17 +1,4 @@
-#example-messages {
-  text-decoration: none;
-  list-style: none;
-  line-height: 150%;
-  padding: 0px;
-  background-color: #F0F8FF;
-  border-left: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
-  border-right: 1px solid #ddd;
-  border-radius: 0px 0px 10px 10px;
-  min-height: 380px;
-  height:380px;
-  overflow: scroll;
-}
+
 #example-messages > li {
   padding: 10px;
 }
