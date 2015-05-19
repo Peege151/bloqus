@@ -56,12 +56,12 @@ angular.module('bloqusApp')
 
             $scope.startGame = function () {
                 console.log("Went to game.");
-                $scope.firebase.games[currentId].status = 'start';
+                $scope.firebase.games[currentId].status = 'playing';
                 $state.go('gameboard', {game: { firebaseId: currentId, player: name }})
             };
 
             fbCurrentGame.$watch(function () {
-                if (fbCurrentGame.status === 'start'){
+                if (fbCurrentGame.status === 'playing'){
                     console.log("Went to game.");
                     $state.go('gameboard', {game: { firebaseId: currentId, player: name }});
                 }
