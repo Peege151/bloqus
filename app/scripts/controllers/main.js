@@ -2,10 +2,19 @@
 
 angular.module('bloqusApp')
 
-    .controller("MainCtrl", function ($scope, $state, SignInFactory, $firebaseObject) {
+    .controller("MainCtrl", function ($scope, $state, SignInFactory, $firebaseObject, ngDialog) {
         var firebase = $firebaseObject(new Firebase("https://bloqus.firebaseio.com/")),
             shareId, currentGameId;
-        $scope.private = false
+
+        $scope.private = false;
+
+        $scope.testModal = function (){
+            ngDialog.open({
+                template: "<p>Success!</p>",
+                plain: true
+            })
+        };
+
         firebase.$bindTo($scope, "firebase");
 
         firebase.$loaded().then(function () {
