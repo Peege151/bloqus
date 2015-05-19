@@ -5,12 +5,17 @@
   
 }
 
-#score_frame {
-  padding: 0px;
+#left_thing{
   float: left;
+}
+
+#score_frame {
+  padding: 20px ;
+  margin: 10px;
+  background-color: white;
   text-align: center;
-  width: 200px; 
-  margin: 20px;
+  width: 200px;
+  height: 200px;
   background-color: white;
   text-align: center;
 /*padding:40px;*/
@@ -41,7 +46,7 @@
   background-color: white;
   text-align: center;
   width: 200px;
-  height: 486px;
+  height: 345px;
   background-color: white;
   text-align: center;
   overflow: scroll;
