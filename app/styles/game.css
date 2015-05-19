@@ -1,20 +1,58 @@
 /* THIS WIDTH SHOULD CHANGE IN RESPONSIVE*/
 /*Width is dimension x block width + padding*/
+
+#wrapper{
+  
+}
+
+#score_frame {
+  padding: 0px;
+  float: left;
+  text-align: center;
+  width: 200px; 
+  margin: 20px;
+  background-color: white;
+  text-align: center;
+/*padding:40px;*/
+  border-radius: 10px;
+  -webkit-box-shadow: 3px 5px 6px #FF6D00;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+  -moz-box-shadow:    3px 5px 6px #FF6D00;  /* Firefox 3.5 - 3.6 */
+  box-shadow:         3px 5px 6px #FF6D00;
+}
+
 #style_frame {
-  padding:0px ;
+  padding: 0px ;
+  float: left;
   text-align: center;
   width:650px; 
-  margin: 0 auto;
+  margin: 20px;
   background-color: white;
-    background-color: white;
-    text-align: center;
-    margin:0 auto;
-  /*padding:40px;*/
-    border-radius: 10px;
-    -webkit-box-shadow: 3px 5px 6px #FF6D00;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
-    -moz-box-shadow:    3px 5px 6px #FF6D00;  /* Firefox 3.5 - 3.6 */
-    box-shadow:         3px 5px 6px #FF6D00;
+  height: 700px;
+  text-align: center;
+/*padding:40px;*/
+  border-radius: 10px;
+  -webkit-box-shadow: 3px 5px 6px #FF6D00;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+  -moz-box-shadow:    3px 5px 6px #FF6D00;  /* Firefox 3.5 - 3.6 */
+  box-shadow:         3px 5px 6px #FF6D00;
 }
+
+#piece_frame{
+  padding: 0px ;
+  float: left;
+  width:650px; 
+  height: 700px;
+  padding: 20px;
+  margin: 20px;
+  background-color: white;
+  text-align: center;
+  overflow: scroll;
+/*padding:40px;*/
+  border-radius: 10px;
+  -webkit-box-shadow: 3px 5px 6px #FF6D00;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+  -moz-box-shadow:    3px 5px 6px #FF6D00;  /* Firefox 3.5 - 3.6 */
+  box-shadow:         3px 5px 6px #FF6D00;
+}
+
 .outer-board {
   display: inline-block;
 

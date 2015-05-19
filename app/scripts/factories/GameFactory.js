@@ -26,6 +26,8 @@ angular.module('bloqusApp')
         	setGameFactory: function(fbGameId, playerName){
         		var self = this; 
 
+                localTurnCounter = 0;
+
                 //Local storage works synchronously, which is really convenient.
                 var fbGameId = fbGameId || localStorageService.get('fbGameId')
                 thisPlayer = playerName || localStorageService.get('playerName')
@@ -78,7 +80,7 @@ angular.module('bloqusApp')
                 if( this.allPlayersHavePassed() ){
                     localTurnCounter = 0;
                     console.log("Everything ends.");
-                    $rootScope.$emit('gameOver');
+                    $rootScope.$emit('gameOver', tempBoard);
                     return;
                 }else{ 
 
@@ -191,6 +193,7 @@ angular.module('bloqusApp')
                 thisColors = universalSequenceOfColors.filter(function(c){ return gameFirebase.player[c].name == thisPlayer });
 
                 //Adding something to keep track of turns
+                gameFirebase.status = 'playing'
                 gameFirebase.turnCounter = gameFirebase.turnCounter || 0;
                 localTurnCounter = localTurnCounter || 0;
 
