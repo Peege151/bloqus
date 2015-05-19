@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('bloqusApp')
-    .controller('LobbyCtrl', function ($rootScope, $scope, $state, $stateParams, $firebaseObject, localStorageService, LobbyFactory) {
+    .controller('LobbyCtrl', function ($rootScope, $scope, $state, $stateParams, $firebaseObject, localStorageService, LobbyFactory, AgentFactory) {
         var ref = new Firebase("https://bloqus.firebaseio.com/"),
             firebase = $firebaseObject(ref),
             name = localStorageService.get('name'),
@@ -50,6 +50,7 @@ angular.module('bloqusApp')
             };
 
             $scope.setDimensions = function (val) {
+                console.log("GRID DIMENSIONS", val)
                 $scope.gridDimensions = val;
                 $scope.firebase = LobbyFactory.setDimensions(val, currentId);
             };
