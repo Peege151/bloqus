@@ -26,8 +26,6 @@ angular.module('bloqusApp')
         	setGameFactory: function(fbGameId, playerName){
         		var self = this; 
 
-                localTurnCounter = 0;
-
                 //Local storage works synchronously, which is really convenient.
                 var fbGameId = fbGameId || localStorageService.get('fbGameId')
                 thisPlayer = playerName || localStorageService.get('playerName')
