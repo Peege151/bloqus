@@ -28,6 +28,16 @@ ul.player-list {
 .player-options {
   float: right;
 }
+#messageInput.lobby-input {
+  width:100%;
+  border-bottom:1px solid #ddd;
+}
+.lobby-chat-wrap {
+  height:380px;
+  min-height:380px;
+  border-right:0px;
+  position:relative;
+}
 .game-options {
   min-height: 380px;
   height:380px;
@@ -35,6 +45,9 @@ ul.player-list {
 }
 .go-btn:hover {
   color:white;
+}
+.go-btn {
+  margin-top:20px;
 }
 .tab-content {
   padding:0px;

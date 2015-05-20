@@ -3,6 +3,10 @@
 	.main-page-wrap, .lobby-wrap {
 		width:95%;
 	}
+	.nav, .navbar {
+		background-color: #FF8F00;
+		border:0px;
+	}
 	.chat-tab > ul.nav.nav-tabs{
 		display:none;
 	}
@@ -11,8 +15,5 @@
 		text-align: center;
 		color: black;
 		text-decoration: underline;
-
-
 	}
 }
-/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIm1lZGlhLmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiO0FBQ0E7Q0FDQztFQUNDLFdBQVU7R0FDVjtDQUNEO0VBQ0MsY0FBYTtHQUNiO0NBQ0Q7RUFDQyxlQUFjO0VBQ2Qsb0JBQW1CO0VBQ25CLGNBQWE7RUFDYiw0QkFBMkI7OztHQUczQjtFQUNEIiwiZmlsZSI6Im1lZGlhLmNzcyIsInNvdXJjZXNDb250ZW50IjpbIlxuQG1lZGlhIHNjcmVlbiBhbmQgKG1heC13aWR0aDogNzY4cHgpIHtcblx0Lm1haW4tcGFnZS13cmFwLCAubG9iYnktd3JhcCB7XG5cdFx0d2lkdGg6OTUlO1xuXHR9XG5cdC5jaGF0LXRhYiA+IHVsLm5hdi5uYXYtdGFic3tcblx0XHRkaXNwbGF5Om5vbmU7XG5cdH1cblx0Lm1vYmlsZS1jaGF0LWhlYWRlciB7XG5cdFx0ZGlzcGxheTpibG9jaztcblx0XHR0ZXh0LWFsaWduOiBjZW50ZXI7XG5cdFx0Y29sb3I6IGJsYWNrO1xuXHRcdHRleHQtZGVjb3JhdGlvbjogdW5kZXJsaW5lO1xuXG5cblx0fVxufSJdfQ== */

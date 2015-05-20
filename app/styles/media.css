@@ -3,6 +3,10 @@
 	.main-page-wrap, .lobby-wrap {
 		width:95%;
 	}
+	.nav, .navbar {
+		background-color: #FF8F00;
+		border:0px;
+	}
 	.chat-tab > ul.nav.nav-tabs{
 		display:none;
 	}
@@ -11,7 +15,5 @@
 		text-align: center;
 		color: black;
 		text-decoration: underline;
-
-
 	}
 }
