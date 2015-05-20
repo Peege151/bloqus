@@ -11,7 +11,7 @@
   list-style: none;
   line-height: 150%;
   padding: 0px;
-  background-color: #F0F8FF;
+  background-color: #f3e5f5;
   border-left: 1px solid #ddd;
   border-right: 1px solid #ddd;
   min-height: 340px;
@@ -49,8 +49,9 @@ input#messageInput {
 }
 
 #example-messages li:nth-child(even){
-  background:  #99c5ff;
+  background: #794aa2;
   color:white;
+  
 }
 
 .chat-box{
