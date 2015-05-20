@@ -22,6 +22,6 @@
     "mockfirebase": "0.11.0",
     "angular-mocks": "^1.3.0"
   },
-  "appPath": "app",
+  "appPath": "public",
   "moduleName": "bloqusApp"
 }
