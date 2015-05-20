@@ -2,7 +2,7 @@
 
 angular.module('bloqusApp').factory("AgentFactory", function(LogicFactory){
 
-	//takes a function which takes a
+	//Pre-processing that all functions used to be doing before I abstracted it out.
 	var adapter = function(func){
 
 		return function(board, allPieces, selves, currentTurn){
@@ -21,51 +21,51 @@ angular.module('bloqusApp').factory("AgentFactory", function(LogicFactory){
 
 	}
 
+
 	var IdioticAI = function(board, myPieces, allMoves, selves, currentTurn){
 		return {pass: false, move: allMoves[Math.floor(allMoves.length*Math.random())]};
 	}
 
 
-
 	var EasyAI = function(board, myPieces, allMoves, selves, currentTurn){
 
+		//Declar the evaluator used to find the best move of allMoves.
 		var evaluator = function(move){
+			//Find what the board looks like after the move gets made.
 			var tempBoard = new LogicFactory.Board(board.dimensions);
 			tempBoard.consumeFire(board.emitFire());
 			tempBoard.doMove(move);
 
 			//Favor moves which allow you to make more moves.
-
 			var lengthFactor = tempBoard.liberties(currentTurn.toUpperCase().charAt(0)).length;
-			var center = [ Math.round(board.dimensions / 2), Math.round(board.dimensions / 2) ];
-			var accumDistanceToCenter = liberties.reduce(function(totalLength, spot){
-				totalLength = totalLength + Math.sqrt(Math.pow(center[0]-spot[0],2) + Math.pow([center[1]-spot[1]],2));
-				return totalLength;
-			},0)
-			var distFactor = - (accumDistanceToCenter / lengthFactor);
-			var score = lengthFactor;
-			return score;
+
+			//Calculate score and return score
+			return lengthFactor;
 		};
 
+		//Find the best move, as evaluated by the evaluator.
 		var finalMove = allMoves.reduce(function(past, move){
 			var valueOfMove = evaluator(move);
 			return (past.value > valueOfMove) ? past : {move: move, value: valueOfMove };
 		}, {move: allMoves[0], value: evaluator(allMoves[0])})
 
+		//Return it.
 		return {pass: false, move: finalMove.move};
 	};
 
 	var MediumAI = function(board, myPieces, allMoves, selves, currentTurn){
 
-		var evaluator = function(move, piecesLeft){
+		var evaluator = function(move){
+
+			//Get board after move.
 			var tempBoard = new LogicFactory.Board(board.dimensions);
 			tempBoard.consumeFire(board.emitFire());
 			tempBoard.doMove(move);
-			console.log("Pieces Left: ", piecesLeft);
-			console.log("TempBoard", tempBoard);
-			var movesPossible = tempBoard.allLegalMovesForPieces(piecesLeft, currentTurn.toUpperCase().charAt(0));
-			var lengthFactor = movesPossible.length;
 
+			//Favor moves which allow you to make more moves.
+			var lengthFactor = tempBoard.liberties(currentTurn.toUpperCase().charAt(0)).length;
+
+			//And favor moves which bring you closer to the center of the board.
 			var center = [ Math.round(board.dimensions / 2), Math.round(board.dimensions / 2) ];
 			var distanceToCenter = move.occupies().reduce(function(totalLength, spot){
 				totalLength = totalLength + Math.sqrt(Math.pow(center[0]-spot[0],2) + Math.pow([center[1]-spot[1]],2));
@@ -73,36 +73,20 @@ angular.module('bloqusApp').factory("AgentFactory", function(LogicFactory){
 			},0)
 			var distFactor = - (distanceToCenter / move.occupies().length);
 
-			var score = lengthFactor + distFactor;
-			return score;
+			//And favor larger moves, simply speaking.
+			var sizeFactor = move.occupies().length * 2;
+
+			//Calculate and return score.
+			return lengthFactor + distFactor + sizeFactor;
 		};
 
-		var statelessSplice = function(arr, index, length){
-			return arr.slice(0, index).concat(arr.slice(index+length, arr.length));
-		}
-
-		var extRestOfPieces = allMoves.map(function(move){
-				return move.piece;
-			}).filter(function(otherPiece){
-				return !otherPiece.sameShapeAtAll(allMoves[0].piece);
-			});
-
-		var finalMove = allMoves.reduce(function(past, move, index, arr){
-			console.log("Index", index);
-			console.log("MyPieces", allMoves);
-			//Need to find all the pieces being used, minus the piece which is used in the current moved. 
-			//This is a bit awkward and complicated.
-			var restOfPieces = allMoves.map(function(move){
-				return move.piece;
-			}).filter(function(otherPiece){
-				return !otherPiece.sameShapeAtAll(move.piece)
-			});
-
-
-			var valueOfMove = evaluator(move, restOfPieces);
+		//Find the best move, as evaluated by the evaluator.
+		var finalMove = allMoves.reduce(function(past, move){
+			var valueOfMove = evaluator(move);
 			return (past.value > valueOfMove) ? past : {move: move, value: valueOfMove };
-		}, {move: allMoves[0], value: evaluator(allMoves[0], extRestOfPieces)})
+		}, {move: allMoves[0], value: evaluator(allMoves[0])})
 
+		//Return it.
 		return {pass: false, move: finalMove.move};
 	};
 
@@ -122,7 +106,11 @@ angular.module('bloqusApp').factory("AgentFactory", function(LogicFactory){
 
 		//Returns an agent, which is itself a function
 		Agent: function(name){
-			return agents[name];
+			console.log("HERE");
+			console.log(name);
+			console.log(this.AgentNames().indexOf(name) !== -1);
+			console.log("AFTER");
+			return ( (this.AgentNames().indexOf(name) !== -1) ) ? agents[name] : "asda" //agents['Easy AI'];
 		}
 
 
