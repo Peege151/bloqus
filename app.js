@@ -14,10 +14,12 @@ app.use(express.static(__dirname + "/bower_components"));
 app.use(express.static(bower + "/bower_components"));
 
 app.use(express.static(__dirname + "/app"));
+app.use(express.static(__dirname));
+
 console.log("Most of the stuff: ", __dirname + "/app")
 console.log("Bower stuff:", __dirname + "/bower_components" )
 console.log("Bower stuff:", __dirname + "../bower_components" )
-
+console.log("__dirname", __dirname)
 
 
 app.get("/", function(req, res, next){
