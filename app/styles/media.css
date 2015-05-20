@@ -3,4 +3,15 @@
 	.main-page-wrap, .lobby-wrap {
 		width:95%;
 	}
+	.chat-tab > ul.nav.nav-tabs{
+		display:none;
+	}
+	.mobile-chat-header {
+		display:block;
+		text-align: center;
+		color: black;
+		text-decoration: underline;
+
+
+	}
 }
