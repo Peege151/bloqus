@@ -6,6 +6,15 @@ angular.module('bloqusApp')
     var messageField = $('#messageInput');
     var messageList = $('#example-messages');
     var chatSound = new Howl({urls: ['./sounds/chat.mp3']});
+    var welcomeMessage = {name: 'BlockBot : ', text: 'Hi, Welcome to Bloq Party'};
+
+    setTimeout(function(){
+        var currentID = window.location.href.substr(window.location.href.length - 5);
+        if(localStorageService.get('host')) fbMessages.push({name: 'BloqBot : ', text: 'Hi, Welcome to Bloq Party! Please share the Game ID '+ currentID + ' with your friends!'});
+    }, 200);
+    
+
+
     // LISTEN FOR KEYPRESS EVENT
     messageField.keypress(function (e) {
         if (e.keyCode == 13) {

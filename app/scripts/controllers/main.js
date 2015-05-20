@@ -29,7 +29,7 @@ angular.module('bloqusApp')
 
             $scope.createGame = function () {
                 var randomId = Math.round(Math.random() * 100000000);
-                var gameId = Math.round(Math.random() * 100000);
+                var gameId = Math.floor(Math.random()*90000) + 10000;
                 var hostname = $scope.hostname;
                 $scope.firebase = SignInFactory.createGame(randomId, gameId, hostname, $scope.private);
                 $scope.firebase.$save();
