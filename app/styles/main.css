@@ -260,3 +260,6 @@ body > ui-view > div > div > div.col-md-6.chat-box > chat > div > div > h4{
   font-weight: bold;
 }
 
+.loading_image{
+  text-align: center;
+}

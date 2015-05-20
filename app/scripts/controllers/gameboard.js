@@ -3,9 +3,12 @@
 angular.module('bloqusApp')
     .controller('GameCtrl', function ($sce, $rootScope, $scope, $stateParams, GameFactory, LogicFactory, localStorageService, $state, ScoreFactory, AgentFactory){
 
+        
+
     	var thisBoard, allPiece, thisColors, currentColor, localPieces, nextColor;
         var squareSize = 20.00;
 
+        $scope.loading = true;
         $scope.userColor = localStorageService.get('color');
 
         GameFactory.setGameFactory($stateParams.game.firebaseId, $stateParams.game.player);
@@ -135,6 +138,7 @@ angular.module('bloqusApp')
             }
 
             $scope.currentColor = current;
+            $scope.loading = false;
         	
         });
 
