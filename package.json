@@ -12,6 +12,9 @@
     "express": "^4.12.4",
     "path": "^0.11.14"
   },
+  "scripts": {
+    "postinstall": "bower install"
+  },
   "repository": {},
   "devDependencies": {
     "chalk": "^0.4.0",
