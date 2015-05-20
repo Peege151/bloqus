@@ -16,8 +16,19 @@
                 <ul class="player-list">
                   
                   <li ng-repeat="(key, value) in currentPlayers">
-                    <div><strong>{{key | capital }}: <span class="player-name">{{value.name}}</span></strong>
-                        <div class="btn-group player-options" role="group" ng-if="value.name === 'Computer'">
+                    <div><strong>{{ key | capital }}:<span class="player-name" ng-if="!value.isAI">{{ value.name }}</span></strong>
+                        <div class="btn-group" role="group" ng-if="AiNames.indexOf(value.name) > -1">
+                            <p class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                <span class="player-name">{{ value.name }}</span></strong>
+                                <span class="caret"></span>
+                            </p>
+                            <ul class="dropdown-menu" role="menu">
+                                <li ng-repeat="aiName in AiNames" ng-click="setAiDifficulty(aiName, key)">{{ aiName }}</li>
+                            </ul>
+                        </div>
+                        <div class="btn-group player-options" role="group" ng-if="AiNames.indexOf(value.name) > -1">
+
+
                             <p class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                 Options
                                 <span class="caret"></span>
@@ -48,10 +59,7 @@
               <div class="input-group">
                 <form ng-submit="setDimensions(gridDimensions)">
                 <input ng-disabled="!isHost" type="number" placeholder="{{gridDimensions}}" ng-model="gridDimensions" class="form-control">
-                  <span class="input-group-btn">
-                    <button class="btn btn-success" type="button">Set</button>
-                  </span>
-                  
+                    <input class='btn btn-success btn-xs' type="submit" value="Set">
                 </form>
               </div>
             </div>       

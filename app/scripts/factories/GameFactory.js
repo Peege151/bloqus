@@ -3,7 +3,9 @@
 angular.module('bloqusApp')
 
     .factory('GameFactory', function ($rootScope, $firebaseObject, localStorageService, LogicFactory, AgentFactory) {
-
+        //sounds
+        var snap = new Howl({urls: ['./sounds/piecesnap.mp3']});
+        var passSound = new Howl({urls: ['./sounds/pass.mp3']});
 
         //Specific to this player, game information
     	var thisPlayer,        //name of the player
@@ -77,7 +79,6 @@ angular.module('bloqusApp')
                 
                 if( this.allPlayersHavePassed() ){
                     localTurnCounter = 0;
-                    localTurnCounter.set('localTurnCounter', 0);
                     console.log("Everything ends.");
                     $rootScope.$emit('gameOver', tempBoard);
                     return;
@@ -118,8 +119,7 @@ angular.module('bloqusApp')
                 var tempBoard = this.createBoard(gameFirebase);
                 var tempAllPieces = this.allPieces();
                 var tempComputerColors = Object.keys(gameFirebase.player).filter(function(color, index, arr){  return gameFirebase.player[color].name == curPlayer.name});
-                var aiName = (AgentFactory.AgentNames().indexOf(curPlayer) == -1) ? 'Default' : computerName;
-                //debugger;
+                var aiName = (AgentFactory.AgentNames().indexOf(curPlayer) == -1) ? 'Easy AI' : computerName;
 
                 var decision = AgentFactory.Agent(aiName)(tempBoard, tempAllPieces, tempComputerColors, universalCurrentTurn);
                 if (decision.pass==false){
@@ -221,6 +221,7 @@ angular.module('bloqusApp')
                         var moveWorked = tempBoard.doMove(move);
                         console.log("Move,", move);
                         if(moveWorked){
+                            snap.play();
                             console.log("Move worked.")
                             
                             var newFireState = tempBoard.emitFire();
@@ -240,6 +241,7 @@ angular.module('bloqusApp')
                 };
 
                 var passTurn = function(){
+                    passSound.play();
                     console.log("'Passing' event caught.");
                     if(self.isPlayersTurn()){
                         gameFirebase.player[gameFirebase.currentTurn].hasPassed = true;  //Mark player so it says that the player has passed.

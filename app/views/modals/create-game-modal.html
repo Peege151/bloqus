@@ -1,0 +1,10 @@
+<h4 class="modal-header">Enter Host's Name</h4><br/>
+
+<form ng-submit="createGame(playername) && closeThisDialog(); playername = null">
+    <input name="hostname" ng-model="hostname" type="text" class="form-control  modal-input"
+           placeholder="Enter Host Name" required>
+
+    <div class="check-box-wrap">
+        <input name="private" ng-model="private" type="checkbox"> Private?
+    </div>
+</form>

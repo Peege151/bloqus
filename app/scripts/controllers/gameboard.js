@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('bloqusApp')
-    .controller('GameCtrl', function ($sce, $rootScope, $scope, $stateParams, GameFactory, LogicFactory, localStorageService, $state, ScoreFactory){
+    .controller('GameCtrl', function ($sce, $rootScope, $scope, $stateParams, GameFactory, LogicFactory, localStorageService, $state, ScoreFactory, AgentFactory){
 
     	var thisBoard, allPiece, thisColors, currentColor, localPieces, nextColor;
         var squareSize = 20.00;
@@ -128,7 +128,11 @@ angular.module('bloqusApp')
             //$scope.noMoreMovesLeft();
 
             localPieces = pieces[nextColor];
-            $scope.renderMyPieces(localPieces)
+            if (localPieces[0] !== undefined){
+                $scope.renderMyPieces(localPieces)
+            }else{
+                $scope.renderMyPieces([]);
+            }
 
             $scope.currentColor = current;
         	
