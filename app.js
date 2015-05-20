@@ -6,11 +6,13 @@ var port = process.env.PORT || 3000;
 var app = express();
 
 var root = __dirname
-
+var bower = "../" + __dirname
 
 
 
 app.use(express.static(__dirname + "/bower_components"));
+app.use(express.static(bower + "/bower_components"));
+
 app.use(express.static(__dirname + "/app"));
 console.log("Most of the stuff: ", __dirname + "/app")
 console.log("Bower stuff:", __dirname + "/bower_components" )
