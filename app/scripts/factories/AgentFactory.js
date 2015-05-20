@@ -2,84 +2,99 @@
 
 angular.module('bloqusApp').factory("AgentFactory", function(LogicFactory){
 
+	//Pre-processing that all functions used to be doing before I abstracted it out.
+	var adapter = function(func){
 
-	var IdioticAI = function(board, allPieces, selves, currentTurn){
-		var myPieces = allPieces[currentTurn];
-		var allMoves = board.allLegalMovesForPieces(myPieces, currentTurn.toUpperCase().charAt(0));
+		return function(board, allPieces, selves, currentTurn){
 
-		if (allMoves.length > 0){
-			var myMove = allMoves[Math.floor(allMoves.length*Math.random())];
-			return {pass: false, move: myMove};
-		}else{
-			return {pass: true, move: null};
+			//Grab all my pieces.  If I have none, pass.
+			var myPieces = allPieces[currentTurn];
+			if(myPieces.length == 0 || myPieces[0] == undefined){return {pass: true, move: null};}
+
+			//Grab all my moves.  If I have none, pass.
+			var allMoves = board.allLegalMovesForPieces(myPieces, currentTurn.toUpperCase().charAt(0));
+			if (allMoves.length==0){return {pass: true, move: null};}
+
+			return func(board, myPieces, allMoves, selves, currentTurn);
+
 		}
-		
-		return myMove;
 
 	}
 
 
+	var IdioticAI = function(board, myPieces, allMoves, selves, currentTurn){
+		return {pass: false, move: allMoves[Math.floor(allMoves.length*Math.random())]};
+	}
 
-	var EasyAI = function(board, allPieces, selves, currentTurn){
-		var myPieces = allPieces[currentTurn];
-		if(myPieces.length == 0 || myPieces[0] == undefined){
-			return {pass: true, move: null};
-		}
-		console.log(" length for mypieces ", myPieces );
-		console.log("current ", currentTurn.toUpperCase().charAt(0) );
-		console.log(" selves ", selves );
-		var allMoves = board.allLegalMovesForPieces(myPieces, currentTurn.toUpperCase().charAt(0));
-		console.log("All moves length for ", allMoves.length, currentTurn)
-		if (allMoves.length==0){
-			return {pass: true, move: null}
-		}
 
+	var EasyAI = function(board, myPieces, allMoves, selves, currentTurn){
+
+		//Declar the evaluator used to find the best move of allMoves.
 		var evaluator = function(move){
+			//Find what the board looks like after the move gets made.
 			var tempBoard = new LogicFactory.Board(board.dimensions);
 			tempBoard.consumeFire(board.emitFire());
-			//console.log("TempBoard," , tempBoard)
-			//console.log("Move,", move);
 			tempBoard.doMove(move);
 
-			var liberties = tempBoard.liberties(currentTurn.toUpperCase().charAt(0));
-			//console.log(currentTurn, liberties.length);
+			//Favor moves which allow you to make more moves.
+			var lengthFactor = tempBoard.liberties(currentTurn.toUpperCase().charAt(0)).length;
 
-			//More liberties is better than less, ceteris paribus.
-			var lengthFactor = liberties.length;
+			//Calculate score and return score
+			return lengthFactor;
+		};
 
-			//Closer to the center is better than less close to the center, ceteris paribus.
-			var center = [ Math.round(board.dimensions / 2), Math.round(board.dimensions / 2) ];
-			var accumDistanceToCenter = liberties.reduce(function(totalLength, spot){
-				totalLength = totalLength + Math.sqrt(Math.pow(center[0]-spot[0],2) + Math.pow([center[1]-spot[1]],2));
-				return totalLength;
-			},0)
-			var distFactor = - (accumDistanceToCenter / lengthFactor);
-
-			//Higher is better
-			var score = lengthFactor + distFactor;
-			return score;
-
-		}
-
+		//Find the best move, as evaluated by the evaluator.
 		var finalMove = allMoves.reduce(function(past, move){
 			var valueOfMove = evaluator(move);
 			return (past.value > valueOfMove) ? past : {move: move, value: valueOfMove };
 		}, {move: allMoves[0], value: evaluator(allMoves[0])})
 
+		//Return it.
 		return {pass: false, move: finalMove.move};
+	};
 
+	var MediumAI = function(board, myPieces, allMoves, selves, currentTurn){
 
-	}
+		var evaluator = function(move){
 
-	var MediumAI = function(board, allPieces, selves, currentTurn){
+			//Get board after move.
+			var tempBoard = new LogicFactory.Board(board.dimensions);
+			tempBoard.consumeFire(board.emitFire());
+			tempBoard.doMove(move);
 
-	}
+			//Favor moves which allow you to make more moves.
+			var lengthFactor = tempBoard.liberties(currentTurn.toUpperCase().charAt(0)).length;
+
+			//And favor moves which bring you closer to the center of the board.
+			var center = [ Math.round(board.dimensions / 2), Math.round(board.dimensions / 2) ];
+			var distanceToCenter = move.occupies().reduce(function(totalLength, spot){
+				totalLength = totalLength + Math.sqrt(Math.pow(center[0]-spot[0],2) + Math.pow([center[1]-spot[1]],2));
+				return totalLength;
+			},0)
+			var distFactor = - (distanceToCenter / move.occupies().length);
+
+			//And favor larger moves, simply speaking.
+			var sizeFactor = move.occupies().length * 2;
+
+			//Calculate and return score.
+			return lengthFactor + distFactor + sizeFactor;
+		};
+
+		//Find the best move, as evaluated by the evaluator.
+		var finalMove = allMoves.reduce(function(past, move){
+			var valueOfMove = evaluator(move);
+			return (past.value > valueOfMove) ? past : {move: move, value: valueOfMove };
+		}, {move: allMoves[0], value: evaluator(allMoves[0])})
+
+		//Return it.
+		return {pass: false, move: finalMove.move};
+	};
 
 	var agents = {
-		'Idiotic AI': IdioticAI,
-		'Easy AI': EasyAI,
-		'Medium AI': MediumAI
-		//Hard: HardAI
+		'Idiotic AI': adapter(IdioticAI),
+		'Easy AI': adapter(EasyAI),
+		'Medium AI': adapter(MediumAI)
+		//Hard: HardAI //haven't worked out how to do this yet.
 	}
 
 	return {
@@ -91,7 +106,11 @@ angular.module('bloqusApp').factory("AgentFactory", function(LogicFactory){
 
 		//Returns an agent, which is itself a function
 		Agent: function(name){
-			return agents[name];
+			console.log("HERE");
+			console.log(name);
+			console.log(this.AgentNames().indexOf(name) !== -1);
+			console.log("AFTER");
+			return ( (this.AgentNames().indexOf(name) !== -1) ) ? agents[name] : "asda" //agents['Easy AI'];
 		}
 
 
