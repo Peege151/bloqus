@@ -10,7 +10,7 @@
 }
 
 #score_frame {
-  padding: 20px ;
+  padding: 5px ;
   margin: 10px;
   background-color: white;
   text-align: center;
@@ -36,8 +36,9 @@
 }
 
 #chat_frame{
-  padding: 20px ;
+  padding: 5px ;
   float: left;
+  position:relative;
   margin: 10px;
   background-color: white;
   text-align: center;
@@ -87,25 +88,47 @@
 }
 
 
+.outer-board .row:first-child .block:first-child{
+  background:#5c6bc0;
+  opacity:.3
+}
+.outer-board .row:first-child .block:last-child{
+ background:#4caf50;
+ opacity:.3
+ 
+}
+.outer-board .row:last-child .block:first-child{
+  background: #ffeb3b;
+  opacity:.3;
 
+}
+.outer-board .row:last-child .block:last-child{
+ background:#f44336;
+ opacity:.3
+ 
+}
 .B{
+  opacity:1 !important;
   background: #5c6bc0;
   box-shadow: inset 2px 2px 0px white;
 
 }
 
 .Y{
+  opacity:1 !important;
   background: #ffeb3b;
   box-shadow: inset 2px 2px 0px white;
 
 }
 
 .G{
+  opacity:1 !important;
   background: #4caf50;
   box-shadow: inset 2px 2px 1px white;
 }
 
 .R{
+  opacity:1 !important;
   background: #f44336;
   box-shadow: inset 2px 2px 0px white;
 
