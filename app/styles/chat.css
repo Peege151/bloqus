@@ -25,14 +25,7 @@
 #example-messages > li {
   padding: 10px;
 }
-.message-wrap {
-  position:relative;
-  height:380px;
-  min-height:380px;
-  margin-bottom:20px;
 
-
-}
 input#messageInput {
   height:40px;
   width:100%;
@@ -51,14 +44,17 @@ input#messageInput {
 #example-messages li:nth-child(even){
   background: #794aa2;
   color:white;
-  
+
 }
 
 .chat-box{
   position:relative;
   border-radius: 10px;
 }
-
+.lobby-chat {
+  height:380px;
+  min-height:380px;
+}
 
 body > ui-view > div > div > div.col-md-6.chat-box > chat > div > div > h4{  
   margin-bottom:0px;

@@ -92,7 +92,9 @@
         </li>
         </ul>
       </div> 
-      <chat current='currentId'></chat>
+      <div class="lobby-chat">
+        <chat current='currentId'></chat>
+      </div>
     </div>
   </div>
   <button ng-disabled="!isHost" class="btn btn-main-page go-btn" ng-click="startGame()">Go!</button>
