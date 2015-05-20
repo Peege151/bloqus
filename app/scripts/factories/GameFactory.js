@@ -119,7 +119,7 @@ angular.module('bloqusApp')
                 var tempBoard = this.createBoard(gameFirebase);
                 var tempAllPieces = this.allPieces();
                 var tempComputerColors = Object.keys(gameFirebase.player).filter(function(color, index, arr){  return gameFirebase.player[color].name == curPlayer.name});
-                var aiName = (AgentFactory.AgentNames().indexOf(curPlayer) == -1) ? 'Easy AI' : computerName;
+                var aiName = (AgentFactory.AgentNames().indexOf(computerName) == -1) ? 'Easy AI' : computerName;
 
                 var decision = AgentFactory.Agent(aiName)(tempBoard, tempAllPieces, tempComputerColors, universalCurrentTurn);
                 if (decision.pass==false){

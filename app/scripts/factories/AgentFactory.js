@@ -2,64 +2,50 @@
 
 angular.module('bloqusApp').factory("AgentFactory", function(LogicFactory){
 
+	//takes a function which takes a
+	var adapter = function(func){
 
-	var IdioticAI = function(board, allPieces, selves, currentTurn){
-		var myPieces = allPieces[currentTurn];
-		var allMoves = board.allLegalMovesForPieces(myPieces, currentTurn.toUpperCase().charAt(0));
+		return function(board, allPieces, selves, currentTurn){
 
-		if (allMoves.length > 0){
-			var myMove = allMoves[Math.floor(allMoves.length*Math.random())];
-			return {pass: false, move: myMove};
-		}else{
-			return {pass: true, move: null};
+			//Grab all my pieces.  If I have none, pass.
+			var myPieces = allPieces[currentTurn];
+			if(myPieces.length == 0 || myPieces[0] == undefined){return {pass: true, move: null};}
+
+			//Grab all my moves.  If I have none, pass.
+			var allMoves = board.allLegalMovesForPieces(myPieces, currentTurn.toUpperCase().charAt(0));
+			if (allMoves.length==0){return {pass: true, move: null};}
+
+			return func(board, myPieces, allMoves, selves, currentTurn);
+
 		}
-		
-		return myMove;
 
+	}
+
+	var IdioticAI = function(board, myPieces, allMoves, selves, currentTurn){
+		return {pass: false, move: allMoves[Math.floor(allMoves.length*Math.random())]};
 	}
 
 
 
-	var EasyAI = function(board, allPieces, selves, currentTurn){
-		var myPieces = allPieces[currentTurn];
-		if(myPieces.length == 0 || myPieces[0] == undefined){
-			return {pass: true, move: null};
-		}
-		console.log(" length for mypieces ", myPieces );
-		console.log("current ", currentTurn.toUpperCase().charAt(0) );
-		console.log(" selves ", selves );
-		var allMoves = board.allLegalMovesForPieces(myPieces, currentTurn.toUpperCase().charAt(0));
-		console.log("All moves length for ", allMoves.length, currentTurn)
-		if (allMoves.length==0){
-			return {pass: true, move: null}
-		}
+	var EasyAI = function(board, myPieces, allMoves, selves, currentTurn){
 
 		var evaluator = function(move){
 			var tempBoard = new LogicFactory.Board(board.dimensions);
 			tempBoard.consumeFire(board.emitFire());
-			//console.log("TempBoard," , tempBoard)
-			//console.log("Move,", move);
 			tempBoard.doMove(move);
 
-			var liberties = tempBoard.liberties(currentTurn.toUpperCase().charAt(0));
-			//console.log(currentTurn, liberties.length);
+			//Favor moves which allow you to make more moves.
 
-			//More liberties is better than less, ceteris paribus.
-			var lengthFactor = liberties.length;
-
-			//Closer to the center is better than less close to the center, ceteris paribus.
+			var lengthFactor = tempBoard.liberties(currentTurn.toUpperCase().charAt(0)).length;
 			var center = [ Math.round(board.dimensions / 2), Math.round(board.dimensions / 2) ];
 			var accumDistanceToCenter = liberties.reduce(function(totalLength, spot){
 				totalLength = totalLength + Math.sqrt(Math.pow(center[0]-spot[0],2) + Math.pow([center[1]-spot[1]],2));
 				return totalLength;
 			},0)
 			var distFactor = - (accumDistanceToCenter / lengthFactor);
-
-			//Higher is better
-			var score = lengthFactor + distFactor;
+			var score = lengthFactor;
 			return score;
-
-		}
+		};
 
 		var finalMove = allMoves.reduce(function(past, move){
 			var valueOfMove = evaluator(move);
@@ -67,19 +53,64 @@ angular.module('bloqusApp').factory("AgentFactory", function(LogicFactory){
 		}, {move: allMoves[0], value: evaluator(allMoves[0])})
 
 		return {pass: false, move: finalMove.move};
+	};
+
+	var MediumAI = function(board, myPieces, allMoves, selves, currentTurn){
+
+		var evaluator = function(move, piecesLeft){
+			var tempBoard = new LogicFactory.Board(board.dimensions);
+			tempBoard.consumeFire(board.emitFire());
+			tempBoard.doMove(move);
+			console.log("Pieces Left: ", piecesLeft);
+			console.log("TempBoard", tempBoard);
+			var movesPossible = tempBoard.allLegalMovesForPieces(piecesLeft, currentTurn.toUpperCase().charAt(0));
+			var lengthFactor = movesPossible.length;
+
+			var center = [ Math.round(board.dimensions / 2), Math.round(board.dimensions / 2) ];
+			var distanceToCenter = move.occupies().reduce(function(totalLength, spot){
+				totalLength = totalLength + Math.sqrt(Math.pow(center[0]-spot[0],2) + Math.pow([center[1]-spot[1]],2));
+				return totalLength;
+			},0)
+			var distFactor = - (distanceToCenter / move.occupies().length);
+
+			var score = lengthFactor + distFactor;
+			return score;
+		};
+
+		var statelessSplice = function(arr, index, length){
+			return arr.slice(0, index).concat(arr.slice(index+length, arr.length));
+		}
+
+		var extRestOfPieces = allMoves.map(function(move){
+				return move.piece;
+			}).filter(function(otherPiece){
+				return !otherPiece.sameShapeAtAll(allMoves[0].piece);
+			});
+
+		var finalMove = allMoves.reduce(function(past, move, index, arr){
+			console.log("Index", index);
+			console.log("MyPieces", allMoves);
+			//Need to find all the pieces being used, minus the piece which is used in the current moved. 
+			//This is a bit awkward and complicated.
+			var restOfPieces = allMoves.map(function(move){
+				return move.piece;
+			}).filter(function(otherPiece){
+				return !otherPiece.sameShapeAtAll(move.piece)
+			});
 
 
-	}
+			var valueOfMove = evaluator(move, restOfPieces);
+			return (past.value > valueOfMove) ? past : {move: move, value: valueOfMove };
+		}, {move: allMoves[0], value: evaluator(allMoves[0], extRestOfPieces)})
 
-	var MediumAI = function(board, allPieces, selves, currentTurn){
-
-	}
+		return {pass: false, move: finalMove.move};
+	};
 
 	var agents = {
-		'Idiotic AI': IdioticAI,
-		'Easy AI': EasyAI,
-		'Medium AI': MediumAI
-		//Hard: HardAI
+		'Idiotic AI': adapter(IdioticAI),
+		'Easy AI': adapter(EasyAI),
+		'Medium AI': adapter(MediumAI)
+		//Hard: HardAI //haven't worked out how to do this yet.
 	}
 
 	return {
