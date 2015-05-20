@@ -15,7 +15,7 @@
   background-color: white;
   text-align: center;
   width: 200px;
-  height: 200px;
+  height: 150px;
   background-color: white;
   text-align: center;
 /*padding:40px;*/
@@ -26,12 +26,28 @@
 }
 
 #style_frame {
-  padding: 60px ;
+  padding: 40px ;
   float: left;
   text-align: center;
   margin: 10px;
   background-color: white;
   text-align: center;
+/*padding:40px;*/
+  border-radius: 10px;
+  -webkit-box-shadow: 3px 5px 6px #FF6D00;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+  -moz-box-shadow:    3px 5px 6px #FF6D00;  /* Firefox 3.5 - 3.6 */
+  box-shadow:         3px 5px 6px #FF6D00;
+}
+
+#chat_frame{
+  padding: 20px ;
+  float: left;
+  margin: 10px;
+  background-color: white;
+  text-align: center;
+  width: 200px;
+  height: 350px;
+  background-color: white;
 /*padding:40px;*/
   border-radius: 10px;
   -webkit-box-shadow: 3px 5px 6px #FF6D00;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
@@ -45,12 +61,12 @@
   margin: 10px;
   background-color: white;
   text-align: center;
-  width: 200px;
-  height: 345px;
+  width: 700px;
+  height: 100px;
   background-color: white;
   text-align: center;
   overflow: scroll;
-/*padding:40px;*/
+  /*padding:40px;*/
   border-radius: 10px;
   -webkit-box-shadow: 3px 5px 6px #FF6D00;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
   -moz-box-shadow:    3px 5px 6px #FF6D00;  /* Firefox 3.5 - 3.6 */
@@ -146,4 +162,12 @@
   width: 110px;
   height: 110px;
   float: left;
+}
+
+#example-messages{
+  text-align: left;
+}
+
+.gameboard-chat-wrap{
+  height: 325px;
 }

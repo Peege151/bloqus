@@ -81,7 +81,15 @@
 
     </div>
     <div class="col-md-6 chat-box">
-      <chat current='currentId'></chat>
+        <div>
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a tab-heading="Chat" style="color: black;"> Chat</a>
+                </li>
+            </ul>
+            <chat current='currentId'></chat>
+        </div>
+
     </div>
   </div>
   <button ng-disabled="!isHost" class="btn btn-main-page go-btn" ng-click="startGame()">Go!</button>
