@@ -38,9 +38,12 @@ angular.module('bloqusApp')
             var dropX = evnt.originalEvent.x;
             var dropY = evnt.originalEvent.y;
 
-            var frameX = angular.element(document.querySelector('#frame')).prop('offsetLeft');
-            var frameY = angular.element(document.querySelector('#frame')).prop('offsetTop');
-            console.log("coords", dropX, dropY);
+            console.log("dropX", dropX);
+            console.log("dropY", dropY);
+
+            var frameX = document.querySelector('#frame').getBoundingClientRect().left;
+            var frameY = document.querySelector('#frame').getBoundingClientRect().top;
+            console.log("coords", frameX, frameY);
             // console.log("Drop X", dropX);
             // console.log("Drop Y", dropY);
             // console.log("Frame X", frameX);
@@ -48,7 +51,8 @@ angular.module('bloqusApp')
 
             var fudgeY = evnt.currentTarget.clientHeight;
             var scrollTop = (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
-
+            console.log("Fuge Y", fudgeY);
+            console.log("Scrolled distance,", scrollTop);
 
 
             var xPosition = dropX - frameX;
@@ -56,6 +60,8 @@ angular.module('bloqusApp')
 
             var gridX = Math.round(xPosition / squareSize);
             var gridY = Math.round(yPosition / squareSize);
+
+            console.log("Grid coordinates," , gridX, gridY)
 
             //console.log(data.piece)
             if(thisColors.indexOf(currentColor) !== -1){

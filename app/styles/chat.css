@@ -11,31 +11,20 @@
   list-style: none;
   line-height: 150%;
   padding: 0px;
-  background-color: #F0F8FF;
+  background-color: #f3e5f5;
   border-left: 1px solid #ddd;
   border-right: 1px solid #ddd;
-  min-height: 340px;
-  height:340px;
   overflow: scroll;
-  border-radius: 0px;
-
-
+  margin-bottom:0px;
 }
 
 #example-messages > li {
   padding: 10px;
 }
-.message-wrap {
-  position:relative;
-  height:380px;
-  min-height:380px;
-  margin-bottom:20px;
 
-
-}
 input#messageInput {
   height:40px;
-  width:100%;
+  width:99%;
   position:absolute;
   bottom:0px;
   right:1px;
@@ -44,20 +33,30 @@ input#messageInput {
   border-radius:0px 0px 10px 10px;
   outline: 0px;
   border:0px;
-  border-bottom:1px solid #ddd;
 
+}
+.message-wrap {
+  overflow:scroll;
+}
+.gameboard-chat-wrap > chat >  .message-wrap {
+  height:310px;
 }
 
 #example-messages li:nth-child(even){
-  background:  #99c5ff;
+  background: #794aa2;
   color:white;
 }
 
 .chat-box{
   position:relative;
   border-radius: 10px;
+  padding: 0px;
 }
-
+.lobby-chat-wrap {
+  height:380px;
+  min-height:380px;
+  position:relative;
+}
 
 body > ui-view > div > div > div.col-md-6.chat-box > chat > div > div > h4{  
   margin-bottom:0px;
