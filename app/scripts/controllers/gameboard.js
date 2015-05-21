@@ -94,10 +94,10 @@ angular.module('bloqusApp')
         }
 
         var go = $rootScope.$on('gameOver', function(event, board){
-            console.log('HEARD THE GAME WAS OVER?')
             //Drop the event listeners attached to the global scope.
             go();
             sc();
+
             $state.go('gameover', {game: board});
         });
 

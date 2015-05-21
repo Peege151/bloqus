@@ -31,7 +31,7 @@
                                         <span class="player-name">{{ value.name }}</span></strong>
                                         <span class="caret"></span>
                                     </p>
-                                    <ul class="dropdown-menu" role="menu">
+                                    <ul class="dropdown-menu lobby-menus" role="menu">
                                         <li ng-repeat="aiName in AiNames" ng-click="setAiDifficulty(aiName, key)">{{
                                             aiName }}
                                         </li>
@@ -45,7 +45,7 @@
                                         Options
                                         <span class="caret"></span>
                                     </p>
-                                    <ul class="dropdown-menu" role="menu">
+                                    <ul class="dropdown-menu lobby-menus" role="menu">
                                         <li ng-click="switchToColor(key)">Switch</li>
                                         <li ng-click="takeOver(key)">Take</li>
                                     </ul>
@@ -55,7 +55,7 @@
                                         Options
                                         <span class="caret"></span>
                                     </p>
-                                    <ul class="dropdown-menu" role="menu">
+                                    <ul class="dropdown-menu lobby-menus" role="menu">
                                         <li ng-click="dropControl(key)">Drop</li>
                                     </ul>
                                 </div>

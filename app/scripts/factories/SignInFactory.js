@@ -166,6 +166,7 @@ angular.module('bloqusApp')
                             localStorageService.set('name', playername);
                             localStorageService.set('id', randomId);
                             localStorageService.set('color', playerColor);
+                            localStorageService.set('gameId', currentGameId);
 
                         }
                     }
