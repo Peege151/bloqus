@@ -28,7 +28,6 @@ angular.module('bloqusApp').factory("AgentFactory", function(LogicFactory){
 
 
 	var EasyAI = function(board, myPieces, allMoves, selves, currentTurn){
-
 		//Declar the evaluator used to find the best move of allMoves.
 		var evaluator = function(move){
 			//Find what the board looks like after the move gets made.

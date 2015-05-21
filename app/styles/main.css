@@ -8,11 +8,28 @@
 body {
   padding: 0;
   background-color:#FF8F00;
-  font-family: benton-sans, 'Helvetica Neue', helvetica;
+  font-family: 'Roboto', sans-serif !important;
+  font-weight: 400;
+  /*font-family: benton-sans, 'Helvetica Neue', helvetica;*/
 }
 @font-face {
   font-family: block-sketch;
   src: url('../fonts/Sketch_Block.ttf');
+}
+
+h4, .font-bold {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+}
+
+button, h5, .font-mid {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+}
+
+li, a, p {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
 }
 
 .main-page-wrap {

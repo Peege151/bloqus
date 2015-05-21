@@ -13,7 +13,7 @@
   <div id ="left_thing">
 
     <div id="score_frame">
-      <b>Scores:</b>
+      <h4>Scores:</h4>
       <div ng-repeat="(key, value) in scores">
         {{key}}: {{value}}
       </div>
@@ -24,17 +24,17 @@
       <input type='text' id='messageInput' placeholder='Type a message...'>
     </div>
 
-
   </div>
 
   <div id="style_frame">
     <div class="outer-board">
       <div class="control-bar">    
         <div class="turn-wrap">
-          Turn: {{currentColor | capital}}
+          <!--<span class="font-bold">Turn: {{currentColor | capital}}</span>-->
+          <span>Turn: <span ng-class="{b: currentColor=='blue', y: currentColor=='yellow', g: currentColor=='green', r: currentColor=='red'}">{{currentColor | capital}}</span></span>
         </div>
         <div class="control-wrap">
-          <span ng-if="currentColor === userColor" ng-click="pass()">Pass Move</span>
+          <span ng-if="currentColor === userColor" ng-click="pass()">(Pass Move)</span>
         </div>
       </div>
       <div id="frame"ui-on-drop="dropPiece" drop-channel="A">

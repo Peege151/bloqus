@@ -14,7 +14,7 @@ angular.module('bloqusApp')
         GameFactory.setGameFactory($stateParams.game.firebaseId, $stateParams.game.player);
 
         $scope.rotate = function(pieceInQuestion){
-            console.log(pieceInQuestion)
+            //console.log(pieceInQuestion)
             var thisPiece = localPieces[pieceInQuestion];
             thisPiece.rotateClockwise();
             $scope.renderMyPieces(localPieces);
@@ -22,7 +22,7 @@ angular.module('bloqusApp')
         };
 
         $scope.flip = function(pieceInQuestion){
-            console.log(pieceInQuestion)
+            //console.log(pieceInQuestion)
             var thisPiece = localPieces[pieceInQuestion];
             thisPiece.flip();
             $scope.renderMyPieces(localPieces);
@@ -38,12 +38,11 @@ angular.module('bloqusApp')
             var dropX = evnt.originalEvent.x;
             var dropY = evnt.originalEvent.y;
 
-            console.log("dropX", dropX);
-            console.log("dropY", dropY);
+
 
             var frameX = document.querySelector('#frame').getBoundingClientRect().left;
             var frameY = document.querySelector('#frame').getBoundingClientRect().top;
-            console.log("coords", frameX, frameY);
+            
             // console.log("Drop X", dropX);
             // console.log("Drop Y", dropY);
             // console.log("Frame X", frameX);
@@ -103,10 +102,10 @@ angular.module('bloqusApp')
         }
 
         var go = $rootScope.$on('gameOver', function(event, board){
-            console.log('HEARD THE GAME WAS OVER?')
             //Drop the event listeners attached to the global scope.
             go();
             sc();
+
             $state.go('gameover', {game: board});
         });
 

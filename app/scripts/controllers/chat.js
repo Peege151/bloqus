@@ -1,7 +1,8 @@
 'use strict'
 angular.module('bloqusApp')
 .controller("ChatCtrl", function ($scope, $firebaseArray, localStorageService){
-    var fbMessages = (new Firebase("https://bloqus.firebaseio.com/messages/" + $scope.current));
+    var currentGameId = localStorageService.get('gameId');
+    var fbMessages = (new Firebase("https://bloqus.firebaseio.com/messages/" + currentGameId));
     // REGISTER DOM ELEMENTS
     var messageField = $('#messageInput');
     var messageList = $('#example-messages');

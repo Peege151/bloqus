@@ -2,7 +2,7 @@
 <div class="main-page-wrap">
     <h1 class="bloqus-h1"> Final Scores </h1>
     <div class='scoreboard'>
-        <p ng-repeat="(color, score) in scoreObj |orderBy:'score'"> {{ color }}: {{ score }} </p>
+        <h5 ng-repeat="(color, score) in scoreObj" ng-class="{b: color=='Blue', y: color=='Yellow', g: color=='Green', r: color=='Red'}"> {{ color }}: {{ score }} </h5>
 
     </div>
   </div>
