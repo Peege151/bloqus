@@ -113,6 +113,23 @@
  opacity:.3
  
 }
+
+.b {
+  color: #5c6bc0;
+}
+
+.y {
+  color: #ffeb3b;
+}
+
+.g {
+  color: #4caf50;
+}
+
+.r {
+  color: #f44336;
+}
+
 .B{
   opacity:1 !important;
   background: #5c6bc0;
@@ -191,4 +208,8 @@
 
 .gameboard-chat-wrap{
   height: 325px;
+}
+
+.scoreboard h5 {
+  text-align: center;
 }

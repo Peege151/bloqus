@@ -11,7 +11,7 @@ angular.module('bloqusApp')
         GameFactory.setGameFactory($stateParams.game.firebaseId, $stateParams.game.player);
 
         $scope.rotate = function(pieceInQuestion){
-            console.log(pieceInQuestion)
+            //console.log(pieceInQuestion)
             var thisPiece = localPieces[pieceInQuestion];
             thisPiece.rotateClockwise();
             $scope.renderMyPieces(localPieces);
@@ -19,7 +19,7 @@ angular.module('bloqusApp')
         };
 
         $scope.flip = function(pieceInQuestion){
-            console.log(pieceInQuestion)
+            //console.log(pieceInQuestion)
             var thisPiece = localPieces[pieceInQuestion];
             thisPiece.flip();
             $scope.renderMyPieces(localPieces);
@@ -37,7 +37,7 @@ angular.module('bloqusApp')
 
             var frameX = angular.element(document.querySelector('#frame')).prop('offsetLeft');
             var frameY = angular.element(document.querySelector('#frame')).prop('offsetTop');
-            console.log("coords", dropX, dropY);
+            //console.log("coords", dropX, dropY);
             // console.log("Drop X", dropX);
             // console.log("Drop Y", dropY);
             // console.log("Frame X", frameX);

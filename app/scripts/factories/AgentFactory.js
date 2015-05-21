@@ -25,11 +25,11 @@ angular.module('bloqusApp').factory("AgentFactory", function(LogicFactory){
 		if(myPieces.length == 0 || myPieces[0] == undefined){
 			return {pass: true, move: null};
 		}
-		console.log(" length for mypieces ", myPieces );
-		console.log("current ", currentTurn.toUpperCase().charAt(0) );
-		console.log(" selves ", selves );
+		//console.log(" length for mypieces ", myPieces );
+		//console.log("current ", currentTurn.toUpperCase().charAt(0) );
+		//console.log(" selves ", selves );
 		var allMoves = board.allLegalMovesForPieces(myPieces, currentTurn.toUpperCase().charAt(0));
-		console.log("All moves length for ", allMoves.length, currentTurn)
+		//console.log("All moves length for ", allMoves.length, currentTurn)
 		if (allMoves.length==0){
 			return {pass: true, move: null}
 		}
