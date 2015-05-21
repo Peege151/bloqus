@@ -10,58 +10,58 @@
 
   <div class="center-push">
     
-  <div id ="left_thing">
+    <div id ="left_thing">
 
-    <div id="score_frame">
-      <h4>Scores:</h4>
-      <div ng-repeat="(key, value) in scores">
-        {{key}}: {{value}}
+      <div id="score_frame">
+        <h4>Scores:</h4>
+        <div ng-repeat="(key, value) in scores">
+          {{key}}: {{value}}
+        </div>
+      </div>
+
+      <div id="chat_frame" class="gameboard-chat-wrap">
+        <chat current='currentId'></chat>
+        <input type='text' id='messageInput' placeholder='Type a message...'>
       </div>
     </div>
 
-    <div id="chat_frame" class="gameboard-chat-wrap">
-      <chat current='currentId'></chat>
-      <input type='text' id='messageInput' placeholder='Type a message...'>
-    </div>
-
-  </div>
-
-  <div id="style_frame">
-    <div class="outer-board">
-      <div class="control-bar">    
-        <div class="turn-wrap">
-          <!--<span class="font-bold">Turn: {{currentColor | capital}}</span>-->
-          <span>Turn: <span ng-class="{b: currentColor=='blue', y: currentColor=='yellow', g: currentColor=='green', r: currentColor=='red'}">{{currentColor | capital}}</span></span>
-        </div>
-        <div class="control-wrap">
-          <span ng-if="currentColor === userColor" ng-click="pass()">(Pass Move)</span>
-        </div>
-      </div>
-      <div id="frame"ui-on-drop="dropPiece" drop-channel="A">
-        <div class = "row" ng-repeat="row in boardGrid">
-          <div class = "block" ng-class="s" ng-repeat="s in boardGrid[$index] track by $index" >
+    <div id="style_frame">
+      <div class="outer-board">
+        <div class="control-bar">    
+          <div class="turn-wrap">
+            <!--<span class="font-bold">Turn: {{currentColor | capital}}</span>-->
+            <span>Turn: <span ng-class="{b: currentColor=='blue', y: currentColor=='yellow', g: currentColor=='green', r: currentColor=='red'}">{{currentColor | capital}}</span></span>
+          </div>
+          <div class="control-wrap">
+            <span ng-if="currentColor === userColor" ng-click="pass()">(Pass Move)</span>
           </div>
         </div>
-      </div> 
-    </div>
-  </div>
-
-  <div id="piece_frame">
-
-    <div class = "pieces">
-      <div class="piece" jqyoui-draggable ng-repeat = "piece in pieces" ng-click="rotate($index)" ng-right-click="flip($index)">
-        <div class="drag-frame" drag="piece" ui-draggable='true' on-drop-success="dropPiece($event, piece)" drag-channel="A">
-          <span ng-init="pieceNum = $index"></span>
-          <div class="row" ng-repeat = "row in pieces[pieceNum].grid track by $index">
-            <span ng-init="rowNum = $index"></span>
-            <div class="block" ng-class="item" ng-repeat = "item in pieces[pieceNum].grid[rowNum] track by $index">
+        <div id="frame"ui-on-drop="dropPiece" drop-channel="A">
+          <div class = "row" ng-repeat="row in boardGrid">
+            <div class = "block" ng-class="s" ng-repeat="s in boardGrid[$index] track by $index" >
             </div>
           </div>
-        </div>
-
+        </div> 
       </div>
     </div>
-  </div>
+
+    <div id="piece_frame">
+
+      <div class = "pieces">
+        <div class="piece" jqyoui-draggable ng-repeat = "piece in pieces" ng-click="rotate($index)" ng-right-click="flip($index)">
+          <div class="drag-frame" drag="piece" ui-draggable='true' on-drop-success="dropPiece($event, piece)" drag-channel="A">
+            <span ng-init="pieceNum = $index"></span>
+            <div class="row" ng-repeat = "row in pieces[pieceNum].grid track by $index">
+              <span ng-init="rowNum = $index"></span>
+              <div class="block" ng-class="item" ng-repeat = "item in pieces[pieceNum].grid[rowNum] track by $index">
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
   
+  </div>
 </div>
 
