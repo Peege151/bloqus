@@ -2,9 +2,20 @@
 /*Width is dimension x block width + padding*/
 
 #wrapper{
-  
-}
+  width:730px;
+  position:relative;
+  margin:0 auto;
 
+}
+.center-push{
+  width:100%;
+  position:absolute;
+    left:0;
+    right:0;
+    bottom:0;
+    top:0;
+  margin:auto;
+}
 #left_thing{
   float: left;
 }
