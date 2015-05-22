@@ -38,24 +38,13 @@ angular.module('bloqusApp')
             var dropX = evnt.originalEvent.x;
             var dropY = evnt.originalEvent.y;
 
-
-
             var frameX = document.querySelector('#frame').getBoundingClientRect().left;
             var frameY = document.querySelector('#frame').getBoundingClientRect().top;
             
-            // console.log("Drop X", dropX);
-            // console.log("Drop Y", dropY);
-            // console.log("Frame X", frameX);
-            // console.log("Frame Y", frameY);
-
             var fudgeY = evnt.currentTarget.clientHeight;
-            var scrollTop = (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
-            console.log("Fuge Y", fudgeY);
-            console.log("Scrolled distance,", scrollTop);
-
 
             var xPosition = dropX - frameX;
-            var yPosition = dropY - frameY - fudgeY + scrollTop;
+            var yPosition = dropY - frameY - fudgeY;
 
             var gridX = Math.round(xPosition / squareSize);
             var gridY = Math.round(yPosition / squareSize);
