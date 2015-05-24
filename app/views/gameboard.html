@@ -35,7 +35,7 @@
           <div class="control-wrap">
             <span ng-if="currentColor === userColor" ng-click="pass()">(Pass Move)</span>
           </div>
-          <span ng-if="currentColor === userColor">
+          <span ng-if="currentColor === userColor && turnTime !== 0">
             <timer countdown="turnTime" interval="1000">
               <span ng-class="{r: countdown < 10}">{{countdown}} second{{secondsS}} left</span>
             </timer>

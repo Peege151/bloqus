@@ -95,19 +95,10 @@ angular.module('bloqusApp')
 
         };
 
-        $scope.turnIsOver = false;
-        if ($scope.turnIsOver === true){
-            console.log('TURN ENDED')
-        }
-        //var to = $scope.$on('playerTurnTimedOut', function (event){
-        //    console.log('TURN ENDED!')
-        //});
-
         var go = $rootScope.$on('gameOver', function(event, board){
             //Drop the event listeners attached to the global scope.
             go();
             sc();
-            to();
 
             $state.go('gameover', {game: board});
         });
@@ -124,7 +115,6 @@ angular.module('bloqusApp')
             $scope.scores = ScoreFactory($scope.boardGrid);
 
             $scope.turnTime = GameFactory.getTurnTime();
-            console.log('turn time', $scope.turnTime)
 
             //Render the pieces in question.
             //To do -- find the next color this person will play.
