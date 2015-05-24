@@ -224,3 +224,7 @@
 .scoreboard h5 {
   text-align: center;
 }
+
+timer{
+  float: right;
+}

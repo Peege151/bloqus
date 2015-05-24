@@ -79,6 +79,23 @@
                         </div>
                     </div>
 
+                    <h5>Set Turn Time Limit (seconds)</h5>
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="input-group">
+                                <form ng-submit="setTurnTime(turnTime)">
+                                    <input ng-disabled="!isHost" type="number" placeholder="{{turnTime}}"
+                                           ng-model="turnTime" class="form-control">
+                                    <input class='btn btn-success btn-xs' type="submit" value="Set">
+                                    <div class="check-box-wrap">
+                                        <input name="private" ng-model="private" type="checkbox"> No time Limit?
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
 
                     <h5>Set Polyomino</h5>
                     <label class="radio-inline">
@@ -93,6 +110,7 @@
                         <input ng-disabled="!isHost" type="radio" name="polyRadios" id="setpoly6" value="option2"
                                ng-click="setPolyomino(6)" ng-checked="polyNum === 6"> 6
                     </label>
+
                 </tab>
             </tabset>
 

@@ -35,6 +35,12 @@
           <div class="control-wrap">
             <span ng-if="currentColor === userColor" ng-click="pass()">(Pass Move)</span>
           </div>
+          <span ng-if="currentColor === userColor">
+            <timer countdown="turnTime" interval="1000">
+              <span ng-class="{r: countdown < 10}">{{countdown}} second{{secondsS}} left</span>
+            </timer>
+          </span>
+
         </div>
         <div id="frame"ui-on-drop="dropPiece" drop-channel="A">
           <div class = "row" ng-repeat="row in boardGrid">
