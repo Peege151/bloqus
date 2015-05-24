@@ -112,7 +112,8 @@ angular.module('bloqusApp')
 
             $scope.boardGrid = board.getBoard();
 
-            $scope.scores = ScoreFactory($scope.boardGrid);
+            console.log('gameboard players/stateparams ', $stateParams)
+            $scope.scores = ScoreFactory($scope.boardGrid, $stateParams.game.allPlayers);
 
             $scope.turnTime = GameFactory.getTurnTime();
 

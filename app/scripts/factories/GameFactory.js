@@ -55,6 +55,10 @@ angular.module('bloqusApp')
                 return gameFirebase.player[gameFirebase.currentTurn].isAI;
             },
 
+            getCurrentPlayers: function(){
+                return gameFirebase.player;
+            },
+
             getTurnTime: function(){
                 return gameFirebase.turnTime;
             },
