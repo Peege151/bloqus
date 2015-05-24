@@ -22,5 +22,6 @@ angular.module('bloqusApp', [
     'ui.bootstrap',
     'ui.bootstrap.tabs',
     'ang-drag-drop',
-    'ngDialog'
+    'ngDialog',
+    'timer'
   ]);

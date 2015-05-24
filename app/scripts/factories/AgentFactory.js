@@ -53,7 +53,7 @@ angular.module('bloqusApp').factory("AgentFactory", function(LogicFactory){
 	};
 
 	var MediumAI = function(board, myPieces, allMoves, selves, currentTurn){
-
+		console.log("In Medium AI")
 		var evaluator = function(move){
 
 			//Get board after move.
@@ -106,10 +106,10 @@ angular.module('bloqusApp').factory("AgentFactory", function(LogicFactory){
 		//Returns an agent, which is itself a function
 		Agent: function(name){
 			console.log("HERE");
-			console.log(name);
-			console.log(this.AgentNames().indexOf(name) !== -1);
-			console.log("AFTER");
-			return ( (this.AgentNames().indexOf(name) !== -1) ) ? agents[name] : "asda" //agents['Easy AI'];
+			 console.log(name);
+			console.log("Name was found?", this.AgentNames().indexOf(name) !== -1);
+			// console.log("AFTER");
+			return ( (this.AgentNames().indexOf(name) !== -1) ) ? agents[name] : agents["Medium AI"] //agents['Easy AI'];
 		}
 
 

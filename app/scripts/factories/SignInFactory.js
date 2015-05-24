@@ -78,6 +78,7 @@ angular.module('bloqusApp')
                     dimensions: 20,
                     currentTurn: 'blue',
                     numColors: 4,
+                    turnTime: 30,
                     player: {
                         blue: {
                             name: hostname,

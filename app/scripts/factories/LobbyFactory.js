@@ -72,6 +72,11 @@ angular.module('bloqusApp')
                 return firebase;
             },
 
+            setTurnTime: function (val, currentGame) {
+                firebase.games[currentGame].turnTime = val;
+                return firebase;
+            },
+
             setPolyomino: function (polyNum, currentGame) {
                 var polyOptions = {
                     4: LobbyFactory.generatePolyominoString(9),

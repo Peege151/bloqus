@@ -51,9 +51,13 @@ angular.module('bloqusApp')
             };
 
             $scope.setDimensions = function (val) {
-                console.log("GRID DIMENSIONS", val)
                 $scope.gridDimensions = val;
                 $scope.firebase = LobbyFactory.setDimensions(val, currentId);
+            };
+
+            $scope.setTurnTime = function (val) {
+                $scope.turnTime = val;
+                $scope.firebase = LobbyFactory.setTurnTime(val, currentId);
             };
 
             $scope.startGame = function () {
@@ -88,6 +92,7 @@ angular.module('bloqusApp')
                 $scope.numColors = fbCurrentGame.numColors;
                 $scope.polyNum = fbCurrentGame.polyominoNum;
                 $scope.gridDimensions = fbCurrentGame.dimensions;
+                $scope.turnTime = fbCurrentGame.turnTime;
             });
 
             $rootScope.$on( '$stateChangeStart', function (event, toState, toParams, fromState) {
