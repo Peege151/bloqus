@@ -44,7 +44,7 @@ angular.module('bloqusApp')
             var fudgeY = evnt.currentTarget.clientHeight;
 
             var xPosition = dropX - frameX;
-            var yPosition = dropY - frameY - fudgeY;
+            var yPosition = dropY - frameY;
 
             var gridX = Math.round(xPosition / squareSize);
             var gridY = Math.round(yPosition / squareSize);
