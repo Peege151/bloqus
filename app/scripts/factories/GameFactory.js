@@ -23,8 +23,8 @@ angular.module('bloqusApp')
         //Oter stuff.
         var gameFirebase;
 
-        return {
-
+        var GameFactory =  {
+            passedCount: 0,
         	setGameFactory: function(fbGameId, playerName){
         		var self = this; 
 
@@ -55,6 +55,10 @@ angular.module('bloqusApp')
                 return gameFirebase.player[gameFirebase.currentTurn].isAI;
             },
 
+            getTurnTime: function(){
+                return gameFirebase.turnTime;
+            },
+
             currentPlayer: function(){
                 return gameFirebase.player[gameFirebase.currentTurn];
             },
@@ -65,13 +69,21 @@ angular.module('bloqusApp')
                     gameFirebase.turnCounter++;
                     gameFirebase.$save();  //Save everything. 
             },
+            computerTakeover: function(){
+                console.log("Computer Takeover")
+                gameFirebase.player[gameFirebase.currentTurn].isAI = true
+                gameFirebase.player[gameFirebase.currentTurn].name += "-Bot"
+                return gameFirebase.$save();
+                // GameFactory.doComputerTurn();
+
+            },
 
             //right now, this is a bit misleadingly titled.  Whenever gameFirebase changes,
             //this both (1) emits a universal event and updates the state of gamefactory.
             emitState: function(){
-                console.log("Change ocurred in database.");
 
                 //Create stuff to be emitted from state.
+                console.log("State Emitted.")
                 var tempBoard = this.createBoard(gameFirebase);
                 var tempAllPieces = this.allPieces();
 
@@ -81,12 +93,11 @@ angular.module('bloqusApp')
 
                 //Emit the event indicating what has changed.
                 $rootScope.$emit("stateChanged", tempBoard, tempAllPieces, thisColors, universalCurrentTurn);
-
+                console.log("In the rootscope emit, turn is: ", universalCurrentTurn);
                 //If it is the computer's turn, and the player right now is a computer, and if we are the host--well, let the computer take a turn.
                 
                 if( this.allPlayersHavePassed() ){
                     localTurnCounter = 0;
-                    console.log("Everything ends.");
                     gameFirebase.status = 'over';
                     gameFirebase.$save()
                     $rootScope.$emit('gameOver', tempBoard);
@@ -94,24 +105,30 @@ angular.module('bloqusApp')
                 }else{ 
 
                     if( this.amHost() ){
-                        console.log("Hey, I'm the host.")
 
                         if(gameFirebase.player[universalCurrentTurn].hasPassed){
 
                             //else{
-                                console.log("It is the turn of ", universalCurrentTurn, ", who is passing.")
                                 this.advanceTurn();
                             //}
 
                         }else{
 
                             if ( this.isComputersTurn() ){
-                                console.log("It is the turn of computer ", universalCurrentTurn, " who has not yet passed.");
+                                console.log("It is a computers turn")
                                 this.doComputerTurn();
                             }else{
-                                console.log("It is a human's turn.");
+                                console.log("Not computer turn")
                                 //Do nothing, because we need to wait for them to take a turn.
                             }
+                        }
+                    } else {
+                        console.log("Not host, and someone elses turn")
+                        
+                        if(gameFirebase.player[universalCurrentTurn].isAI){
+                            this.doComputerTurn()
+                        } else {
+                            //wait
                         }
                     }
                 }
@@ -119,18 +136,17 @@ angular.module('bloqusApp')
 
             doComputerTurn: function(){
                 //It's going to need all these
-                console.log("Computer turn has started.");
                 var curPlayer = this.currentPlayer();
                 var computerName = curPlayer.name;
                 var tempBoard = this.createBoard(gameFirebase);
                 var tempAllPieces = this.allPieces();
                 var tempComputerColors = Object.keys(gameFirebase.player).filter(function(color, index, arr){  return gameFirebase.player[color].name == curPlayer.name});
                 
+                console.log('curPlayer: ', curPlayer, 'computerName:', computerName, "tempBoard: ", tempBoard, "tempAllPieces: ", tempAllPieces, "tempComputerColors: ", tempComputerColors)
                 var decision = AgentFactory.Agent(computerName)(tempBoard, tempAllPieces, tempComputerColors, universalCurrentTurn);
                 if (decision.pass==false){
                     var moveWorked = tempBoard.doMove(decision.move);
                     if(moveWorked){
-                        console.log("The computer moves.");
                         var newFireState = tempBoard.emitFire();
                         gameFirebase.board = newFireState;
                         gameFirebase.player[universalCurrentTurn].pieces = gameFirebase.player[universalCurrentTurn].pieces.split('|').filter(function(num, index, arr){
@@ -139,11 +155,9 @@ angular.module('bloqusApp')
                         this.advanceTurn();
                     }
                 }else{
-                        console.log("The computer decides to pass for the first time.");
                         gameFirebase.player[gameFirebase.currentTurn].hasPassed = true;  //Mark player so it says that the player has passed.
                         this.advanceTurn();
                 } 
-
             },
 
             isPlayersTurn: function(){
@@ -199,11 +213,8 @@ angular.module('bloqusApp')
 
                 //If anything changes in firebase, emit the state that we're currently in.
                 gameFirebase.$watch(function(){
-                    console.log("WATCH:")
-                    console.log("Local: ", localTurnCounter);
-                    console.log("DB: ", gameFirebase.turnCounter);
+
                     if(localTurnCounter == gameFirebase.turnCounter - 1){
-                        console.log("A turn for stuff.");
                         localTurnCounter++;
                         //localStorageService.set('localTurnCounter', localTurnCounter)
                         pageJustLoaded = false;
@@ -212,16 +223,14 @@ angular.module('bloqusApp')
                 });
 
                 var makeMove = function(event, move){
-                    console.log("'Move' event caught.");
+
                     if(self.isPlayersTurn()){
                         //Change board
-                        console.log("It's your turn.")
                         var tempBoard = self.createBoard(gameFirebase);
                         var moveWorked = tempBoard.doMove(move);
                         console.log("Move,", move);
                         if(moveWorked){
                             snap.play();
-                            console.log("Move worked.")
                             
                             var newFireState = tempBoard.emitFire();
                             gameFirebase.board = newFireState;
@@ -231,6 +240,7 @@ angular.module('bloqusApp')
                             self.advanceTurn();
                         }else{
                             //TODO: Do something else, because the move was illegal.  Or just do nothing, as it does nothing now.
+
                         }
                     }
                 };
@@ -252,4 +262,5 @@ angular.module('bloqusApp')
 
             }
         }
+        return GameFactory;
 });	

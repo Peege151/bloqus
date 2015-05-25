@@ -1,6 +1,5 @@
 <div class="lobby-wrap">
     <h2 class="font-bold">Lobby (Game {{shareId}})</h2>
-
     <div class="row">
         <div class="col-md-6 game-options">
             <tabset>
@@ -21,7 +20,6 @@
                         <h5>Current Players</h5>
                     </div>
                     <ul class="player-list">
-
                         <li ng-repeat="(key, value) in currentPlayers">
                             <div class=""><span class="player-color">{{ key | capital }}:</span>
                                 <span class="player-name" ng-if="!value.isAI">{{ value.name }}</span>
@@ -59,7 +57,6 @@
                                         <li ng-click="dropControl(key)">Drop</li>
                                     </ul>
                                 </div>
-
                         </li>
                     </ul>
                 </tab>
@@ -79,6 +76,23 @@
                         </div>
                     </div>
 
+                    <h5>Set Turn Time Limit (seconds)</h5>
+                        <label class="radio-inline">
+                            <input ng-disabled="!isHost" type="radio" name="turnTimeRadios" id="setTurnTime30" value="option1"
+                                   ng-click="setTurnTime(30)" ng-checked="turnTime === 30"> 30
+                        </label>
+                        <label class="radio-inline">
+                            <input ng-disabled="!isHost" type="radio" name="turnTimeRadios" id="setTurnTime45" value="option2"
+                                   ng-click="setTurnTime(45)" ng-checked="turnTime === 45"> 45
+                        </label>
+                        <label class="radio-inline">
+                            <input ng-disabled="!isHost" type="radio" name="turnTimeRadios" id="setTurnTime60" value="option2"
+                                   ng-click="setTurnTime(60)" ng-checked="turnTime === 60"> 60
+                        </label>
+                        <label class="radio-inline">
+                            <input ng-disabled="!isHost" type="radio" name="turnTimeRadios" id="setTurnTime0" value="option2"
+                                   ng-click="setTurnTime(0)" ng-checked="turnTime === 'none'"> No Limit
+                        </label>
 
                     <h5>Set Polyomino</h5>
                     <label class="radio-inline">
@@ -93,11 +107,10 @@
                         <input ng-disabled="!isHost" type="radio" name="polyRadios" id="setpoly6" value="option2"
                                ng-click="setPolyomino(6)" ng-checked="polyNum === 6"> 6
                     </label>
+
                 </tab>
             </tabset>
-
         </div>
-
         <div class="col-md-6 chat-box">
             <div class="chat-tab">
                 <ul class="nav nav-tabs">

@@ -9,7 +9,7 @@ angular.module('bloqusApp')
         var squareSize = 20.00;
 
         $scope.loading = true;
-        $scope.userColor = localStorageService.get('color');
+        $scope.userColor = localStorageService.get('color')
 
         GameFactory.setGameFactory($stateParams.game.firebaseId, $stateParams.game.player);
 
@@ -32,6 +32,10 @@ angular.module('bloqusApp')
         	$rootScope.$emit("passTurn");
         };
 
+        if ($scope.time === 0) {
+            console.log('countdown!')
+            $scope.pass();
+        }
 
         $scope.dropPiece = function(evnt, data){
 
@@ -63,7 +67,7 @@ angular.module('bloqusApp')
             //if(thisColors.indexOf(currentColor) !== -1){
 
 
-                var move = new LogicFactory.Move(data.piece, [gridY, gridX], currentColor.toUpperCase().charAt(0))
+                var move = new LogicFactory.Move(data.piece, [gridY, gridX], currentColor.toUpperCase().charAt(0));
 
 
                 $rootScope.$emit("makeMove", move);
@@ -74,7 +78,8 @@ angular.module('bloqusApp')
             // console.log(gridX, gridY);
 
             // console.log(data);
-        }
+        };
+
         $scope.makeMove = function(){
 
 
@@ -88,7 +93,7 @@ angular.module('bloqusApp')
                 $rootScope.$emit('makeMove', id);
             }
 
-        }
+        };
 
         var go = $rootScope.$on('gameOver', function(event, board){
             //Drop the event listeners attached to the global scope.
@@ -108,6 +113,8 @@ angular.module('bloqusApp')
             $scope.boardGrid = board.getBoard();
 
             $scope.scores = ScoreFactory($scope.boardGrid);
+
+            $scope.turnTime = GameFactory.getTurnTime();
 
             //Render the pieces in question.
             //To do -- find the next color this person will play.

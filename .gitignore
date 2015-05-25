@@ -1,5 +1,6 @@
-node_modules
-.idea
-.DS_Store
-bower_components
-.tmp
+/node_modules
+/.idea
+/.DS_Store
+/.tmp
+/bower_components/*
+!bower_components/angular-timer
