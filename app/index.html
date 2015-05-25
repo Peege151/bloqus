@@ -115,6 +115,34 @@
     <script src="scripts/controllers/GameOver.js"></script>
 
     <script src="scripts/howler.min.js"></script>
+    <script>
+        $(function(){
+
+            var 
+                $online = $('.online'),
+                $offline = $('.offline');
+
+            Offline.on('down', function () {
+                $online.fadeOut(function () {
+                    $offline.fadeIn();
+                });
+            });
+
+            Offline.on('up', function () {
+                $offline.fadeOut(function () {
+                    $online.fadeIn();
+                });
+            });
+
+        });
+    </script>
+    <script>
+    var runOfflineCheck = function(){
+     if (Offline.state === 'up')
+     Offline.check();
+     }
+     setInterval(runOfflineCheck, 3000);
+    </script>
 
     <!-- endbuild -->
 
