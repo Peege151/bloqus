@@ -2,7 +2,7 @@
 
 angular.module('bloqusApp')
 
-    .config(function ($stateProvider, $urlRouterProvider) {
+    .config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
 
         $urlRouterProvider.otherwise("/");
 
@@ -34,6 +34,8 @@ angular.module('bloqusApp')
                 templateUrl: 'views/gameover.html',
                 params: {game: {}},
                 controller: 'GameOverCtrl'
-            })
+            });
+
+        $locationProvider.html5Mode(true);
 
     });

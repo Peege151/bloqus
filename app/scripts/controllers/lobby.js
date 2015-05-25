@@ -60,9 +60,9 @@ angular.module('bloqusApp')
             };
 
             $scope.startGame = function () {
-                $scope.firebase.games[currentId].status = 'start';
+                fbCurrentGame.status = 'start';
 
-                $scope.firebase.$save().then(function(){
+                fbCurrentGame.$save().then(function(){
                     $state.go('gameboard', {game: { firebaseId: currentId, player: name }})
                 });
             };

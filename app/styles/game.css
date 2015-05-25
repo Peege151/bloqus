@@ -228,3 +228,7 @@
 timer{
   float: right;
 }
+
+.pass-game-modal{
+  text-align: center;
+}
