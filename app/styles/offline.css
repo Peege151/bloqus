@@ -8,13 +8,14 @@
 /* line 7, ../sass/_offline-theme-base.sass */
 .offline-ui {
   display: none;
-  position: fixed;
+  position: absolute;
   background: white;
   z-index: 800;
-  margin: auto;
-  top: 0;
-  left: 0;
-  right: 0;
+  top:0;
+  left:0;
+  right:0;
+
+  margin: 0 auto;
 }
 /* line 17, ../sass/_offline-theme-base.sass */
 .offline-ui .offline-ui-content:before {
@@ -471,6 +472,8 @@
   background: #f6f6f6;
   color: #444444;
   overflow: hidden;
+  width:100%;
+  margin-top:60px;
 }
 /* line 27, ../sass/offline-theme-chrome.sass */
 .offline-ui .offline-ui-content {

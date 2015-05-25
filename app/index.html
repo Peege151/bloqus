@@ -115,27 +115,6 @@
     <script src="scripts/controllers/GameOver.js"></script>
 
     <script src="scripts/howler.min.js"></script>
-    <script>
-        $(function(){
-
-            var 
-                $online = $('.online'),
-                $offline = $('.offline');
-
-            Offline.on('confirmed-down', function () {
-                $online.fadeOut(function () {
-                    $offline.fadeIn();
-                });
-            });
-
-            Offline.on('confirmed-up', function () {
-                $offline.fadeOut(function () {
-                    $online.fadeIn();
-                });
-            });
-
-        });
-    </script>
 
     <!-- endbuild -->
 
