@@ -31,7 +31,13 @@ li, a, p {
   font-family: 'Roboto', sans-serif;
   font-weight: 400;
 }
+.none {
+    display:none;
+}
 
+.full {
+    width:100%;
+}
 .main-page-wrap {
   width:40%;
   margin:0 auto;
