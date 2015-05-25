@@ -5,4 +5,3 @@
 /bower_components/*
 !bower_components/angular-timer
 !bower_components/offline
-!bower_components/offlinejs-simulate-ui
