@@ -7,6 +7,9 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <link rel="icon" 
+          type="image/x-icon" 
+          href="/favicon.ico">
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
     <link rel='stylesheet' href='bower_components/bootstrap/dist/css/bootstrap.css' />
@@ -19,6 +22,8 @@
     <link rel="stylesheet" href="styles/game.css">
     <link rel="stylesheet" href="styles/lobby.css">
     <link rel="stylesheet" href="styles/chat.css">
+    <link rel="stylesheet" href="styles/offline.css">
+    <link rel="stylesheet" href="styles/offline-english.css">
 
 
     <link rel="stylesheet" href="styles/media.css">
@@ -53,6 +58,7 @@
       </div>
     </div>
 
+
     <ui-view></ui-view>
 
     <script src="../bower_components/jquery/dist/jquery.js"></script>
@@ -75,6 +81,7 @@
     <script src="../bower_components/angular-local-storage/dist/angular-local-storage.min.js"></script>
     <script src="../bower_components/angular-messages/angular-messages.js"></script>
     <script src="../bower_components/ngDialog/js/ngDialog.js"></script>
+    <script src="../bower_components/offline/offline.min.js"></script>
     <script src="../bower_components/momentjs/min/moment.min.js"></script>
     <script src="../bower_components/momentjs/min/locales.min.js"></script>
     <script src="../bower_components/humanize-duration/humanize-duration.js"></script>
@@ -112,6 +119,35 @@
     <script src="scripts/controllers/GameOver.js"></script>
 
     <script src="scripts/howler.min.js"></script>
+    <script>
+        $(function(){
+
+            var 
+                $online = $('.online'),
+                $offline = $('.offline');
+
+            Offline.on('down', function () {
+                $online.fadeOut(function () {
+                    $offline.fadeIn();
+                });
+            });
+
+            Offline.on('up', function () {
+                $offline.fadeOut(function () {
+                    $online.fadeIn();
+                });
+            });
+
+        });
+    </script>
+    <script>
+    var runOfflineCheck = function(){
+     if (Offline.state === 'up')
+     Offline.check();
+     }
+     setInterval(runOfflineCheck, 3000);
+    </script>
+
     <!-- endbuild -->
 
 
