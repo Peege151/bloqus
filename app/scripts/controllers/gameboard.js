@@ -1,15 +1,13 @@
 'use strict';
 
 angular.module('bloqusApp')
-    .controller('GameCtrl', function ($sce, $rootScope, $scope, $stateParams, GameFactory, LogicFactory, localStorageService, $state, ScoreFactory, AgentFactory){
-
-        
+    .controller('GameCtrl', function ($sce, $rootScope, $scope, $stateParams, GameFactory, LogicFactory, localStorageService, $state, ScoreFactory, ngDialog){
 
     	var thisBoard, allPiece, thisColors, currentColor, localPieces, nextColor;
         var squareSize = 20.00;
 
         $scope.loading = true;
-        $scope.userColor = localStorageService.get('color')
+        $scope.userColor = localStorageService.get('color');
 
         GameFactory.setGameFactory($stateParams.game.firebaseId, $stateParams.game.player);
 
@@ -28,13 +26,18 @@ angular.module('bloqusApp')
         };
 
         $scope.pass = function(){
-        	$rootScope.$emit("passTurn");
+
+            var passMove = ngDialog.openConfirm({
+                template: 'views/modals/pass-turn-modal.html',
+                controller: 'GameCtrl'
+            });
+
+            passMove.then(function () {
+                $rootScope.$emit("passTurn");
+            });
         };
 
-        if ($scope.time === 0) {
-            console.log('countdown!')
-            $scope.pass();
-        }
+
 
         $scope.dropPiece = function(evnt, data){
 

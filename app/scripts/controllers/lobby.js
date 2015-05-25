@@ -38,7 +38,6 @@ angular.module('bloqusApp')
 
             $scope.dropControl = function (oldColor) {
                 $scope.firebase = LobbyFactory.dropControl(oldColor, currentId);
-                //userColor = newColor;
             };
 
             $scope.setNumOfPlayers = function (val) {

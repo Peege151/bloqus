@@ -4,7 +4,7 @@ angular.module('bloqusApp')
 
     .factory('ScoreFactory', function ($firebaseObject, localStorageService, GameFactory) {
 
-    		var scorer = function(board, players){
+    		var scorer = function(board){
 
 	            var redScore = 0;
 	            var blueScore = 0;
@@ -47,7 +47,7 @@ angular.module('bloqusApp')
 					}
 	            }
 
-        	}
+        	};
 
         	return scorer;
 
