@@ -2,7 +2,7 @@
 
 angular.module('bloqusApp')
 
-    .factory('ScoreFactory', function ($firebaseObject, localStorageService) {
+    .factory('ScoreFactory', function ($firebaseObject, localStorageService, GameFactory) {
 
     		var scorer = function(board){
 
@@ -11,6 +11,8 @@ angular.module('bloqusApp')
 	            var greenScore = 0; 
 	            var yellowScore = 0;
 	            var blankScore = 0;
+
+				var players = GameFactory.getCurrentPlayers();
 
 	            for(var row in board){
 	                for(var i = 0; i < board[row].length; i++){
@@ -23,13 +25,29 @@ angular.module('bloqusApp')
 	            }
 
 	            return {
-	            	Red: redScore,
-	            	Blue: blueScore,
-	            	Yellow: yellowScore,
-	            	Green: greenScore
+	            	Red: {
+						score: redScore,
+						name: players.red.name,
+						color: 'Red'
+					},
+	            	Blue: {
+						score: blueScore,
+						name: players.blue.name,
+						color: 'Blue'
+					},
+	            	Yellow: {
+						score: yellowScore,
+						name: players.yellow.name,
+						color: 'Yellow'
+					},
+	            	Green: {
+						score: greenScore,
+						name: players.green.name,
+						color: 'Green'
+					}
 	            }
 
-        	}
+        	};
 
         	return scorer;
 

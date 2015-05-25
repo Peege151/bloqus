@@ -1,20 +1,17 @@
 'use strict';
 
 angular.module('bloqusApp')
-    .controller('GameCtrl', function ($sce, $rootScope, $scope, $stateParams, GameFactory, LogicFactory, localStorageService, $state, ScoreFactory, AgentFactory){
-
-        
+    .controller('GameCtrl', function ($sce, $rootScope, $scope, $stateParams, GameFactory, LogicFactory, localStorageService, $state, ScoreFactory, ngDialog){
 
     	var thisBoard, allPiece, thisColors, currentColor, localPieces, nextColor;
         var squareSize = 20.00;
 
         $scope.loading = true;
-        $scope.userColor = localStorageService.get('color')
+        $scope.userColor = localStorageService.get('color');
 
         GameFactory.setGameFactory($stateParams.game.firebaseId, $stateParams.game.player);
 
         $scope.rotate = function(pieceInQuestion){
-            //console.log(pieceInQuestion)
             var thisPiece = localPieces[pieceInQuestion];
             thisPiece.rotateClockwise();
             $scope.renderMyPieces(localPieces);
@@ -29,13 +26,18 @@ angular.module('bloqusApp')
         };
 
         $scope.pass = function(){
-        	$rootScope.$emit("passTurn");
+
+            var passMove = ngDialog.openConfirm({
+                template: 'views/modals/pass-turn-modal.html',
+                controller: 'GameCtrl'
+            });
+
+            passMove.then(function () {
+                $rootScope.$emit("passTurn");
+            });
         };
 
-        if ($scope.time === 0) {
-            console.log('countdown!')
-            $scope.pass();
-        }
+
 
         $scope.dropPiece = function(evnt, data){
 
@@ -53,7 +55,7 @@ angular.module('bloqusApp')
             var gridX = Math.round(xPosition / squareSize);
             var gridY = Math.round(yPosition / squareSize);
 
-            console.log("Grid coordinates," , gridX, gridY)
+            //console.log("Grid coordinates," , gridX, gridY)
 
             //console.log(data.piece)
             if(thisColors.indexOf(currentColor) !== -1){
@@ -63,25 +65,14 @@ angular.module('bloqusApp')
                 thisBoard.doMove(move);
                 $scope.boardGrid = thisBoard.getBoard();
 
- 
-            //if(thisColors.indexOf(currentColor) !== -1){
-
-
                 var move = new LogicFactory.Move(data.piece, [gridY, gridX], currentColor.toUpperCase().charAt(0));
-
 
                 $rootScope.$emit("makeMove", move);
             }
 
-
-
-            // console.log(gridX, gridY);
-
-            // console.log(data);
         };
 
         $scope.makeMove = function(){
-
 
             if(thisColors.indexOf(currentColor) !== -1){
 
@@ -104,7 +95,6 @@ angular.module('bloqusApp')
         });
 
         var sc = $rootScope.$on('stateChanged', function(event, board, pieces, color, current){
-            //console.log("The state has changed.")
         	thisBoard = board;
         	allPiece = pieces; //pieces[board.currentTurn];
         	thisColors = color;
@@ -112,7 +102,7 @@ angular.module('bloqusApp')
 
             $scope.boardGrid = board.getBoard();
 
-            $scope.scores = ScoreFactory($scope.boardGrid);
+            $scope.scores = ScoreFactory($scope.boardGrid, $stateParams.game.allPlayers);
 
             $scope.turnTime = GameFactory.getTurnTime();
 
@@ -121,15 +111,12 @@ angular.module('bloqusApp')
             //TODO: Abstract this out to a function elsewhere.
             var allColors = ["blue", "yellow", "red","green"];
             for(var x = allColors.indexOf(current); x < 8; x++){
-                //console.log("asda," , x)
                 var particular = x % 4;
                 if (color.indexOf(allColors[particular]) !== -1){
                     nextColor = allColors[particular];
                     break;
                 }
             }
-
-            //$scope.noMoreMovesLeft();
 
             localPieces = pieces[nextColor];
             if (localPieces[0] !== undefined){
@@ -169,7 +156,6 @@ angular.module('bloqusApp')
                 //Draw it in a grid with largest dimensions.
 
             }
-
 
             $scope.pieces = visible;
         }

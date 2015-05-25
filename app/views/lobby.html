@@ -1,5 +1,6 @@
 <div class="lobby-wrap">
     <h2 class="font-bold">Lobby (Game {{shareId}})</h2>
+
     <div class="row">
         <div class="col-md-6 game-options">
             <tabset>
@@ -63,36 +64,40 @@
                 <tab heading="Advanced">
 
                     <h5>Set Grid Dimensions (square)</h5>
-
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="input-group">
-                                <form ng-submit="setDimensions(gridDimensions)">
-                                    <input ng-disabled="!isHost" type="number" placeholder="{{gridDimensions}}"
-                                           ng-model="gridDimensions" class="form-control">
-                                    <input class='btn btn-success btn-xs' type="submit" value="Set">
-                                </form>
-                            </div>
-                        </div>
-                    </div>
+                    <label class="radio-inline">
+                        <input ng-disabled="!isHost" type="radio" name="gridRadios" id="setGrid10" value="option1"
+                               ng-click="setDimensions(10)" ng-checked="gridDimensions === 10"> 10
+                    </label>
+                    <label class="radio-inline">
+                        <input ng-disabled="!isHost" type="radio" name="gridRadios" id="setGrid20" value="option2"
+                               ng-click="setDimensions(20)" ng-checked="gridDimensions === 20"> 20
+                    </label>
+                    <label class="radio-inline">
+                        <input ng-disabled="!isHost" type="radio" name="gridRadios" id="setGrid30" value="option3"
+                               ng-click="setDimensions(30)" ng-checked="gridDimensions === 30"> 30
+                    </label>
 
                     <h5>Set Turn Time Limit (seconds)</h5>
-                        <label class="radio-inline">
-                            <input ng-disabled="!isHost" type="radio" name="turnTimeRadios" id="setTurnTime30" value="option1"
-                                   ng-click="setTurnTime(30)" ng-checked="turnTime === 30"> 30
-                        </label>
-                        <label class="radio-inline">
-                            <input ng-disabled="!isHost" type="radio" name="turnTimeRadios" id="setTurnTime45" value="option2"
-                                   ng-click="setTurnTime(45)" ng-checked="turnTime === 45"> 45
-                        </label>
-                        <label class="radio-inline">
-                            <input ng-disabled="!isHost" type="radio" name="turnTimeRadios" id="setTurnTime60" value="option2"
-                                   ng-click="setTurnTime(60)" ng-checked="turnTime === 60"> 60
-                        </label>
-                        <label class="radio-inline">
-                            <input ng-disabled="!isHost" type="radio" name="turnTimeRadios" id="setTurnTime0" value="option2"
-                                   ng-click="setTurnTime(0)" ng-checked="turnTime === 'none'"> No Limit
-                        </label>
+                    <label class="radio-inline">
+                        <input ng-disabled="!isHost" type="radio" name="turnTimeRadios" id="setTurnTime30"
+                               value="option1"
+                               ng-click="setTurnTime(30)" ng-checked="turnTime === 30"> 30
+                    </label>
+                    <label class="radio-inline">
+                        <input ng-disabled="!isHost" type="radio" name="turnTimeRadios" id="setTurnTime45"
+                               value="option2"
+                               ng-click="setTurnTime(45)" ng-checked="turnTime === 45"> 45
+                    </label>
+                    <label class="radio-inline">
+                        <input ng-disabled="!isHost" type="radio" name="turnTimeRadios" id="setTurnTime60"
+                               value="option3"
+                               ng-click="setTurnTime(60)" ng-checked="turnTime === 60"> 60
+                    </label>
+                    <label class="radio-inline">
+                        <input ng-disabled="!isHost" type="radio" name="turnTimeRadios" id="setTurnTime0"
+                               value="option4"
+                               ng-click="setTurnTime(0)" ng-checked="turnTime === 'none'"> No Limit
+                    </label>
 
                     <h5>Set Polyomino</h5>
                     <label class="radio-inline">
@@ -104,7 +109,7 @@
                                ng-click="setPolyomino(5)" ng-checked="polyNum === 5"> 5
                     </label>
                     <label class="radio-inline">
-                        <input ng-disabled="!isHost" type="radio" name="polyRadios" id="setpoly6" value="option2"
+                        <input ng-disabled="!isHost" type="radio" name="polyRadios" id="setpoly6" value="option3"
                                ng-click="setPolyomino(6)" ng-checked="polyNum === 6"> 6
                     </label>
 

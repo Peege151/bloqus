@@ -38,7 +38,6 @@ angular.module('bloqusApp')
 
             $scope.dropControl = function (oldColor) {
                 $scope.firebase = LobbyFactory.dropControl(oldColor, currentId);
-                //userColor = newColor;
             };
 
             $scope.setNumOfPlayers = function (val) {
@@ -61,9 +60,9 @@ angular.module('bloqusApp')
             };
 
             $scope.startGame = function () {
-                console.log("Went to game.");
-                $scope.firebase.games[currentId].status = 'start';
-                $scope.firebase.$save().then(function(){
+                fbCurrentGame.status = 'start';
+
+                fbCurrentGame.$save().then(function(){
                     $state.go('gameboard', {game: { firebaseId: currentId, player: name }})
                 });
             };
@@ -75,12 +74,10 @@ angular.module('bloqusApp')
 
 
             var watcher = fbCurrentGame.$watch(function () {
-                console.log("Hey, something changed!!!");
 
                 if (fbCurrentGame.status === 'start'){
                     fbCurrentGame.$save().then(function(){
                         watcher();
-                        console.log("Went to game.");
                         $state.go('gameboard', {game: { firebaseId: currentId, player: name }});
                     });
                 }
