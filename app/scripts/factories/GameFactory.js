@@ -100,7 +100,7 @@ angular.module('bloqusApp')
                 if( this.allPlayersHavePassed() ){
                     localTurnCounter = 0;
                     gameFirebase.status = 'over';
-                    gameFirebase.$save()
+                    gameFirebase.$save();
                     $rootScope.$emit('gameOver', tempBoard);
                     return;
                 }else{ 

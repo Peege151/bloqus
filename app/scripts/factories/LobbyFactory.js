@@ -25,7 +25,7 @@ angular.module('bloqusApp')
                 var polystring = "";
                 for (var i = 0; i < val; i++) {
                     if (i === val - 1) return polystring += i;
-                    polystring += i + "|"
+                    polystring += i + "|";
                 }
             },
 
@@ -35,22 +35,22 @@ angular.module('bloqusApp')
 
                 localStorageService.set('color', newColor);
 
-                return firebase;
+                firebase.$save();
             },
 
             takeOver: function (oldColor, newColor, currentGame) {
-                if (firebase.games[currentGame].player[oldColor].name === 'Computer'){
+                if (firebase.games[currentGame].player[oldColor].isAI){
                     firebase.games[currentGame].player[newColor] = playerBackup;
                 } else {
                     firebase.games[currentGame].player[newColor] = firebase.games[currentGame].player[oldColor];
                 }
-                return firebase;
+                firebase.$save();
             },
 
             dropControl: function (oldColor, currentGame) {
                 playerBackup = firebase.games[currentGame].player[oldColor];
                 firebase.games[currentGame].player[oldColor] = computerPlayer;
-                return firebase;
+                firebase.$save();
             },
 
             setNumOfPlayers: function (numOfPlayers, currentGame) {
@@ -63,18 +63,18 @@ angular.module('bloqusApp')
                     firebase.games[currentGame].player.green = computerPlayer;
                     firebase.games[currentGame].numColors = 4;
                 }
-                return firebase;
+                firebase.$save();
             },
 
             setDimensions: function (val, currentGame) {
                 firebase.games[currentGame].dimensions = val;
                 firebase.games[currentGame].board = SignInFactory.boardBuilder(val);
-                return firebase;
+                firebase.$save();
             },
 
             setTurnTime: function (val, currentGame) {
                 firebase.games[currentGame].turnTime = val;
-                return firebase;
+                firebase.$save();
             },
 
             setPolyomino: function (polyNum, currentGame) {
@@ -90,13 +90,13 @@ angular.module('bloqusApp')
                     value.pieces = polyOptions[polyNum];
                 });
 
-                return firebase;
+                firebase.$save();
 
             },
 
             setAiDifficulty: function (difficulty, color, currentGame) {
                 firebase.games[currentGame].player[color].name = difficulty;
-                return firebase;
+                firebase.$save();
             }
 
         };

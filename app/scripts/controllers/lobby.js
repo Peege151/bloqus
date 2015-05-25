@@ -5,9 +5,8 @@ angular.module('bloqusApp')
         var ref = new Firebase("https://bloqus.firebaseio.com/"),
             firebase = $firebaseObject(ref),
             name = localStorageService.get('name'),
-            userId = localStorageService.get('id'),
             userColor = localStorageService.get('color'),
-            userColor2, currentId;
+            currentId;
 
         $scope.currentId = $stateParams.currentId;
         $scope.playerName = name;
@@ -19,59 +18,51 @@ angular.module('bloqusApp')
            
             currentId = $stateParams.currentId;
             var fbCurrentGame = $firebaseObject(new Firebase("https://bloqus.firebaseio.com/games/" + currentId));
-            $scope.currentId = currentId;
             $scope.shareId = $stateParams.shareId;
-            $scope.currentPlayers = fbCurrentGame.player;
-            $scope.gridDimensions = fbCurrentGame.dimensions;
-            $scope.polyNum = fbCurrentGame.polyominoNum;
-            $scope.numColors = fbCurrentGame.numColors;
             $scope.isHost = localStorageService.get('host') == currentId;
 
             $scope.switchToColor = function (newColor) {
-                $scope.firebase = LobbyFactory.switchToColor(userColor, newColor, currentId);
+                LobbyFactory.switchToColor(userColor, newColor, currentId);
                 userColor = newColor;
             };
 
             $scope.takeOver = function (newColor) {
-                $scope.firebase = LobbyFactory.takeOver(userColor, newColor, currentId);
+                LobbyFactory.takeOver(userColor, newColor, currentId);
             };
 
             $scope.dropControl = function (oldColor) {
-                $scope.firebase = LobbyFactory.dropControl(oldColor, currentId);
+                LobbyFactory.dropControl(oldColor, currentId);
             };
 
             $scope.setNumOfPlayers = function (val) {
-                $scope.firebase = LobbyFactory.setNumOfPlayers(val, currentId);
+               LobbyFactory.setNumOfPlayers(val, currentId);
             };
 
             $scope.setPolyomino = function (val) {
                 $scope.polyNum = val;
-                $scope.firebase = LobbyFactory.setPolyomino(val, currentId);
+                LobbyFactory.setPolyomino(val, currentId);
             };
 
             $scope.setDimensions = function (val) {
                 $scope.gridDimensions = val;
-                $scope.firebase = LobbyFactory.setDimensions(val, currentId);
+                LobbyFactory.setDimensions(val, currentId);
             };
 
             $scope.setTurnTime = function (val) {
                 $scope.turnTime = val;
-                $scope.firebase = LobbyFactory.setTurnTime(val, currentId);
+                LobbyFactory.setTurnTime(val, currentId);
+            };
+
+            $scope.setAiDifficulty = function (difficulty, color) {
+                LobbyFactory.setAiDifficulty(difficulty, color, currentId);
             };
 
             $scope.startGame = function () {
                 fbCurrentGame.status = 'start';
-
                 fbCurrentGame.$save().then(function(){
                     $state.go('gameboard', {game: { firebaseId: currentId, player: name }})
                 });
             };
-
-            $scope.setAiDifficulty = function (difficulty, color) {
-                $scope.firebase = LobbyFactory.setAiDifficulty(difficulty, color, currentId);
-            };
-
-
 
             var watcher = fbCurrentGame.$watch(function () {
 
