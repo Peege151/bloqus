@@ -66,6 +66,9 @@ angular.module('bloqusApp')
             currentPlayer: function(){
                 return gameFirebase.player[gameFirebase.currentTurn];
             },
+            getBoardDimensions: function(){
+                return gameFirebase;
+            },
 
             advanceTurn: function(){
                     var curIndex = (universalSequenceOfColors.indexOf(gameFirebase.currentTurn) + 1) % universalSequenceOfColors.length;
@@ -96,7 +99,6 @@ angular.module('bloqusApp')
                 //Emit the event indicating what has changed.
                 $rootScope.$emit("stateChanged", tempBoard, tempAllPieces, thisColors, universalCurrentTurn);
                 //If it is the computer's turn, and the player right now is a computer, and if we are the host--well, let the computer take a turn.
-                
                 if( this.allPlayersHavePassed() ){
                     localTurnCounter = 0;
                     gameFirebase.status = 'over';
@@ -133,6 +135,7 @@ angular.module('bloqusApp')
 
             doComputerTurn: function(){
                 //It's going to need all these
+
                 var curPlayer = this.currentPlayer();
                 var computerName = curPlayer.name;
                 var tempBoard = this.createBoard(gameFirebase);

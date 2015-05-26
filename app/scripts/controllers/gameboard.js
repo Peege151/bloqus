@@ -2,15 +2,54 @@
 
 angular.module('bloqusApp')
     .controller('GameCtrl', function ($sce, $rootScope, $scope, $stateParams, GameFactory, LogicFactory, localStorageService, $state, ScoreFactory, ngDialog){
-
     	var thisBoard, allPiece, thisColors, currentColor, localPieces, nextColor;
-        var squareSize = 20.00;
+        var divisor = 45
+        // Squaresize depends on the widow width, controlled for dimensions
+        var squareSize = (window.innerWidth / divisor) ;
 
         $scope.loading = true;
         $scope.userColor = localStorageService.get('color');
 
         GameFactory.setGameFactory($stateParams.game.firebaseId, $stateParams.game.player);
+        window.onresize = function(){
+            if( window.innerWidth > 769 && window.innerWidth < 1300){
+                squareSize = (window.innerWidth / divisor) / ($scope.boardGrid.length / 20)
+                $('.block').width(squareSize)
+                $('.block').height(squareSize)
+                $('#style_frame').width((squareSize * $scope.boardGrid.length) + "px")
+                $('#style_frame').height((squareSize * $scope.boardGrid.length) + "px")
+                $('#chat_frame').height(($("#style_frame").width()- (divisor * 1.8)) + "px")
+                $('#piece_frame').height(($("#style_frame").width())+ 20 + "px")
+                $('#style_frame').css("padding-bottom", "60px")
+                $('.message-wrap').height(($("#chat_frame").height()) -40 + "px")
 
+                $('#example-messages').height(($("#chat_frame").height()) -40 + "px")
+            } 
+            if(window.innerWidth > 1300 && $scope.boardGrid.length == 30){
+                squareSize = 19.0
+                $('.block').width(squareSize)
+                $('.block').height(squareSize)
+            }
+            if(window.innerWidth > 1300 && $scope.boardGrid.length == 20){
+                squareSize = 27.0
+                $('.block').width(squareSize)
+                $('.block').height(squareSize)
+            }
+            console.log("window resize Squaresize: ", squareSize)
+        }
+        window.onload = function(){
+            setTimeout(function(){   
+
+                $('#chat_frame').height(($("#style_frame").height()) - 100 + "px")
+                $('#piece_frame').height(($("#style_frame").height())  + "px")
+                $('.message-wrap').height(($("#chat_frame").height()) -40 + "px")
+                $('#example-messages').height(($("#chat_frame").height()) -40 + "px")
+
+
+
+            },2000)
+
+        }
         $scope.rotate = function(pieceInQuestion){
             var thisPiece = localPieces[pieceInQuestion];
             thisPiece.rotateClockwise();
@@ -95,7 +134,8 @@ angular.module('bloqusApp')
         });
 
         var sc = $rootScope.$on('stateChanged', function(event, board, pieces, color, current){
-        	thisBoard = board;
+        	console.log("Emitted. Running SC")
+            thisBoard = board;
         	allPiece = pieces; //pieces[board.currentTurn];
         	thisColors = color;
             currentColor = current;
@@ -126,7 +166,12 @@ angular.module('bloqusApp')
             }
 
             $scope.currentColor = current;
+
             $scope.loading = false;
+     
+                
+            
+
         	
         });
 
@@ -134,7 +179,6 @@ angular.module('bloqusApp')
             var localPieces = myPieces;
             var visible = []
             for (var x = 0; x < localPieces.length; x++){
-
                 var arrToPaint = [];
                 var thisShape = localPieces[x].getPieceWithOrientation();
                 var largest = thisShape.reduce(function(largest, current){return Math.max(largest, current[0], current[1])}, 0);
@@ -153,6 +197,7 @@ angular.module('bloqusApp')
                 }
 
                 visible.push({grid: arrToPaint, piece: localPieces[x]});
+
                 //Draw it in a grid with largest dimensions.
 
             }

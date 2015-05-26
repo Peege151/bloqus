@@ -8,8 +8,6 @@
 
 <div ng-hide="loading" id ="wrapper"> 
 
-  <div class="center-push">
-    
     <div id ="left_thing">
 
       <div id="score_frame">
@@ -44,30 +42,25 @@
         </div>
         <div id="frame"ui-on-drop="dropPiece" drop-channel="A">
           <div class = "row" ng-repeat="row in boardGrid">
-            <div class = "block" ng-class="s" ng-repeat="s in boardGrid[$index] track by $index" >
-            </div>
+            <blocks></blocks>
           </div>
         </div> 
       </div>
     </div>
 
     <div id="piece_frame">
-
       <div class = "pieces">
         <div class="piece" jqyoui-draggable ng-repeat = "piece in pieces" ng-click="rotate($index)" ng-right-click="flip($index)">
           <div class="drag-frame" drag="piece" ui-draggable='true' on-drop-success="dropPiece($event, piece)" drag-channel="A">
             <span ng-init="pieceNum = $index"></span>
             <div class="row" ng-repeat = "row in pieces[pieceNum].grid track by $index">
               <span ng-init="rowNum = $index"></span>
-              <div class="block" ng-class="item" ng-repeat = "item in pieces[pieceNum].grid[rowNum] track by $index">
-              </div>
+              <pieces></pieces>
             </div>
           </div>
 
         </div>
       </div>
     </div>
-  
   </div>
-</div>
 

@@ -36,6 +36,6 @@ angular.module('bloqusApp')
                 controller: 'GameOverCtrl'
             });
 
-        $locationProvider.html5Mode(true);
+        
 
     });

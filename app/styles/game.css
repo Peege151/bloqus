@@ -2,7 +2,7 @@
 /*Width is dimension x block width + padding*/
 
 #wrapper{
-  width:730px;
+  display:inline-block;
   position:relative;
   margin:0 auto;
 
@@ -43,7 +43,6 @@
   margin: 10px;
   background-color: white;
   text-align: center;
-/*padding:40px;*/
   border-radius: 10px;
   -webkit-box-shadow: 3px 5px 6px #FF6D00;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
   -moz-box-shadow:    3px 5px 6px #FF6D00;  /* Firefox 3.5 - 3.6 */
@@ -59,24 +58,17 @@
   text-align: center;
   width: 200px;
   height: 350px;
-  background-color: white;
-/*padding:40px;*/
   border-radius: 10px;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */  /* Firefox 3.5 - 3.6 */
   box-shadow:         3px 5px 6px #FF6D00;
 }
 
 #piece_frame{
-  padding: 20px ;
-  float: left;
   margin: 10px;
-  background-color: white;
   text-align: center;
-  width: 700px;
-  height: 100px;
+
   background-color: white;
-  text-align: center;
   overflow: auto;
-  /*padding:40px;*/
+  padding:40px;
   border-radius: 10px;
   -webkit-box-shadow: 3px 5px 6px #FF6D00;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
   -moz-box-shadow:    3px 5px 6px #FF6D00;  /* Firefox 3.5 - 3.6 */
@@ -208,8 +200,8 @@
   position: relative;
   text-align: left;
   padding: 0px;
-  width: 110px;
-  height: 110px;
+  width: 150px;
+  height: 150px;
   float: left;
 }
 
