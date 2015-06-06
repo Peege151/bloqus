@@ -8,15 +8,14 @@ angular.module('bloqusApp')
 
         $scope.private = false;
 
-        $scope.createGameModal = function (){
+        $scope.createGameModal = function () {
             ngDialog.open({
                 template: 'views/modals/create-game-modal.html',
                 controller: 'MainCtrl'
             })
         };
 
-
-        $scope.joinGameModal = function (){
+        $scope.joinGameModal = function () {
             ngDialog.open({
                 template: 'views/modals/join-game-modal.html',
                 controller: 'MainCtrl'

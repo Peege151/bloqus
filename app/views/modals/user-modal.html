@@ -1,0 +1,14 @@
+<h5 class="modal-header">Login</h5>
+<form name="userLoginForm" ng-submit="userLogin(user)">
+    <p>Email <input name="userEmail" ng-model="user.email"></p>
+    <p>Password <input name="userPassword" ng-model="user.password"></p>
+    <button>Submit</button>
+</form>
+
+<h5 class="modal-header">Create User</h5>
+<form name="newUserForm" ng-submit="createNewUser(newUser)">
+    <p>First <input name="first" ng-model="newUser.first"> Last <input name="last" ng-model="newUser.last"></p>
+    <p>Email <input name="email" ng-model="newUser.email"></p>
+    <p>Password <input name="password" ng-model="newUser.password"></p>
+    <button>Submit</button>
+</form>

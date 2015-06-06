@@ -274,7 +274,7 @@ body > ui-view > div > div > div.col-md-6.chat-box > chat > div > div > h4{
   .container {
     width: 100%;
     margin: 0px !important;
-    border:0px !important;
+    border: 0px !important;
   }
 }
 
@@ -285,4 +285,8 @@ body > ui-view > div > div > div.col-md-6.chat-box > chat > div > div > h4{
 
 .loading_image{
   text-align: center;
+}
+
+.login-indicator{
+  float: right;
 }

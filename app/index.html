@@ -1,15 +1,15 @@
 <!doctype html>
 <html class="no-js">
-  <head>
+<head>
     <meta charset="utf-8">
     <base href="/">
     <title>bloq party</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-    <link rel="icon" 
-          type="image/x-icon" 
-          href="/favicon.ico">
+    <!--<link rel="icon"-->
+    <!--type="image/x-icon"-->
+    <!--href="./favicon.ico">-->
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
     <link rel='stylesheet' href='bower_components/bootstrap/dist/css/bootstrap.css' />
@@ -30,127 +30,140 @@
     <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:400,700,500' type='text/css'>
 
     <!-- endbuild -->
-  </head>
-  <body ng-app="bloqusApp">
-    <!--[if lt IE 7]>
-      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-    <![endif]-->
+</head>
+<body ng-app="bloqusApp">
+<!--[if lt IE 7]>
+<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+    your browser</a> to improve your experience.</p>
+<![endif]-->
 
-    <!-- Add your site or application content here -->
-    <div class="header" ng-cloak="" ng-controller="NavCtrl">
-      <div class="navbar navbar-default" role="navigation">
+<!-- Add your site or application content here -->
+<div class="header" ng-cloak="" ng-controller="NavCtrl">
+    <div class="navbar navbar-default" role="navigation">
+        <p ng-if="!userIsLoggedIn" class="font-mid navbar-brand login-indicator" ng-click="userModal()">
+            login</p>
+
+        <p ng-if="userIsLoggedIn" class="font-mid navbar-brand login-indicator" ng-click="logout()">Logout?</p>
+
+        <p ng-if="userIsLoggedIn" class="font-mid navbar-brand login-indicator">Welcome, {{userFirstName}}!</p>
+
         <div class="container">
-          <div class="navbar-header">
+            <div class="navbar-header">
 
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#js-navbar-collapse">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-            <a ng-hide="hideNav" class="font-mid navbar-brand" href="/">bloq party</a>
-            <p ng-hide="hideNav" class="font-mid navbar-brand" ng-click="showRules()">rules</p>
-          </div>
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                        data-target="#js-navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a ng-hide="hideNav" class="font-mid navbar-brand" href="/">bloq party</a>
 
-          <div class="collapse navbar-collapse" id="js-navbar-collapse">
-          </div>
+                <p ng-hide="hideNav" class="font-mid navbar-brand" ng-click="showRules()">rules</p>
+
+            </div>
+
+            <div class="collapse navbar-collapse" id="js-navbar-collapse">
+            </div>
         </div>
-      </div>
     </div>
+</div>
 
 
-    <ui-view></ui-view>
+<ui-view></ui-view>
 
-    <script src="../bower_components/jquery/dist/jquery.js"></script>
-    <script src="../bower_components/angular/angular.js"></script>
-    <script src="../bower_components/firebase/firebase.js"></script>
-    <script src="../bower_components/angularfire/dist/angularfire.js"></script>
-    <script src="../bower_components/bootstrap/dist/js/bootstrap.js"></script>
-    <script src="../bower_components/angular-bootstrap/ui-bootstrap.js"></script>
-    <script src="../bower_components/angular-bootstrap/ui-bootstrap.js"></script>
-    <script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
-
-
-    <script src="../bower_components/angular-animate/angular-animate.js"></script>
-    <script src="../bower_components/angular-cookies/angular-cookies.js"></script>
-    <script src="../bower_components/angular-resource/angular-resource.js"></script>
-    <script src="../bower_components/angular-route/angular-route.js"></script>
-    <script src="../bower_components/angular-sanitize/angular-sanitize.js"></script>
-    <script src="../bower_components/angular-touch/angular-touch.min.js"></script>
-    <script src="../bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
-    <script src="../bower_components/angular-local-storage/dist/angular-local-storage.min.js"></script>
-    <script src="../bower_components/angular-messages/angular-messages.js"></script>
-    <script src="../bower_components/ngDialog/js/ngDialog.js"></script>
-    <script src="../bower_components/offline/offline.min.js"></script>
-    <script src="../bower_components/momentjs/min/moment.min.js"></script>
-    <script src="../bower_components/momentjs/min/locales.min.js"></script>
-    <script src="../bower_components/humanize-duration/humanize-duration.js"></script>
-    <script src="../bower_components/angular-timer/dist/angular-timer.js"></script>
-
-    <!-- endbower -->
+<script src="../bower_components/jquery/dist/jquery.js"></script>
+<script src="../bower_components/angular/angular.js"></script>
+<script src="../bower_components/firebase/firebase.js"></script>
+<script src="../bower_components/angularfire/dist/angularfire.js"></script>
+<script src="../bower_components/bootstrap/dist/js/bootstrap.js"></script>
+<script src="../bower_components/angular-bootstrap/ui-bootstrap.js"></script>
+<script src="../bower_components/angular-bootstrap/ui-bootstrap.js"></script>
+<script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
 
 
-    <!-- build:js({.tmp,app}) scripts/scripts.js -->
-    <script src="scripts/app.js"></script>
-    <script src="scripts/angularfire/config.js"></script>
-    <script src="scripts/angularfire/firebase.ref.js"></script>
-    <script src="scripts/controllers/main.js"></script>
-    <script src="scripts/controllers/lobby.js"></script>
-    <script src="scripts/controllers/chat.js"></script>
-    <script src="scripts/controllers/navbar.js"></script>
-    <script src="scripts/controllers/gameboard.js"></script>
+<script src="../bower_components/angular-animate/angular-animate.js"></script>
+<script src="../bower_components/angular-cookies/angular-cookies.js"></script>
+<script src="../bower_components/angular-resource/angular-resource.js"></script>
+<script src="../bower_components/angular-route/angular-route.js"></script>
+<script src="../bower_components/angular-sanitize/angular-sanitize.js"></script>
+<script src="../bower_components/angular-touch/angular-touch.min.js"></script>
+<script src="../bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+<script src="../bower_components/angular-local-storage/dist/angular-local-storage.min.js"></script>
+<script src="../bower_components/angular-messages/angular-messages.js"></script>
+<script src="../bower_components/ngDialog/js/ngDialog.js"></script>
+<script src="../bower_components/offline/offline.min.js"></script>
+<script src="../bower_components/momentjs/min/moment.min.js"></script>
+<script src="../bower_components/momentjs/min/locales.min.js"></script>
+<script src="../bower_components/humanize-duration/humanize-duration.js"></script>
+<script src="../bower_components/angular-timer/dist/angular-timer.js"></script>
 
-    <script src="scripts/directives/chat.js"></script>
-    <script src="scripts/directives/blocks.js"></script>
-    <script src="scripts/directives/pieces.js"></script>
-    <script src="scripts/directives/ngrightclick.js"></script>
+<!-- endbower -->
 
-    <script src="scripts/factories/SignInFactory.js"></script>
-    <script src="scripts/factories/GameFactory.js"></script>
-    <script src="scripts/factories/LobbyFactory.js"></script>
-    <script src="scripts/factories/AgentFactory.js"></script>
-    <script src="scripts/factories/ScoreFactory.js"></script>
-    <script src="scripts/logic/LogicFactory.js"></script>
 
-    <script src="scripts/filters/capital.js"></script>
-    <script src="scripts/filters/reverse.js"></script>
-    <script src="scripts/filters/scoreSort.js"></script>
+<!-- build:js({.tmp,app}) scripts/scripts.js -->
+<script src="scripts/app.js"></script>
+<script src="scripts/angularfire/config.js"></script>
+<script src="scripts/angularfire/firebase.ref.js"></script>
+<script src="scripts/controllers/main.js"></script>
+<script src="scripts/controllers/lobby.js"></script>
+<script src="scripts/controllers/chat.js"></script>
+<script src="scripts/controllers/navbar.js"></script>
+<script src="scripts/controllers/gameboard.js"></script>
+<script src="scripts/controllers/user.js"></script>
 
-    <script src="scripts/dragdrop.js"></script>
-    <script src="scripts/routes.js"></script>
-    <script src="scripts/controllers/GameOver.js"></script>
+<script src="scripts/directives/chat.js"></script>
+<script src="scripts/directives/blocks.js"></script>
+<script src="scripts/directives/pieces.js"></script>
+<script src="scripts/directives/ngrightclick.js"></script>
 
-    <script src="scripts/howler.min.js"></script>
-    <script>
-        $(function(){
+<script src="scripts/factories/SignInFactory.js"></script>
+<script src="scripts/factories/GameFactory.js"></script>
+<script src="scripts/factories/LobbyFactory.js"></script>
+<script src="scripts/factories/AgentFactory.js"></script>
+<script src="scripts/factories/ScoreFactory.js"></script>
+<script src="scripts/factories/UserFactory.js"></script>
+<script src="scripts/logic/LogicFactory.js"></script>
 
-            var 
+<script src="scripts/filters/capital.js"></script>
+<script src="scripts/filters/reverse.js"></script>
+<script src="scripts/filters/scoreSort.js"></script>
+
+<script src="scripts/dragdrop.js"></script>
+<script src="scripts/routes.js"></script>
+<script src="scripts/controllers/GameOver.js"></script>
+
+<script src="scripts/howler.min.js"></script>
+<script>
+    $(function () {
+
+        var
                 $online = $('.online'),
                 $offline = $('.offline');
 
-            Offline.on('down', function () {
-                $online.fadeOut(function () {
-                    $offline.fadeIn();
-                });
+        Offline.on('down', function () {
+            $online.fadeOut(function () {
+                $offline.fadeIn();
             });
-
-            Offline.on('up', function () {
-                $offline.fadeOut(function () {
-                    $online.fadeIn();
-                });
-            });
-
         });
-    </script>
-    <script>
-    var runOfflineCheck = function(){
-     if (Offline.state === 'up')
-     Offline.check();
-     }
-     setInterval(runOfflineCheck, 3000);
-    </script>
 
-    <!-- endbuild -->
+        Offline.on('up', function () {
+            $offline.fadeOut(function () {
+                $online.fadeIn();
+            });
+        });
+
+    });
+</script>
+<script>
+    var runOfflineCheck = function () {
+        if (Offline.state === 'up')
+            Offline.check();
+    }
+    setInterval(runOfflineCheck, 3000);
+</script>
+
+<!-- endbuild -->
 
 
 </body>
