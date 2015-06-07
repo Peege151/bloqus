@@ -2,7 +2,7 @@
 
 angular.module('bloqusApp')
 
-    .controller("MainCtrl", function ($scope, $state, SignInFactory, $firebaseObject, ngDialog) {
+    .controller("MainCtrl", function ($scope, $state, SignInFactory, $firebaseObject, ngDialog, localStorageService) {
         var firebase = $firebaseObject(new Firebase("https://bloqus.firebaseio.com/")),
             shareId, currentGameId, fbCurrentGame;
 
@@ -21,6 +21,12 @@ angular.module('bloqusApp')
                 controller: 'MainCtrl'
             })
         };
+
+        var firstName = localStorageService.get('first');
+        if (firstName){
+            $scope.hostname = firstName;
+
+        }
 
         firebase.$bindTo($scope, "firebase");
 

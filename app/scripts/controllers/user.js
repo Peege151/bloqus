@@ -18,7 +18,6 @@ angular.module('bloqusApp')
 
         $scope.userLogin = function (user) {
             UserFactory.userLogin(user).then( function(user){
-                localStorageService.set('userName', user.first);
                 $scope.$emit('loginEvent', user);
                 ngDialog.closeAll();
                 console.log('User has logged in.', user);

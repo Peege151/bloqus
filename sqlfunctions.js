@@ -1,11 +1,10 @@
 var sqlite3 = require('sqlite3').verbose();
 
 var sqlFunctions = {
-    createUser:  function (newUser) {
-        var db = new sqlite3.Database('test.db');
-        db.serialize(function () {
+    createUser:  function (newUser, cb) {
+        var db = new sqlite3.Database('database.db');
 
-            db.run("CREATE TABLE if not exists user_info (id TEXT, first TEXT, last TEXT, email TEXT, password TEXT)");
+        db.serialize(function () {
 
             var stmt = db.prepare("INSERT INTO user_info VALUES (?,?,?,?,?)");
 
@@ -13,13 +12,15 @@ var sqlFunctions = {
 
             stmt.finalize();
             db.close();
-            return newUser;
+            cb(newUser);
         })
     },
 
     checkUserLogin: function (loginInfo, cb) {
-        var db = new sqlite3.Database('test.db'),
-            email = loginInfo.email,
+        var db = new sqlite3.Database('database.db');
+        db.run("CREATE TABLE if not exists user_info (id TEXT, first TEXT, last TEXT, email TEXT, password TEXT)");
+
+        var email = loginInfo.email,
             password = loginInfo.password,
             stmt = "SELECT id, first, last, email, password FROM user_info WHERE email='" +  email + "'",
             user;
@@ -41,7 +42,23 @@ var sqlFunctions = {
                 cb(user);
             }
         });
+    },
+
+    saveStats: function (statsObj, cb) {
+        var db = new sqlite3.Database('database.db');
+        db.run("CREATE TABLE if not exists user_stats (email TEXT, color TEXT, score TEXT, wins TEXT, losses TEXT)");
+            db.serialize(function () {
+
+                var stmt = db.prepare("INSERT INTO user_stats VALUES (?,?,?,?,?)");
+
+                stmt.run(statsObj.email, statsObj.color, statsObj.score, statsObj.wins, statsObj.losses);
+
+                stmt.finalize();
+                db.close();
+                cb(statsObj);
+        })
     }
 };
+
 
 module.exports = sqlFunctions;
