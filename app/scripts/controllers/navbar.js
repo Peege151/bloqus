@@ -32,6 +32,10 @@ angular.module('bloqusApp')
             })
         };
 
+        $scope.openSettings = function () {
+            $state.go('settings');
+        };
+
         $scope.logout = function () {
             UserFactory.logout().then(function (data) {
                 $scope.$emit('loginEvent');

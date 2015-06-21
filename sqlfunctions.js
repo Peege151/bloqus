@@ -47,6 +47,21 @@ var sqlFunctions = {
     saveStats: function (statsObj, cb) {
         var db = new sqlite3.Database('database.db');
         db.run("CREATE TABLE if not exists user_stats (email TEXT, color TEXT, score TEXT, wins TEXT, losses TEXT)");
+
+        var email = statsObj.email,
+            userStmt = "SELECT color, score, wins, losses FROM user_stats WHERE email='" +  email + "'",
+            stats;
+
+        db.all(userStmt, function (err, row) {
+            console.log('get stats  row', row)
+            console.log('get stats error', err)
+            if (err) cb(err);
+            stats = row;
+            db.close();
+            cb(stats);
+
+        });
+
             db.serialize(function () {
 
                 var stmt = db.prepare("INSERT INTO user_stats VALUES (?,?,?,?,?)");
@@ -57,6 +72,24 @@ var sqlFunctions = {
                 db.close();
                 cb(statsObj);
         })
+    },
+
+    getStats: function (email, cb) {
+        var db = new sqlite3.Database('database.db');
+        console.log('email!?', email)
+        var email = email.email,
+            stmt = "SELECT color, score, wins, losses FROM user_stats WHERE email='" +  email + "'",
+            stats;
+
+        db.all(stmt, function (err, row) {
+            console.log('get stats  row', row)
+            console.log('get stats error', err)
+            if (err) cb(err);
+            stats = row;
+            db.close();
+            cb(stats);
+
+        });
     }
 };
 

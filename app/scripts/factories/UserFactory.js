@@ -36,7 +36,15 @@ angular.module('bloqusApp')
             },
 
             checkIfUserIsLoggedIn: function () {
-                return $http.get('/api/user').then( function(response){
+                return $http.get('/api/login').then( function(response){
+                    console.log('factory response!', response)
+                    return response.data;
+                })
+            },
+
+            getStats: function (email) {
+                console.log('email in user factory: ', email)
+                return $http.post('/api/getstats', {email: email}).then( function(response){
                     console.log('factory response!', response)
                     return response.data;
                 })

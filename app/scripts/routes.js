@@ -34,6 +34,12 @@ angular.module('bloqusApp')
                 templateUrl: 'views/gameover.html',
                 params: {game: {}},
                 controller: 'GameOverCtrl'
+            })
+
+            .state('settings', {
+                url: '/settings',
+                templateUrl: 'views/settings.html',
+                controller: 'SettingsCtrl'
             });
 
         

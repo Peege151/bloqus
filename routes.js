@@ -25,7 +25,7 @@ router.post('/user', function (req, res, next) {
 
 });
 
-router.get('/user', function (req, res, next) {
+router.get('/login', function (req, res, next) {
     console.log('Req Session', req.session)
     res.send(req.session)
 });
@@ -54,6 +54,16 @@ router.post('/stats', function (req, res, next) {
 
     sqlFunctions.saveStats(req.body, function (data){
         console.log('stats saved in backend routes.', data)
+        res.send(data);
+    })
+
+});
+
+router.post('/getstats', function (req, res, next) {
+    console.log('req.body in routes: ', req.body)
+
+    sqlFunctions.getStats(req.body, function (data){
+        console.log('getting stats backend routes.', data)
         res.send(data);
     })
 

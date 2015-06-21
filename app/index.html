@@ -45,7 +45,7 @@
 
         <p ng-if="userIsLoggedIn" class="font-mid navbar-brand login-indicator" ng-click="logout()">Logout?</p>
 
-        <p ng-if="userIsLoggedIn" class="font-mid navbar-brand login-indicator">Welcome, {{userFirstName}}!</p>
+        <p ng-if="userIsLoggedIn" class="font-mid navbar-brand login-indicator" ng-click="openSettings()">Welcome, {{userFirstName}}!</p>
 
         <div class="container">
             <div class="navbar-header">
@@ -111,6 +111,7 @@
 <script src="scripts/controllers/navbar.js"></script>
 <script src="scripts/controllers/gameboard.js"></script>
 <script src="scripts/controllers/user.js"></script>
+<script src="scripts/controllers/settings.js"></script>
 
 <script src="scripts/directives/chat.js"></script>
 <script src="scripts/directives/blocks.js"></script>
